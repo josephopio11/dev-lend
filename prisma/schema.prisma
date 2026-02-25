@@ -75,3 +75,30 @@ model Verification {
   @@index([identifier])
   @@map("verification")
 }
+
+model Equipment {
+  id               String           @id @default(uuid())
+  name             String
+  description      String
+  serialNumber     String
+  status           EquipmentStatus  @default(AVAILABLE)
+  borrowerName     String?
+  borrowedAt       DateTime?
+  lendingHistories LendingHistory[]
+
+  @@map("equipment")
+}
+
+model LendingHistory {
+  id String @id @default(uuid())
+
+  borrowedAt  DateTime
+  returnedAt  DateTime?
+  equipment   Equipment @relation(fields: [equipmentId], references: [id])
+  equipmentId String
+}
+
+enum EquipmentStatus {
+  AVAILABLE
+  BORROWED
+}
