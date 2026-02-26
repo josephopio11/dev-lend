@@ -1,13 +1,7 @@
 "use client";
 
 import { addEquipment } from "@/app/actions/dashboard";
-import { formSchema, FormValues } from "@/types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus } from "lucide-react";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -15,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -23,9 +17,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { formSchema, FormValues } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Plus } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const RegisterEquipmentModal = () => {
   const [open, setOpen] = useState(false);
@@ -49,19 +49,21 @@ const RegisterEquipmentModal = () => {
       });
       setOpen(false);
       form.reset();
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="gap-2 rounded-xl shadow-md hover:shadow-lg transition-all active:scale-95">
+          <Button className="gap-2 text-white rounded-xl shadow-md hover:shadow-lg transition-all active:scale-95">
             <Plus className="h-4 w-4" />
             <span>Register Item</span>
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] rounded-2xl">
+        <DialogContent className="sm:max-w-106.25 rounded-2xl">
           <DialogHeader>
             <DialogTitle className="font-display text-2xl">
               Register Equipment
@@ -118,7 +120,7 @@ const RegisterEquipmentModal = () => {
                     <FormControl>
                       <Textarea
                         placeholder="Specifications, accessories included..."
-                        className="rounded-xl resize-none min-h-[100px]"
+                        className="rounded-xl resize-none min-h-25"
                         {...field}
                       />
                     </FormControl>

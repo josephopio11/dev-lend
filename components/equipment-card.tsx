@@ -1,3 +1,23 @@
+import { deleteEquipment, returnItem } from "@/app/actions/dashboard";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { Equipment } from "@/lib/generated/prisma/client";
 import { formatDistanceToNow } from "date-fns";
 import {
@@ -10,20 +30,6 @@ import {
 import { toast } from "sonner";
 import BorrowModal from "./borrow-modal";
 import HistoryModal from "./history-modal";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "./ui/alert-dialog";
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
-import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 
 interface EquipmentCardProps {
   equipment: Equipment;
@@ -33,49 +39,19 @@ interface EquipmentCardProps {
 const EquipmentCard = ({ equipment, index }: EquipmentCardProps) => {
   const isAvailable = equipment.status === "AVAILABLE";
 
-  const handleReturn = () => {
-    toast.success("Returned successfully");
-    //  updateMutation.mutate(
-    //    {
-    //      id: equipment.id,
-    //      status: "available",
-    //      borrowerName: null,
-    //    },
-    //    {
-    //      onSuccess: () => {
-    //        toast({
-    //          title: "Equipment Returned",
-    //          description: `${equipment.name} is now available.`,
-    //        });
-    //      },
-    //      onError: (err) => {
-    //        toast({
-    //          title: "Failed to return",
-    //          description: err.message,
-    //          variant: "destructive",
-    //        });
-    //      },
-    //    },
-    //  );
+  const handleReturn = async () => {
+    const res = await returnItem(equipment.id, equipment.borrowedAt!);
+
+    toast.success("Returned successfully", {
+      description: JSON.stringify(res, null, 2),
+    });
   };
 
-  const handleDelete = () => {
-    toast.success("Deleted successfully");
-    //  deleteMutation.mutate(equipment.id, {
-    //    onSuccess: () => {
-    //      toast({
-    //        title: "Deleted",
-    //        description: "Equipment removed from inventory.",
-    //      });
-    //    },
-    //    onError: (err) => {
-    //      toast({
-    //        title: "Failed to delete",
-    //        description: err.message,
-    //        variant: "destructive",
-    //      });
-    //    },
-    //  });
+  const handleDelete = async () => {
+    const data = await deleteEquipment(equipment.id);
+    toast.success("Deleted successfully", {
+      description: JSON.stringify(data, null, 2),
+    });
   };
 
   return (
@@ -144,7 +120,7 @@ const EquipmentCard = ({ equipment, index }: EquipmentCardProps) => {
         <h3 className="font-display font-bold text-xl text-foreground leading-tight">
           {equipment.name}
         </h3>
-        <p className="text-sm text-muted-foreground mt-1 line-clamp-2 min-h-[40px]">
+        <p className="text-sm text-muted-foreground mt-1 line-clamp-2 min-h-10">
           {equipment.description}
         </p>
       </CardHeader>

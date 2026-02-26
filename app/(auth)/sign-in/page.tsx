@@ -76,7 +76,9 @@ export default function SignInPage() {
           />
         </Field>
         <Field>
-          <Button type="submit">Sign In</Button>
+          <Button type="submit" className="text-white">
+            Sign In
+          </Button>
         </Field>
         <FieldSeparator>Or continue with</FieldSeparator>
         <Field>

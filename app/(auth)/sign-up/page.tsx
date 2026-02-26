@@ -80,7 +80,9 @@ export default function SignUpPage() {
         </Field>
 
         <Field>
-          <Button type="submit">Sign Up</Button>
+          <Button type="submit" className="text-white">
+            Sign Up
+          </Button>
         </Field>
         <FieldSeparator>Or continue with</FieldSeparator>
         <Field>

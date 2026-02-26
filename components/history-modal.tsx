@@ -1,24 +1,56 @@
 "use client";
 
-import { History } from "lucide-react";
-import { useState } from "react";
-import { Button } from "./ui/button";
+import { getEquipmentHistory } from "@/app/actions/dashboard";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { ScrollArea } from "./ui/scroll-area";
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { LendingHistory } from "@/lib/generated/prisma/client";
+import { format } from "date-fns";
+import { ArrowRightLeft, CheckCircle2, History, User } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { Badge } from "./ui/badge";
 
 interface HistoryModalProps {
-  equipmentId: number;
+  equipmentId: string;
   equipmentName: string;
 }
 
 const HistoryModal = ({ equipmentId, equipmentName }: HistoryModalProps) => {
   const [open, setOpen] = useState(false);
+  const [history, setHistory] = useState<LendingHistory[] | null>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchHistory = async () => {
+      toast.info("Loading history...", {
+        position: "bottom-center",
+        duration: 1000,
+      });
+      const data = await getEquipmentHistory(equipmentId);
+      if (!cancelled) {
+        setHistory(data ?? []);
+      }
+    };
+
+    fetchHistory();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [equipmentId, open]);
+
+  //   if (!history) {
+  //     handleGetHistory();
+  //   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -32,28 +64,32 @@ const HistoryModal = ({ equipmentId, equipmentName }: HistoryModalProps) => {
           View History
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px] rounded-2xl max-h-[80vh] flex flex-col p-0 overflow-hidden">
+      <DialogContent className="sm:max-w-125 rounded-2xl max-h-[80vh] flex flex-col p-0 overflow-hidden">
         <DialogHeader className="p-6 pb-2">
           <DialogTitle className="text-2xl font-display font-bold flex items-center gap-2">
             <History className="h-6 w-6 text-primary" />
             Lending History
           </DialogTitle>
           <p className="text-sm text-muted-foreground">
-            Complete record for{" "}
+            Past {history?.length} records for{" "}
             <span className="text-foreground font-semibold">
               {equipmentName}
+            </span>
+            <br />
+            <span>
+              To view the full record{" "}
+              <Button asChild variant={"link"} className="px-0 mx-0">
+                <Link href={`/dashboard/history/${equipmentId}`}>
+                  click here
+                </Link>
+              </Button>
             </span>
           </p>
         </DialogHeader>
 
         <ScrollArea className="flex-1 px-6 pb-6">
           <div className="space-y-4 py-4">
-            {/* {isLoading ? (
-              <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
-                <Clock className="h-8 w-8 animate-pulse mb-2 opacity-20" />
-                <p className="text-sm">Loading records...</p>
-              </div>
-            ) : !history || history.length === 0 ? (
+            {!history || history.length === 0 ? (
               <div className="text-center py-12 bg-muted/30 rounded-2xl border border-dashed">
                 <History className="h-10 w-10 mx-auto text-muted-foreground/30 mb-3" />
                 <p className="text-sm text-muted-foreground">
@@ -61,11 +97,10 @@ const HistoryModal = ({ equipmentId, equipmentName }: HistoryModalProps) => {
                 </p>
               </div>
             ) : (
-              <div className="relative border-l-2 border-primary/20 ml-3 pl-6 space-y-8">
+              <div className="relative border-l-2 border-primary/20 ml-3 pl-6 space-y-8 ">
                 {history.map((record) => (
                   <div key={record.id} className="relative">
-                   
-                    <div className="absolute -left-[31px] top-1 h-2.5 w-2.5 rounded-full bg-primary border-4 border-background shadow-[0_0_0_2px_rgba(var(--primary),0.1)]" />
+                    <div className="absolute -left-7.75 top-1 h-2.5 w-2.5 rounded-full bg-primary border-4 border-background shadow-[0_0_0_2px_rgba(var(--primary),0.1)]" />
 
                     <div className="bg-card border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
                       <div className="flex justify-between items-start mb-3">
@@ -121,7 +156,7 @@ const HistoryModal = ({ equipmentId, equipmentName }: HistoryModalProps) => {
                   </div>
                 ))}
               </div>
-            )} */}
+            )}
           </div>
         </ScrollArea>
       </DialogContent>

@@ -1,4 +1,5 @@
 import { GalleryVerticalEnd } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -15,7 +16,7 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
             <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
               <GalleryVerticalEnd className="size-4" />
             </div>
-            Acme Inc.
+            SG Devs.
           </Link>
         </div>
         <div className="flex flex-1 items-center justify-center">
@@ -23,10 +24,11 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
         </div>
       </div>
       <div className="bg-muted relative hidden lg:block">
-        <img
+        <Image
+          fill
           src="/login.jpg"
           alt="Login Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.5] "
         />
       </div>
     </div>
