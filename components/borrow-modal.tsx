@@ -1,3 +1,5 @@
+"use client";
+
 import { borrowItem } from "@/app/actions/dashboard";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Equipment } from "@/lib/generated/prisma/client";
+import { cn } from "@/lib/utils";
 import { HandHelping } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -18,9 +21,10 @@ import { toast } from "sonner";
 interface BorrowModalProps {
   equipment: Equipment;
   trigger?: React.ReactNode;
+  small?: boolean;
 }
 
-const BorrowModal = ({ equipment, trigger }: BorrowModalProps) => {
+const BorrowModal = ({ equipment, trigger, small }: BorrowModalProps) => {
   const [open, setOpen] = useState(false);
   const [borrowerName, setBorrowerName] = useState("");
 
@@ -40,7 +44,10 @@ const BorrowModal = ({ equipment, trigger }: BorrowModalProps) => {
         {trigger || (
           <Button
             variant="default"
-            className="w-full rounded-lg shadow-sm text-white"
+            className={cn(
+              ` rounded-lg shadow-sm text-white`,
+              small === true ? "" : "w-full",
+            )}
           >
             <HandHelping className="mr-2 h-4 w-4" />
             Check Out

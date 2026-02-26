@@ -34,7 +34,7 @@ export default function SignInPage() {
       toast.error("Failed to log in", { description: res.error.message });
     } else {
       toast.success("Logged in successfully");
-      router.push("/dashboard");
+      router.push("/");
     }
   }
 

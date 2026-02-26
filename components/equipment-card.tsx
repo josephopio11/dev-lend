@@ -1,4 +1,4 @@
-import { deleteEquipment, returnItem } from "@/app/actions/dashboard";
+import { deleteEquipment } from "@/app/actions/dashboard";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,16 +20,11 @@ import {
 } from "@/components/ui/card";
 import { Equipment } from "@/lib/generated/prisma/client";
 import { formatDistanceToNow } from "date-fns";
-import {
-  ArrowRightLeft,
-  Box,
-  CalendarClock,
-  Fingerprint,
-  Trash2,
-} from "lucide-react";
+import { Box, CalendarClock, Fingerprint, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import BorrowModal from "./borrow-modal";
 import HistoryModal from "./history-modal";
+import { ReturnButton } from "./return-button";
 
 interface EquipmentCardProps {
   equipment: Equipment;
@@ -38,14 +33,6 @@ interface EquipmentCardProps {
 
 const EquipmentCard = ({ equipment, index }: EquipmentCardProps) => {
   const isAvailable = equipment.status === "AVAILABLE";
-
-  const handleReturn = async () => {
-    const res = await returnItem(equipment.id, equipment.borrowedAt!);
-
-    toast.success("Returned successfully", {
-      description: JSON.stringify(res, null, 2),
-    });
-  };
 
   const handleDelete = async () => {
     const data = await deleteEquipment(equipment.id);
@@ -156,14 +143,7 @@ const EquipmentCard = ({ equipment, index }: EquipmentCardProps) => {
         {isAvailable ? (
           <BorrowModal equipment={equipment} />
         ) : (
-          <Button
-            variant="outline"
-            className="w-full rounded-xl border-amber-200 text-amber-700 hover:bg-amber-50 hover:text-amber-800 dark:border-amber-900/50 dark:text-amber-400 dark:hover:bg-amber-900/30 group/btn"
-            onClick={handleReturn}
-          >
-            <ArrowRightLeft className="mr-2 h-4 w-4 transition-transform group-hover/btn:-rotate-180" />
-            Process Return
-          </Button>
+          <ReturnButton id={equipment.id} borrowedAt={equipment.borrowedAt} />
         )}
       </CardFooter>
     </Card>

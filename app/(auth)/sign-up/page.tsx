@@ -35,7 +35,7 @@ export default function SignUpPage() {
       toast.error("Something went wrong", { description: res.error.message });
     } else {
       toast.success("Logged in successfully");
-      router.push("/dashboard");
+      router.push("/");
     }
   }
 

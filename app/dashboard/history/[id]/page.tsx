@@ -1,4 +1,6 @@
 import BackArrow from "@/components/back-arrow";
+import BorrowModal from "@/components/borrow-modal";
+import { ReturnButton } from "@/components/return-button";
 import { Badge } from "@/components/ui/badge";
 import prisma from "@/lib/prisma";
 import { format } from "date-fns";
@@ -25,7 +27,10 @@ export default async function HistoryDetailsPage({
       },
     },
   });
-  console.log(data);
+
+  if (!data) return null;
+
+  const isAvailable = data?.status === "AVAILABLE";
 
   if (data?.lendingHistories.length === 0) {
     return (
@@ -69,8 +74,20 @@ export default async function HistoryDetailsPage({
 
   return (
     <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl relative z-10">
+      <div className="w-full flex justify-between items-center ">
+        <BackArrow />
+        {isAvailable ? (
+          <BorrowModal equipment={data!} small={true} />
+        ) : (
+          <ReturnButton
+            id={id}
+            borrowedAt={data?.lendingHistories[0].borrowedAt}
+            small={true}
+          />
+        )}
+      </div>
       {/* Hero / Header Section */}
-      <BackArrow />
+
       <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <h1 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-foreground text-balance">
@@ -96,6 +113,7 @@ export default async function HistoryDetailsPage({
           </div>
         </div>
       </div>
+
       <div className="relative border-l-2 border-primary/20 ml-3 pl-6 space-y-8 ">
         {data?.lendingHistories.map((record) => (
           <div key={record.id} className="relative">
@@ -153,7 +171,6 @@ export default async function HistoryDetailsPage({
           </div>
         ))}
       </div>
-      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
     </main>
   );
 }

@@ -3,6 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 
+export const metadata = {
+  title: "Auth",
+};
+
 type AuthLayoutProps = {
   children: ReactNode;
 };
@@ -16,7 +20,7 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
             <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
               <GalleryVerticalEnd className="size-4" />
             </div>
-            SG Devs.
+            DevMGMT.msc
           </Link>
         </div>
         <div className="flex flex-1 items-center justify-center">

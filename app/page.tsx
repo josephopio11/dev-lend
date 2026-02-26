@@ -1,15 +1,25 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { signOut, useSession } from "@/lib/auth-client";
 import { LogIn, Pen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
   const [visibleSections, setVisibleSections] = useState<
     Record<string, boolean>
   >({});
+
+  const session = useSession();
+  const router = useRouter();
+
+  const handleLogOut = async () => {
+    await signOut();
+    router.push("/");
+  };
 
   useEffect(() => {
     const observers: Record<string, IntersectionObserver> = {};
@@ -59,9 +69,7 @@ export default function Home() {
         {/* Content overlay */}
         <div className="relative z-10 max-w-7xl mx-auto w-full">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div
-              className={`transition-all duration-1000 ${visibleSections["hero"] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-            >
+            <div className={`transition-all duration-1000 `}>
               <div className="mb-8 inline-block">
                 <span className="text-xs font-medium tracking-widest text-foreground/80 uppercase">
                   Joseph Opio&#39;s Asset management system
@@ -69,17 +77,49 @@ export default function Home() {
               </div>
               <h1 className="text-7xl lg:text-8xl font-display font-black leading-tight mb-8 tracking-tighter">
                 <span className="bg-linear-to-br from-foreground via-foreground to-background/40 bg-clip-text text-transparent">
-                  Device Loan
+                  DevMGMT.msc
                 </span>
                 <br />
-                <span className="text-foreground/70">Management System.</span>
+                <span className="text-foreground/70">System.</span>
               </h1>
               <p className="text-xl text-foreground/80 leading-relaxed mb-10 max-w-xl font-light">
-                Omnius orchestrates your entire cloud and on-prem infrastructure
-                through a single intelligent agent. Deploy, monitor,
-                optimize—automatically.
+                I just need to remember who took what. That is why I created
+                this system
               </p>
-              <div className="flex gap-4 mb-12 flex-col sm:flex-row">
+              {session.data?.user ? (
+                <div className="flex gap-4 mb-12 flex-col sm:flex-row">
+                  <Button className="text-white" asChild>
+                    <Link href="/dashboard">
+                      Go to Dashboard
+                      <LogIn className="w-5 h-5 group-hover:translate-x-1 transition" />
+                    </Link>
+                  </Button>
+                  <Button
+                    className=""
+                    variant={"outline"}
+                    onClick={handleLogOut}
+                  >
+                    Log Out
+                    <LogIn className="w-5 h-5 group-hover:translate-x-1 transition" />
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex gap-4 mb-12 flex-col sm:flex-row">
+                  <Button className="text-white" asChild>
+                    <Link href="/sign-in">
+                      Log In
+                      <LogIn className="w-5 h-5 group-hover:translate-x-1 transition" />
+                    </Link>
+                  </Button>
+                  <Button variant={"outline"} asChild>
+                    <Link href="/sign-up">
+                      Sign Up
+                      <Pen className="w-5 h-5 group-hover:translate-x-1 transition" />
+                    </Link>
+                  </Button>
+                </div>
+              )}
+              {/* <div className="flex gap-4 mb-12 flex-col sm:flex-row">
                 <Button className="text-white" asChild>
                   <Link href="/sign-in">
                     Log In
@@ -92,7 +132,7 @@ export default function Home() {
                     <Pen className="w-5 h-5 group-hover:translate-x-1 transition" />
                   </Link>
                 </Button>
-              </div>
+              </div> */}
             </div>
 
             <div
