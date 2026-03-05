@@ -6,10 +6,11 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 export async function getAllEquipments() {
-  await requireAuth();
+  const session = await requireAuth();
 
   const data = await prisma.equipment.findMany({
     where: {
+      userId: session.user.id,
       deletedItem: false,
     },
     orderBy: {
@@ -37,10 +38,10 @@ export async function addEquipment(
 }
 
 export async function getEquipmentHistory(equipmentId: string) {
-  await requireAuth();
+  const session = await requireAuth();
 
   const data = await prisma.lendingHistory.findMany({
-    where: { equipmentId },
+    where: { equipmentId, lentById: session.user.id },
     orderBy: { borrowedAt: "desc" },
     take: 3,
   });
@@ -109,9 +110,12 @@ export async function returnItem(equipmentId: string, borrowedAt: Date) {
 }
 
 export async function deleteEquipment(equipmentId: string) {
+  const session = await requireAuth();
+
   const existingItem = await prisma.equipment.findUnique({
     where: {
       id: equipmentId,
+      userId: session.user.id,
     },
   });
 

@@ -3,16 +3,15 @@
 import { Button } from "@/components/ui/button";
 import {
   Field,
-  FieldDescription,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { signIn, useSession } from "@/lib/auth-client";
-import { Github, RectangleGoggles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import SocialSignIn from "../_component/social";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -81,24 +80,7 @@ export default function SignInPage() {
           </Button>
         </Field>
         <FieldSeparator>Or continue with</FieldSeparator>
-        <Field>
-          <div className="flex flex-row gap-2 w-full">
-            <Button variant="outline" type="button" className="w-full flex-1">
-              <Github />
-              GitHub
-            </Button>
-            <Button variant="outline" type="button" className="w-full flex-1">
-              <RectangleGoggles />
-              Google
-            </Button>
-          </div>
-          <FieldDescription className="text-center">
-            Don&apos;t have an account?{" "}
-            <a href="/sign-up" className="underline underline-offset-4">
-              Sign up
-            </a>
-          </FieldDescription>
-        </Field>
+        <SocialSignIn />
       </FieldGroup>
     </form>
   );
