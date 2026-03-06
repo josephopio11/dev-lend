@@ -1,6 +1,7 @@
 "use client";
 
 import { signOut } from "@/lib/auth-client";
+import { createNameAvatar } from "@/lib/utils";
 import {
   IconCreditCard,
   IconDotsVertical,
@@ -32,7 +33,9 @@ function UserIcon({ user }: { user: User }) {
         >
           <Avatar className="h-8 w-8 rounded-lg grayscale">
             <AvatarImage src={user.image || ""} alt={user.name} />
-            <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+            <AvatarFallback className="rounded-lg">
+              {createNameAvatar(user.name)}
+            </AvatarFallback>
           </Avatar>
           <div className="grid flex-1 text-left text-sm leading-tight">
             <span className="truncate font-medium">{user.name}</span>

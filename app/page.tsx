@@ -49,7 +49,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="h-screen bg-background overflow-hidden">
+    <div className="h-screen bg-background overflow-hidden max-w-screen ">
       {/* Hero Section */}
       <section
         id="hero"
@@ -75,15 +75,15 @@ export default function Home() {
                   Joseph Opio&#39;s Asset management system
                 </span>
               </div>
-              <h1 className="text-7xl lg:text-8xl font-display font-black leading-tight mb-8 tracking-tighter">
+              <h1 className="text-4xl md:text-7xl 2xl:text-8xl font-display font-black leading-tight mb-8 tracking-tighter">
                 <span className="bg-linear-to-br from-foreground via-foreground to-background/40 bg-clip-text text-transparent">
                   DevMGMT.msc
                 </span>
                 <br />
                 <span className="text-foreground/70">System.</span>
               </h1>
-              <p className="text-xl text-foreground/80 leading-relaxed mb-10 max-w-xl font-light">
-                I just need to remember who took what. That is why I created
+              <p className="md:text-xl text-foreground/80 leading-relaxed mb-10 max-w-xl font-light">
+                I just needed to remember who took what. That is why I created
                 this system
               </p>
               {session.data?.user ? (
@@ -144,7 +144,7 @@ export default function Home() {
                 alt="Omnius Agent"
                 width={1000}
                 height={1000}
-                className="w-full max-w-sm lg:max-w-md drop-shadow-2xl animate-float relative z-10"
+                className="w-full max-w-sm lg:max-w-md drop-shadow-2xl animate-float relative z-10 hidden lg:block"
               />
             </div>
           </div>
