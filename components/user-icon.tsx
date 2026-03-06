@@ -2,14 +2,10 @@
 
 import { signOut } from "@/lib/auth-client";
 import { createNameAvatar } from "@/lib/utils";
-import {
-  IconCreditCard,
-  IconDotsVertical,
-  IconLogout,
-  IconNotification,
-  IconUserCircle,
-} from "@tabler/icons-react";
+import { IconLogout, IconUserCircle } from "@tabler/icons-react";
 import { User } from "better-auth";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import {
@@ -23,13 +19,14 @@ import {
 } from "./ui/dropdown-menu";
 
 function UserIcon({ user }: { user: User }) {
+  const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          size="lg"
+          size="icon"
           variant={"ghost"}
-          className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+          className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground outline-none focus:outline-none"
         >
           <Avatar className="h-8 w-8 rounded-lg grayscale">
             <AvatarImage src={user.image || ""} alt={user.name} />
@@ -37,13 +34,13 @@ function UserIcon({ user }: { user: User }) {
               {createNameAvatar(user.name)}
             </AvatarFallback>
           </Avatar>
-          <div className="grid flex-1 text-left text-sm leading-tight">
+          {/* <div className="grid flex-1 text-left text-sm leading-tight">
             <span className="truncate font-medium">{user.name}</span>
             <span className="text-muted-foreground truncate text-xs">
               {user.email}
             </span>
-          </div>
-          <IconDotsVertical className="ml-auto size-4" />
+          </div> */}
+          {/* <IconDotsVertical className="ml-auto size-4" /> */}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -68,21 +65,32 @@ function UserIcon({ user }: { user: User }) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <IconUserCircle />
-            Account
+          <DropdownMenuItem asChild>
+            <Link href="/dashboard/account">
+              <IconUserCircle />
+              Account
+            </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <IconCreditCard />
-            Billing
+          {/* <DropdownMenuItem asChild>
+            <Link href="/dashboard/billing">
+              <IconCreditCard />
+              Billing
+            </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <IconNotification />
-            Notifications
-          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/dashboard/notifications">
+              <IconNotification />
+              Notifications
+            </Link>
+          </DropdownMenuItem> */}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => signOut()}>
+        <DropdownMenuItem
+          onClick={() => {
+            signOut();
+            router.push("/");
+          }}
+        >
           <IconLogout />
           Log out
         </DropdownMenuItem>

@@ -20,7 +20,7 @@ export default function SocialSignIn() {
         <Button
           variant="outline"
           type="button"
-          className="w-full flex-1"
+          className="w-full flex-1 text-foreground/70"
           onClick={handleGoogleSignIn}
         >
           <svg

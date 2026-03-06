@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { signOut, useSession } from "@/lib/auth-client";
-import { LogIn, Pen } from "lucide-react";
+import { DatabaseSearchIcon, LogIn, LogOut, Pen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -91,7 +91,7 @@ export default function Home() {
                   <Button className="text-white" asChild>
                     <Link href="/dashboard">
                       Go to Dashboard
-                      <LogIn className="w-5 h-5 group-hover:translate-x-1 transition" />
+                      <DatabaseSearchIcon className="w-5 h-5 group-hover:translate-x-1 transition" />
                     </Link>
                   </Button>
                   <Button
@@ -100,7 +100,7 @@ export default function Home() {
                     onClick={handleLogOut}
                   >
                     Log Out
-                    <LogIn className="w-5 h-5 group-hover:translate-x-1 transition" />
+                    <LogOut className="w-5 h-5 group-hover:translate-x-1 transition" />
                   </Button>
                 </div>
               ) : (
@@ -140,11 +140,11 @@ export default function Home() {
             >
               <div className="absolute inset-0 bg-linear-to-br from-accent/30 via-transparent to-transparent rounded-3xl blur-3xl animate-pulse" />
               <Image
-                src="/logos.png"
+                src="/me2.png"
                 alt="Omnius Agent"
                 width={1000}
                 height={1000}
-                className="w-full max-w-sm lg:max-w-md drop-shadow-2xl animate-float relative z-10 hidden lg:block"
+                className="w-full aspect-square rounded-full max-w-sm lg:max-w-md drop-shadow-2xl animate-float relative z-10 hidden lg:block"
               />
             </div>
           </div>
