@@ -27,7 +27,7 @@ function UserIcon({ user }: { user: User }) {
       <DropdownMenuTrigger asChild>
         <Button
           size="lg"
-          variant={"outline"}
+          variant={"ghost"}
           className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
         >
           <Avatar className="h-8 w-8 rounded-lg grayscale">
