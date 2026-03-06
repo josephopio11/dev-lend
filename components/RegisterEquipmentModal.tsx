@@ -140,7 +140,7 @@ const RegisterEquipmentModal = () => {
                 >
                   Cancel
                 </Button>
-                <Button type="submit" className="rounded-xl">
+                <Button type="submit" className="rounded-xl text-white">
                   Register Item
                 </Button>
               </div>
