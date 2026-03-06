@@ -50,7 +50,10 @@ const RegisterEquipmentModal = () => {
       setOpen(false);
       form.reset();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      toast.error("Something went wrong", {
+        description: JSON.stringify(error),
+      });
     }
   };
 

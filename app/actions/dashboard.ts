@@ -17,7 +17,7 @@ export async function getAllEquipments() {
       createdAt: "asc",
     },
   });
-  console.log(data);
+  // console.log(data);
   return data;
 }
 
