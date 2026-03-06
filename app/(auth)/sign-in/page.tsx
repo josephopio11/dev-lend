@@ -16,7 +16,7 @@ import SocialSignIn from "../_component/social";
 export default function SignInPage() {
   const router = useRouter();
 
-  const { data: session, isPending } = useSession();
+  const { data: session } = useSession();
   if (session?.user.email) router.push("/dashboard");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {

@@ -3,6 +3,7 @@
 import EquipmentCard from "@/components/equipment-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import { useSession } from "@/lib/auth-client";
 import { Equipment } from "@/lib/generated/prisma/client";
 import { Boxes, PackageSearch } from "lucide-react";
@@ -27,11 +28,18 @@ const DashboardPageContent = ({ equipment }: Props) => {
   }, [isPending, session, router]);
 
   if (isPending)
-    return <p className="text-center mt-8 text-white">Loading...</p>;
+    return (
+      <div className="relative ">
+        <div className="absolute w-screen h-screen flex items-center justify-center  z-50">
+          <div className="flex items-center gap-2 flex-col -my-1 ">
+            <Spinner className="w-12 h-12" />
+            Loading...
+          </div>
+        </div>
+      </div>
+    );
   if (!session?.user)
     return <p className="text-center mt-8 text-white">Redirecting...</p>;
-
-  const { user } = session;
 
   const filteredEquipment =
     equipment?.filter((item) => {

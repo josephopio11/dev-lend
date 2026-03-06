@@ -16,7 +16,7 @@ import SocialSignIn from "../_component/social";
 export default function SignUpPage() {
   const router = useRouter();
 
-  const { data: session, isPending } = useSession();
+  const { data: session } = useSession();
   if (session?.user.email) router.push("/dashboard");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -40,6 +40,7 @@ export default function SignUpPage() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 ">
+      <div></div>
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
           <h1 className="text-2xl font-bold">Create an account</h1>
