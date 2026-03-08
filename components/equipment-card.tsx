@@ -21,6 +21,7 @@ import {
 import { Equipment } from "@/lib/generated/prisma/client";
 import { formatDistanceToNow } from "date-fns";
 import { Box, CalendarClock, Fingerprint, Trash2 } from "lucide-react";
+import Link from "next/link";
 import { toast } from "sonner";
 import BorrowModal from "./borrow-modal";
 import HistoryModal from "./history-modal";
@@ -104,9 +105,12 @@ const EquipmentCard = ({ equipment, index }: EquipmentCardProps) => {
           </AlertDialog>
         </div>
 
-        <h3 className="font-display font-bold text-xl text-foreground leading-tight">
+        <Link
+          href={`/dashboard/item/${equipment.id}`}
+          className="font-display font-bold text-xl text-foreground leading-tight"
+        >
           {equipment.name}
-        </h3>
+        </Link>
         <p className="text-sm text-muted-foreground mt-1 line-clamp-2 min-h-10">
           {equipment.description}
         </p>
