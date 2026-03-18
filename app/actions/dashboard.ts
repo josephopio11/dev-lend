@@ -14,7 +14,7 @@ export async function getAllEquipments() {
       deletedItem: false,
     },
     orderBy: {
-      createdAt: "asc",
+      name: "asc",
     },
   });
   // console.log(data);

@@ -2,6 +2,7 @@ import BackArrow from "@/components/back-arrow";
 import BorrowModal from "@/components/borrow-modal";
 import { ReturnButton } from "@/components/return-button";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import prisma from "@/lib/prisma";
 import { format } from "date-fns";
 import { ArrowRightLeft, CheckCircle2, History, User } from "lucide-react";
@@ -73,7 +74,7 @@ export default async function HistoryDetailsPage({
   }
 
   return (
-    <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl relative z-10">
+    <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl relative z-10 space-y-4">
       <div className="w-full flex justify-between items-center ">
         <BackArrow />
         {isAvailable ? (
@@ -116,7 +117,7 @@ export default async function HistoryDetailsPage({
 
       <div className="relative border-l-2 border-primary/20 ml-3 pl-6 space-y-8 ">
         {data?.lendingHistories.map((record) => (
-          <div key={record.id} className="relative">
+          <Card key={record.id} className="relative shadow-xl p-0">
             <div className="absolute -left-7.75 top-1 h-2.5 w-2.5 rounded-full bg-primary border-4 border-background shadow-[0_0_0_2px_rgba(var(--primary),0.1)]" />
 
             <div className="bg-card border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
@@ -168,7 +169,7 @@ export default async function HistoryDetailsPage({
                 </div>
               </div>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
     </main>

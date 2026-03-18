@@ -17,3 +17,13 @@ export function createNameAvatar(text: string | null | undefined) {
   const firstTwoLetters = result.slice(0, 2);
   return firstTwoLetters;
 }
+
+export function formatMyDate(date: string) {
+  const newDate = new Date(date);
+  return newDate.toLocaleDateString("en-GB", {
+    weekday: "short",
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+  });
+}

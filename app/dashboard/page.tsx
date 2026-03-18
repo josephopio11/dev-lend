@@ -1,4 +1,4 @@
-import { getAllEquipments } from "../actions/dashboard";
+import { getAllEquipments } from "@/app/actions/dashboard";
 import DashboardPageContent from "./DashboardPageContent";
 
 export const metadata = {
