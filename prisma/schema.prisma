@@ -79,8 +79,6 @@ model Equipment {
   description      String
   serialNumber     String
   status           EquipmentStatus  @default(AVAILABLE)
-  borrowerName     String?
-  borrowedAt       DateTime?
   lendingHistories LendingHistory[]
   user             User?            @relation(fields: [userId], references: [id])
   userId           String?
@@ -93,7 +91,6 @@ model Equipment {
 
 model LendingHistory {
   id           String    @id @default(uuid())
-  borrowerName String
   borrowedAt   DateTime
   returnedAt   DateTime?
   equipment    Equipment @relation(fields: [equipmentId], references: [id])
@@ -101,9 +98,27 @@ model LendingHistory {
   lentBy       User?     @relation(fields: [lentById], references: [id])
   lentById     String?
   returnedToId String?
+  borrower     Borrower  @relation(fields: [borrowerId], references: [id])
+  borrowerId   String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("lending_history")
+}
+
+model Borrower {
+  id               String           @id @default(uuid())
+  name             String           @unique
+  email            String?          @unique
+  phone            String?
+  address          String?
+  position         String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  lendingHistories LendingHistory[]
+
+  @@map("borrower")
 }
 
 enum EquipmentStatus {

@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  EquipmentHistoryType,
-  getEquipmentHistory,
-} from "@/app/actions/dashboard";
+  BorrowersHistoryType,
+  getBorrowerHistory,
+} from "@/app/actions/borrower";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,20 +14,19 @@ import {
 } from "@/components/ui/dialog";
 import { format } from "date-fns";
 import { ArrowRightLeft, CheckCircle2, History, User } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "./ui/badge";
 import { ScrollArea } from "./ui/scroll-area";
 
-interface HistoryModalProps {
-  equipmentId: string;
-  equipmentName: string;
+interface MemberHistoryProps {
+  borrowerId: string;
+  borrowerName: string;
 }
 
-const HistoryModal = ({ equipmentId, equipmentName }: HistoryModalProps) => {
+const MemberHistory = ({ borrowerId, borrowerName }: MemberHistoryProps) => {
   const [open, setOpen] = useState(false);
-  const [history, setHistory] = useState<EquipmentHistoryType>(null);
+  const [history, setHistory] = useState<BorrowersHistoryType>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -37,7 +36,7 @@ const HistoryModal = ({ equipmentId, equipmentName }: HistoryModalProps) => {
         position: "bottom-center",
         duration: 1000,
       });
-      const data = await getEquipmentHistory(equipmentId);
+      const data = await getBorrowerHistory(borrowerId);
       if (!cancelled) {
         setHistory(data);
       }
@@ -48,7 +47,7 @@ const HistoryModal = ({ equipmentId, equipmentName }: HistoryModalProps) => {
     return () => {
       cancelled = true;
     };
-  }, [equipmentId]);
+  }, [borrowerId]);
 
   if (!history) {
     return null;
@@ -74,18 +73,19 @@ const HistoryModal = ({ equipmentId, equipmentName }: HistoryModalProps) => {
           </DialogTitle>
           <p className="text-sm text-muted-foreground">
             <span className="text-foreground font-semibold">
-              {equipmentName}
+              {borrowerName}
             </span>{" "}
-            has been borrowed {history._count.lendingHistories} times so far.{" "}
-            <br />
-            <span>
+            has borrowed {history._count.lendingHistories} times so far. The
+            recent {history.lendingHistories.length} items borrowed can ben seen
+            below <br />
+            {/* <span>
               To view the full record{" "}
               <Button asChild variant={"link"} className="px-0 mx-0">
-                <Link href={`/dashboard/history/${equipmentId}`}>
+                <Link href={`/dashboard/history/${borrowerId}`}>
                   click here
                 </Link>
               </Button>
-            </span>
+            </span> */}
           </p>
         </DialogHeader>
 
@@ -100,6 +100,7 @@ const HistoryModal = ({ equipmentId, equipmentName }: HistoryModalProps) => {
               </div>
             ) : (
               <div className="relative border-l-2 border-primary/20 ml-3 pl-6 space-y-8 ">
+                {/* <pre>{JSON.stringify(history.lendingHistories, null, 2)}</pre> */}
                 {history.lendingHistories.map((record) => (
                   <div key={record.id} className="relative">
                     <div className="absolute -left-7.75 top-1 h-2.5 w-2.5 rounded-full bg-primary border-4 border-background shadow-[0_0_0_2px_rgba(var(--primary),0.1)]" />
@@ -112,7 +113,7 @@ const HistoryModal = ({ equipmentId, equipmentName }: HistoryModalProps) => {
                           </div>
                           <div>
                             <p className="font-bold text-sm leading-none">
-                              {record.borrower.name}
+                              {record.equipment.name}
                             </p>
                             <Badge
                               variant="outline"
@@ -166,4 +167,4 @@ const HistoryModal = ({ equipmentId, equipmentName }: HistoryModalProps) => {
   );
 };
 
-export default HistoryModal;
+export default MemberHistory;

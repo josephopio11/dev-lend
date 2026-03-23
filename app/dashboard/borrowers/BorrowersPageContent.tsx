@@ -1,6 +1,7 @@
 "use client";
 
-import EquipmentCard from "@/components/equipment-card";
+import { AllBorrowersType } from "@/app/actions/borrower";
+import BorrowerCard from "@/components/borrowers-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
@@ -8,15 +9,14 @@ import { useSession } from "@/lib/auth-client";
 import { Boxes, PackageSearch } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AllEquipmentType } from "../actions/dashboard";
 
 type Props = {
-  equipment: AllEquipmentType;
+  borrowers: AllBorrowersType;
 };
 
-const DashboardPageContent = ({ equipment }: Props) => {
+const BorrowersPageContent = ({ borrowers }: Props) => {
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState<"ALL" | "AVAILABLE" | "BORROWED">("ALL");
+  const [filter, setFilter] = useState<"ALL" | "HAS" | "RETURNED">("ALL");
 
   const router = useRouter();
   const { data: session, isPending } = useSession();
@@ -41,26 +41,31 @@ const DashboardPageContent = ({ equipment }: Props) => {
   if (!session?.user)
     return <p className="text-center mt-8 text-white">Redirecting...</p>;
 
-  const filteredEquipment =
-    equipment?.filter((item) => {
+  const filteredBorrowers =
+    borrowers?.filter((person) => {
       const matchesSearch =
-        item.name.toLowerCase().includes(search.toLowerCase()) ||
-        item.serialNumber.toLowerCase().includes(search.toLowerCase()) ||
-        (item.lendingHistories[0]?.borrower?.name &&
-          item.lendingHistories[0].borrower.name
-            .toLowerCase()
-            .includes(search.toLowerCase()));
+        person.name.toLowerCase().includes(search.toLowerCase()) ||
+        person.id.toLowerCase().includes(search.toLowerCase());
+      //  ||
+      // (person.lendingHistories[0]?.borrower?.name &&
+      //   person.lendingHistories[0].borrower.name
+      //     .toLowerCase()
+      //     .includes(search.toLowerCase()));
 
-      const matchesStatus = filter === "ALL" || item.status === filter;
+      //   const matchesStatus = filter === "ALL" || person.status === filter;
 
-      return matchesSearch && matchesStatus;
+      return matchesSearch; //&& matchesStatus;
     }) || [];
 
-  const stats = {
-    total: equipment?.length || 0,
-    available: equipment?.filter((e) => e.status === "AVAILABLE").length || 0,
-    borrowed: equipment?.filter((e) => e.status === "BORROWED").length || 0,
-  };
+  //   const stats = {
+  //     total: borrowers?.length || 0,
+  //     has:
+  //       borrowers?.filter((e) => e.lendingHistories[0].returnedAt === null)
+  //         .length || 0,
+  //     returned:
+  //       borrowers?.filter((e) => e.lendingHistories[0].returnedAt !== null)
+  //         .length || 0,
+  //   };
 
   return (
     <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl relative z-10">
@@ -68,11 +73,10 @@ const DashboardPageContent = ({ equipment }: Props) => {
       <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <h1 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-foreground text-balance">
-            Equipment Inventory
+            Borrowers
           </h1>
           <p className="text-muted-foreground mt-2 text-lg max-w-2xl">
-            Manage checkouts, track availability, and maintain your hardware
-            catalog seamlessly.
+            Manage the people that borrow items from your inventory.
           </p>
         </div>
 
@@ -80,7 +84,7 @@ const DashboardPageContent = ({ equipment }: Props) => {
         <div className="flex gap-4 p-4 bg-card rounded-2xl border shadow-sm">
           <div className="text-center px-4 border-r border-border">
             <div className="text-3xl font-display font-bold text-primary">
-              {stats.total}
+              {/* {stats.total} */}
             </div>
             <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
               Total
@@ -88,7 +92,7 @@ const DashboardPageContent = ({ equipment }: Props) => {
           </div>
           <div className="text-center px-4 border-r border-border">
             <div className="text-3xl font-display font-bold text-emerald-500">
-              {stats.available}
+              {/* {stats.available} */}
             </div>
             <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
               Ready
@@ -96,7 +100,7 @@ const DashboardPageContent = ({ equipment }: Props) => {
           </div>
           <div className="text-center px-4">
             <div className="text-3xl font-display font-bold text-amber-500">
-              {stats.borrowed}
+              {/* {stats.borrowed} */}
             </div>
             <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
               Out
@@ -118,7 +122,7 @@ const DashboardPageContent = ({ equipment }: Props) => {
         </div>
         <div className="h-8 w-px bg-border hidden sm:block" />
         <div className="flex gap-2 w-full sm:w-auto p-2 sm:p-0">
-          {(["ALL", "AVAILABLE", "BORROWED"] as const).map((f) => (
+          {/* {(["ALL", "HAS", "BORROWED"] as const).map((f) => (
             <Button
               key={f}
               variant={filter === f ? "secondary" : "ghost"}
@@ -128,12 +132,12 @@ const DashboardPageContent = ({ equipment }: Props) => {
             >
               {f}
             </Button>
-          ))}
+          ))} */}
         </div>
       </div>
 
       {/* Content Area */}
-      {filteredEquipment.length === 0 && (
+      {filteredBorrowers.length === 0 && (
         <div className="py-24 flex flex-col items-center justify-center text-center max-w-md mx-auto">
           <div className="h-24 w-24 bg-muted rounded-full flex items-center justify-center mb-6">
             <Boxes className="h-12 w-12 text-muted-foreground/50" />
@@ -161,10 +165,10 @@ const DashboardPageContent = ({ equipment }: Props) => {
         </div>
       )}
 
-      {filteredEquipment.length > 0 && (
+      {filteredBorrowers.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredEquipment.map((item, index) => (
-            <EquipmentCard key={item.id} equipment={item} index={index} />
+          {filteredBorrowers.map((borrower, index) => (
+            <BorrowerCard key={borrower.id} borrower={borrower} index={index} />
           ))}
         </div>
       )}
@@ -172,4 +176,4 @@ const DashboardPageContent = ({ equipment }: Props) => {
   );
 };
 
-export default DashboardPageContent;
+export default BorrowersPageContent;

@@ -13,13 +13,26 @@ export async function getAllEquipments() {
       userId: session.user.id,
       deletedItem: false,
     },
+    include: {
+      lendingHistories: {
+        include: {
+          borrower: true,
+        },
+        orderBy: {
+          borrowedAt: "desc",
+        },
+        take: 1,
+      },
+    },
     orderBy: {
       name: "asc",
     },
   });
-  // console.log(data);
   return data;
 }
+
+export type AllEquipmentType = Awaited<ReturnType<typeof getAllEquipments>>;
+export type SingleEquipmentType = AllEquipmentType[number];
 
 export async function addEquipment(
   name: string,
@@ -37,76 +50,122 @@ export async function addEquipment(
   return data;
 }
 
-export async function getEquipmentHistory(equipmentId: string) {
+export async function getEquipmentHistory(
+  equipmentId: string,
+  isPage: boolean = false,
+) {
   const session = await requireAuth();
 
-  const data = await prisma.lendingHistory.findMany({
-    where: { equipmentId, lentById: session.user.id },
-    orderBy: { borrowedAt: "desc" },
-    take: 3,
+  const itemHistory = await prisma.equipment.findUnique({
+    where: { id: equipmentId, userId: session.user.id },
+    include: {
+      _count: {
+        select: { lendingHistories: true },
+      },
+      lendingHistories: {
+        include: {
+          borrower: true,
+        },
+        orderBy: {
+          borrowedAt: "desc",
+        },
+        take: isPage ? undefined : 3,
+      },
+    },
   });
 
-  return data;
+  return itemHistory;
 }
+
+export type EquipmentHistoryType = Awaited<
+  ReturnType<typeof getEquipmentHistory>
+>;
 
 export async function borrowItem(equipmentId: string, borrowerName: string) {
   const session = await requireAuth();
 
   const equipmentStatus = EquipmentStatus.BORROWED;
   const currentTime = new Date();
-  const data = await prisma.equipment.update({
+
+  const newBorrower = await prisma.borrower.upsert({
     where: {
-      id: equipmentId,
+      name: borrowerName,
     },
-    data: {
-      status: equipmentStatus,
-      borrowerName,
-      borrowedAt: currentTime,
-      userId: session.user.id,
+    create: {
+      name: borrowerName,
+    },
+    update: {
+      name: borrowerName,
     },
   });
 
-  const lent = await prisma.lendingHistory.create({
-    data: {
-      borrowedAt: currentTime,
-      equipmentId: data.id,
-      borrowerName,
-      lentById: session.user.id,
-    },
-  });
+  const data = await prisma.$transaction([
+    prisma.equipment.update({
+      where: {
+        id: equipmentId,
+      },
+      data: {
+        status: equipmentStatus,
+      },
+    }),
+    prisma.lendingHistory.create({
+      data: {
+        borrowedAt: currentTime,
+        equipmentId,
+        borrowerId: newBorrower.id,
+        lentById: session.user.id,
+      },
+    }),
+  ]);
+
+  console.log({ data, newBorrower });
 
   revalidatePath("/dashboard");
 
-  return { data, lent };
+  return { data, newBorrower };
 }
 
 export async function returnItem(equipmentId: string, borrowedAt: Date) {
   const session = await requireAuth();
 
-  const data = await prisma.equipment.update({
+  const existingItem = await prisma.equipment.findUnique({
     where: {
       id: equipmentId,
-    },
-    data: {
-      borrowerName: null,
-      status: EquipmentStatus.AVAILABLE,
-      borrowedAt: null,
+      userId: session.user.id,
     },
   });
 
-  const lent = await prisma.lendingHistory.updateMany({
-    where: {
-      equipmentId,
-      borrowedAt,
-    },
-    data: {
-      returnedAt: new Date(),
-      returnedToId: session.user.id,
-    },
-  });
+  if (existingItem?.status === "AVAILABLE") {
+    return { message: "You can't return this item when it is available" };
+  }
+
+  const data = await prisma.$transaction([
+    prisma.equipment.update({
+      where: {
+        id: equipmentId,
+      },
+      data: {
+        status: EquipmentStatus.AVAILABLE,
+      },
+    }),
+    prisma.lendingHistory.updateMany({
+      where: {
+        equipmentId,
+        borrowedAt,
+      },
+      data: {
+        returnedAt: new Date(),
+        returnedToId: session.user.id,
+      },
+    }),
+  ]);
+
+  console.log("-------------------------------------------------");
+  console.log(data);
+  console.log("-------------------------------------------------");
 
   revalidatePath("/dashboard");
-  return { data, lent };
+  return { data };
 }
 
 export async function deleteEquipment(equipmentId: string) {

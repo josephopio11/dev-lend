@@ -1,9 +1,9 @@
+import { getEquipmentHistory } from "@/app/actions/dashboard";
 import BackArrow from "@/components/back-arrow";
 import BorrowModal from "@/components/borrow-modal";
 import { ReturnButton } from "@/components/return-button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import prisma from "@/lib/prisma";
 import { format } from "date-fns";
 import { ArrowRightLeft, CheckCircle2, History, User } from "lucide-react";
 
@@ -20,20 +20,15 @@ export default async function HistoryDetailsPage({
 }: HistoryDetailsPageProps) {
   const { id } = await params;
 
-  const data = await prisma.equipment.findUnique({
-    where: { id },
-    include: {
-      lendingHistories: {
-        orderBy: { borrowedAt: "desc" },
-      },
-    },
-  });
+  const data = await getEquipmentHistory(id, true);
+
+  console.log(data);
 
   if (!data) return null;
 
-  const isAvailable = data?.status === "AVAILABLE";
+  const isAvailable = data.lendingHistories[0].returnedAt === null;
 
-  if (data?.lendingHistories.length === 0) {
+  if (data.lendingHistories.length === 0) {
     return (
       <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl relative z-10">
         {/* Hero / Header Section */}
@@ -78,7 +73,7 @@ export default async function HistoryDetailsPage({
       <div className="w-full flex justify-between items-center ">
         <BackArrow />
         {isAvailable ? (
-          <BorrowModal equipment={data!} small={true} />
+          <BorrowModal equipment={data} small={true} />
         ) : (
           <ReturnButton
             id={id}
@@ -128,7 +123,7 @@ export default async function HistoryDetailsPage({
                   </div>
                   <div>
                     <p className="font-bold text-sm leading-none">
-                      {record.borrowerName}
+                      {record.borrower.name}
                     </p>
                     <Badge
                       variant="outline"

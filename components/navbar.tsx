@@ -22,6 +22,21 @@ const Navbar = async () => {
         </Link>
 
         <nav className="flex items-center gap-4">
+          <Link
+            href="/dashboard"
+            className="text-sm font-medium transition-colors hover:text-primary"
+          >
+            Dashboard
+          </Link>
+          <Link
+            href="/dashboard/borrowers"
+            className="text-sm font-medium transition-colors hover:text-primary"
+          >
+            Borrowers
+          </Link>
+        </nav>
+
+        <nav className="flex items-center gap-4">
           <RegisterEquipmentModal />
           <UserIcon user={user} />
         </nav>

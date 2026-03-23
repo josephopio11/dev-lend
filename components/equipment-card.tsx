@@ -1,4 +1,4 @@
-import { deleteEquipment } from "@/app/actions/dashboard";
+import { deleteEquipment, SingleEquipmentType } from "@/app/actions/dashboard";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,7 +18,6 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { Equipment } from "@/lib/generated/prisma/client";
 import { formatDistanceToNow } from "date-fns";
 import { Box, CalendarClock, Fingerprint, Trash2 } from "lucide-react";
 import Link from "next/link";
@@ -28,7 +27,7 @@ import HistoryModal from "./history-modal";
 import { ReturnButton } from "./return-button";
 
 interface EquipmentCardProps {
-  equipment: Equipment;
+  equipment: SingleEquipmentType;
   index: number;
 }
 
@@ -123,18 +122,23 @@ const EquipmentCard = ({ equipment, index }: EquipmentCardProps) => {
             <span className="font-mono text-xs">{equipment.serialNumber}</span>
           </div>
 
-          {!isAvailable && equipment.borrowerName && (
+          {!isAvailable && equipment.lendingHistories[0].borrower?.name && (
             <div className="flex items-start text-foreground pt-2 border-t border-border/50">
               <Box className="h-4 w-4 mr-2 mt-0.5 text-amber-500" />
               <div>
-                <p className="font-medium">{equipment.borrowerName}</p>
-                {equipment.borrowedAt && (
+                <p className="font-medium">
+                  {equipment.lendingHistories[0].borrower?.name}
+                </p>
+                {equipment.lendingHistories[0].borrowedAt && (
                   <div className="flex items-center text-xs text-muted-foreground mt-1">
                     <CalendarClock className="h-3 w-3 mr-1" />
                     Borrowed{" "}
-                    {formatDistanceToNow(new Date(equipment.borrowedAt), {
-                      addSuffix: true,
-                    })}
+                    {formatDistanceToNow(
+                      new Date(equipment.lendingHistories[0].borrowedAt),
+                      {
+                        addSuffix: true,
+                      },
+                    )}
                   </div>
                 )}
               </div>
@@ -147,7 +151,10 @@ const EquipmentCard = ({ equipment, index }: EquipmentCardProps) => {
         {isAvailable ? (
           <BorrowModal equipment={equipment} />
         ) : (
-          <ReturnButton id={equipment.id} borrowedAt={equipment.borrowedAt} />
+          <ReturnButton
+            id={equipment.id}
+            borrowedAt={equipment.lendingHistories[0].borrowedAt}
+          />
         )}
       </CardFooter>
     </Card>

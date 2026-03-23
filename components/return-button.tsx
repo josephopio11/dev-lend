@@ -13,7 +13,8 @@ type ReturnButtonProps = {
 
 export function ReturnButton({ id, borrowedAt, small }: ReturnButtonProps) {
   const handleReturn = async () => {
-    await returnItem(id, borrowedAt!);
+    if (!id || !borrowedAt) return;
+    await returnItem(id, borrowedAt);
   };
 
   return (
