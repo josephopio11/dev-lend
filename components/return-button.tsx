@@ -3,6 +3,7 @@
 import { returnItem } from "@/app/actions/dashboard";
 import { cn } from "@/lib/utils";
 import { ArrowRightLeft } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "./ui/button";
 
 type ReturnButtonProps = {
@@ -15,6 +16,9 @@ export function ReturnButton({ id, borrowedAt, small }: ReturnButtonProps) {
   const handleReturn = async () => {
     if (!id || !borrowedAt) return;
     await returnItem(id, borrowedAt);
+    toast.message("Returned successfully", {
+      description: "Item has been returned successfully",
+    });
   };
 
   return (

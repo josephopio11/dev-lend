@@ -84,7 +84,6 @@ export type EquipmentHistoryType = Awaited<
 export async function borrowItem(equipmentId: string, borrowerName: string) {
   const session = await requireAuth();
 
-  // const equipmentStatus = EquipmentStatus.BORROWED;
   const currentTime = new Date();
 
   const newBorrower = await prisma.borrower.upsert({
@@ -99,24 +98,14 @@ export async function borrowItem(equipmentId: string, borrowerName: string) {
     },
   });
 
-  const data = await prisma.$transaction([
-    // prisma.equipment.update({
-    //   where: {
-    //     id: equipmentId,
-    //   },
-    //   data: {
-    //     status: equipmentStatus,
-    //   },
-    // }),
-    prisma.lendingHistory.create({
-      data: {
-        borrowedAt: currentTime,
-        equipmentId,
-        borrowerId: newBorrower.id,
-        lentById: session.user.id,
-      },
-    }),
-  ]);
+  const data = await prisma.lendingHistory.create({
+    data: {
+      borrowedAt: currentTime,
+      equipmentId,
+      borrowerId: newBorrower.id,
+      lentById: session.user.id,
+    },
+  });
 
   console.log({ data, newBorrower });
 
@@ -133,32 +122,27 @@ export async function returnItem(equipmentId: string, borrowedAt: Date) {
       id: equipmentId,
       userId: session.user.id,
     },
+    include: { lendingHistories: true },
   });
 
-  // if (existingItem?.status === "AVAILABLE") {
-  //   return { message: "You can't return this item when it is available" };
-  // }
+  if (
+    existingItem?.lendingHistories &&
+    existingItem?.lendingHistories.length < 1 &&
+    existingItem.lendingHistories[0].returnedAt !== null
+  ) {
+    return { message: "You can't return this item when it is available" };
+  }
 
-  const data = await prisma.$transaction([
-    // prisma.equipment.update({
-    //   where: {
-    //     id: equipmentId,
-    //   },
-    //   data: {
-    //     status: EquipmentStatus.AVAILABLE,
-    //   },
-    // }),
-    prisma.lendingHistory.updateMany({
-      where: {
-        equipmentId,
-        borrowedAt,
-      },
-      data: {
-        returnedAt: new Date(),
-        returnedToId: session.user.id,
-      },
-    }),
-  ]);
+  const data = await prisma.lendingHistory.updateMany({
+    where: {
+      equipmentId,
+      borrowedAt,
+    },
+    data: {
+      returnedAt: new Date(),
+      returnedToId: session.user.id,
+    },
+  });
 
   console.log("-------------------------------------------------");
   console.log(data);
@@ -176,11 +160,18 @@ export async function deleteEquipment(equipmentId: string) {
       id: equipmentId,
       userId: session.user.id,
     },
+    include: {
+      lendingHistories: true,
+    },
   });
 
-  // if (existingItem?.status === "BORROWED") {
-  //   return { message: "You can't delete this item when it has been borrowed" };
-  // }
+  if (
+    existingItem?.lendingHistories &&
+    existingItem?.lendingHistories.length > 0 &&
+    existingItem.lendingHistories[0].returnedAt === null
+  ) {
+    return { message: "You can't delete this item when it has been borrowed" };
+  }
 
   const data = await prisma.equipment.update({
     where: {

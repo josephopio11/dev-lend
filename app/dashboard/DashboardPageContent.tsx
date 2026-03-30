@@ -66,10 +66,10 @@ const DashboardPageContent = ({ equipment }: Props) => {
   const stats = {
     total: equipment?.length || 0,
     available:
-      equipment?.filter((e) => e.lendingHistories[0].returnedAt !== null)
+      equipment?.filter((e) => e.lendingHistories[0]?.returnedAt !== null)
         .length || 0,
     borrowed:
-      equipment?.filter((e) => e.lendingHistories[0].returnedAt === null)
+      equipment?.filter((e) => e.lendingHistories[0]?.returnedAt === null)
         .length || 0,
   };
 
