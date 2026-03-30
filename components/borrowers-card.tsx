@@ -115,15 +115,23 @@ const BorrowerCard = ({ borrower, index }: BorrowerCardProps) => {
           <Box
             className={cn(
               "h-4 w-4 mr-2 mt-0.5 ",
-              borrower.lendingHistories[0].returnedAt === null
+              borrower.lendingHistories.length > 0 &&
+                borrower.lendingHistories[0].returnedAt === null
                 ? "text-amber-500"
                 : "text-primary/70",
             )}
           />
 
           <div>
-            <p className="font-medium">
-              {borrower.lendingHistories[0]?.equipment.name}
+            <p
+              className={cn(
+                borrower.lendingHistories[0]?.equipment.name
+                  ? "font-medium"
+                  : "italic text-xs font-light text-yellow-500",
+              )}
+            >
+              {borrower.lendingHistories[0]?.equipment.name ??
+                "Nothing borrowed yet"}
             </p>
             {borrower.lendingHistories.length > 0 && (
               <div className="flex items-center text-xs text-muted-foreground mt-1">

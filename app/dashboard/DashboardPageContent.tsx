@@ -1,5 +1,6 @@
 "use client";
 
+import MenuWithBackArrow from "@/components/back-arrow";
 import EquipmentCard from "@/components/equipment-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -75,6 +76,8 @@ const DashboardPageContent = ({ equipment }: Props) => {
 
   return (
     <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl relative z-10">
+      <MenuWithBackArrow />
+
       {/* Hero / Header Section */}
       <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>

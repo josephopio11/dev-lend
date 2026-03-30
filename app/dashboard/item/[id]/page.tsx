@@ -1,4 +1,4 @@
-import BackArrow from "@/components/back-arrow";
+import MenuWithBackArrow from "@/components/back-arrow";
 import BorrowModal from "@/components/borrow-modal";
 import { ReturnButton } from "@/components/return-button";
 import { Badge } from "@/components/ui/badge";
@@ -54,12 +54,12 @@ export default async function SingleItemPage({ params }: PageProps) {
 
   if (!item) return null;
 
-  const isAvailable = item.lendingHistories[0].returnedAt !== null;
+  const isAvailable = item.lendingHistories[0]?.returnedAt !== null;
 
   return (
     <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl relative z-10 space-y-4">
       {/* Hero / Header Section */}
-      <BackArrow />
+      <MenuWithBackArrow />
       <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <h1 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-foreground text-balance">
@@ -108,7 +108,7 @@ export default async function SingleItemPage({ params }: PageProps) {
                 <TableRow>
                   <TableCell className="font-medium">Status</TableCell>
                   <TableCell className="text-right">
-                    {item.lendingHistories[0].returnedAt === null
+                    {item.lendingHistories[0]?.returnedAt === null
                       ? "Available"
                       : "Borrowed"}
                   </TableCell>
