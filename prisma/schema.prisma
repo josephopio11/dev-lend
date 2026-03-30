@@ -78,7 +78,7 @@ model Equipment {
   name             String
   description      String
   serialNumber     String
-  status           EquipmentStatus  @default(AVAILABLE)
+  notes            String?
   lendingHistories LendingHistory[]
   user             User?            @relation(fields: [userId], references: [id])
   userId           String?
@@ -119,9 +119,4 @@ model Borrower {
   lendingHistories LendingHistory[]
 
   @@map("borrower")
-}
-
-enum EquipmentStatus {
-  AVAILABLE
-  BORROWED
 }

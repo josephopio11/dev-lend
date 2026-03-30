@@ -51,15 +51,26 @@ const DashboardPageContent = ({ equipment }: Props) => {
             .toLowerCase()
             .includes(search.toLowerCase()));
 
-      const matchesStatus = filter === "ALL" || item.status === filter;
+      const isBorrowed = item.lendingHistories[0]?.returnedAt === null;
+      const isAvailable =
+        !item.lendingHistories || item.lendingHistories[0]?.returnedAt !== null;
+
+      const matchesStatus =
+        filter === "ALL" ||
+        (filter === "AVAILABLE" && isAvailable) ||
+        (filter === "BORROWED" && isBorrowed);
 
       return matchesSearch && matchesStatus;
     }) || [];
 
   const stats = {
     total: equipment?.length || 0,
-    available: equipment?.filter((e) => e.status === "AVAILABLE").length || 0,
-    borrowed: equipment?.filter((e) => e.status === "BORROWED").length || 0,
+    available:
+      equipment?.filter((e) => e.lendingHistories[0].returnedAt !== null)
+        .length || 0,
+    borrowed:
+      equipment?.filter((e) => e.lendingHistories[0].returnedAt === null)
+        .length || 0,
   };
 
   return (

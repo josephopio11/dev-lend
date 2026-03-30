@@ -81,9 +81,7 @@ const HistoryModal = ({ equipmentId, equipmentName }: HistoryModalProps) => {
             <span>
               To view the full record{" "}
               <Button asChild variant={"link"} className="px-0 mx-0">
-                <Link href={`/dashboard/history/${equipmentId}`}>
-                  click here
-                </Link>
+                <Link href={`/dashboard/item/${equipmentId}`}>click here</Link>
               </Button>
             </span>
           </p>

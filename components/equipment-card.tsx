@@ -32,7 +32,7 @@ interface EquipmentCardProps {
 }
 
 const EquipmentCard = ({ equipment, index }: EquipmentCardProps) => {
-  const isAvailable = equipment.status === "AVAILABLE";
+  const isAvailable = equipment.lendingHistories[0].returnedAt !== null;
 
   const handleDelete = async () => {
     const data = await deleteEquipment(equipment.id);

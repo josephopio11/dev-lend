@@ -1,10 +1,14 @@
 import BackArrow from "@/components/back-arrow";
+import BorrowModal from "@/components/borrow-modal";
+import { ReturnButton } from "@/components/return-button";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardAction,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -18,6 +22,8 @@ import {
 } from "@/components/ui/table";
 import prisma from "@/lib/prisma";
 import { formatMyDate } from "@/lib/utils";
+import { format } from "date-fns";
+import { ArrowRightLeft, CheckCircle2, User } from "lucide-react";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -36,7 +42,7 @@ export default async function SingleItemPage({ params }: PageProps) {
         orderBy: {
           borrowedAt: "desc",
         },
-        take: 2,
+        // take: 2,
       },
       _count: {
         select: { lendingHistories: true },
@@ -47,6 +53,8 @@ export default async function SingleItemPage({ params }: PageProps) {
   console.log(item);
 
   if (!item) return null;
+
+  const isAvailable = item.lendingHistories[0].returnedAt !== null;
 
   return (
     <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl relative z-10 space-y-4">
@@ -67,7 +75,7 @@ export default async function SingleItemPage({ params }: PageProps) {
         <div className="flex gap-4 p-4 bg-card rounded-2xl border shadow-xl">
           <div className="text-center px-4">
             <div className="text-3xl font-display font-bold text-primary">
-              {/* {item._count.lendingHistories} */}
+              {item._count.lendingHistories}
             </div>
             <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
               Borrowings
@@ -99,7 +107,11 @@ export default async function SingleItemPage({ params }: PageProps) {
               <TableBody>
                 <TableRow>
                   <TableCell className="font-medium">Status</TableCell>
-                  <TableCell className="text-right">{item.status}</TableCell>
+                  <TableCell className="text-right">
+                    {item.lendingHistories[0].returnedAt === null
+                      ? "Available"
+                      : "Borrowed"}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className="font-medium">Date Added</TableCell>
@@ -116,17 +128,27 @@ export default async function SingleItemPage({ params }: PageProps) {
                 <TableRow>
                   <TableCell className="font-medium">Times Borrowed</TableCell>
                   <TableCell className="text-right">
-                    {/* {item._count.lendingHistories} */}
+                    {item._count.lendingHistories}
                   </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </CardContent>
+          <CardFooter>
+            {isAvailable ? (
+              <BorrowModal equipment={item} />
+            ) : (
+              <ReturnButton
+                id={item.id}
+                borrowedAt={item.lendingHistories[0].borrowedAt}
+              />
+            )}
+          </CardFooter>
         </Card>
 
         <Card className="flex-2 shadow-xl">
-          <div className="relative border-l-2 border-primary/20 mx-3 pl-6 space-y-8 ">
-            {/* {item?.lendingHistories.map((record) => (
+          <div className="relative border-l-2 border-primary/20 mx-3 pl-6 space-y-8 overflow-y-scroll ">
+            {item?.lendingHistories.map((record) => (
               <div key={record.id} className="relative">
                 <div className="absolute -left-7.75 top-1 h-2.5 w-2.5 rounded-full bg-primary border-4 border-background shadow-[0_0_0_2px_rgba(var(--primary),0.1)]" />
 
@@ -138,7 +160,7 @@ export default async function SingleItemPage({ params }: PageProps) {
                       </div>
                       <div>
                         <p className="font-bold text-sm leading-none">
-                          {record.borrowerName}
+                          {record.borrower.name}
                         </p>
                         <Badge
                           variant="outline"
@@ -182,7 +204,7 @@ export default async function SingleItemPage({ params }: PageProps) {
                   </div>
                 </div>
               </div>
-            ))} */}
+            ))}
           </div>
         </Card>
       </div>
