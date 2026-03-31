@@ -50,7 +50,7 @@ export default async function SingleItemPage({ params }: PageProps) {
     },
   });
 
-  console.log(item);
+  // console.log(item);
 
   if (!item) return null;
 

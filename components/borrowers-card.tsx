@@ -22,8 +22,8 @@ import {
   Phone,
   Trash2,
 } from "lucide-react";
-import Link from "next/link";
 import { toast } from "sonner";
+import EditBorrowerModal from "./edit-user-modal";
 import MemberHistory from "./member-history-modal";
 import { Badge } from "./ui/badge";
 
@@ -103,12 +103,13 @@ const BorrowerCard = ({ borrower, index }: BorrowerCardProps) => {
             </AlertDialogContent>
           </AlertDialog>
         </div>
-        <Link
+        {/* <Link
           href={`/dashboard/account/${borrower.id}`}
           className="font-display font-bold text-xl text-foreground leading-tight"
         >
           {borrower.name}
-        </Link>
+        </Link> */}
+        <EditBorrowerModal borrowerId={borrower.id} title={borrower.name} />
       </CardHeader>
       <CardContent className="pb-4 flex-1 relative z-10">
         <div className="flex items-start text-foreground p-4 rounded-xl border my-2 min-h-10 border-border/50">

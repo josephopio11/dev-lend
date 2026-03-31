@@ -16,7 +16,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: { default: "DevMGMT.msc", template: "%s | DevMGMT.msc" },
+  title: {
+    default: process.env.APP_NAME || "DevMGMT.msc",
+    template: "%s | DevMGMT.msc",
+  },
 };
 
 export default function RootLayout({

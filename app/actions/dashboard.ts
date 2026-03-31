@@ -107,7 +107,7 @@ export async function borrowItem(equipmentId: string, borrowerName: string) {
     },
   });
 
-  console.log({ data, newBorrower });
+  // console.log({ data, newBorrower });
 
   revalidatePath("/dashboard");
 
@@ -144,9 +144,9 @@ export async function returnItem(equipmentId: string, borrowedAt: Date) {
     },
   });
 
-  console.log("-------------------------------------------------");
-  console.log(data);
-  console.log("-------------------------------------------------");
+  // console.log("-------------------------------------------------");
+  // console.log(data);
+  // console.log("-------------------------------------------------");
 
   revalidatePath("/dashboard");
   return { data };

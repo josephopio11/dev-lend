@@ -17,7 +17,7 @@ const Navbar = async () => {
             <Package className="h-6 w-6" />
           </div>
           <span className="font-display font-bold text-xl tracking-tight">
-            DevMGMT.msc
+            {process.env.APP_NAME || "DevMGMT.msc"}
           </span>
         </Link>
 

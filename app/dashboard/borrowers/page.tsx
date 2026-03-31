@@ -4,7 +4,7 @@ import BorrowersPageContent from "./BorrowersPageContent";
 export default async function BorrowersPage() {
   const borrowers = await getAllBorrowers();
 
-  console.log(borrowers);
+  // console.log(borrowers);
 
   if (!borrowers) return null;
 

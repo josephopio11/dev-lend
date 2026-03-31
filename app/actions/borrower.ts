@@ -2,6 +2,7 @@
 
 import { requireAuth } from "@/lib/auth-server";
 import prisma from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export async function searchBorrowers(text: string) {
   const session = await requireAuth();
@@ -64,13 +65,55 @@ export async function getAllBorrowers() {
 export type AllBorrowersType = Awaited<ReturnType<typeof getAllBorrowers>>;
 export type SingleBorrowerType = AllBorrowersType[number];
 
+export async function getBorrower(id: string) {
+  const session = await requireAuth();
+  const data = await prisma.borrower.findUnique({
+    where: { id },
+  });
+
+  // console.log(data);
+  return data;
+}
+
+export type GetBorrowerType = Awaited<ReturnType<typeof getBorrower>>;
+
+export async function updateBorrower(
+  id: string,
+  name: string,
+  email: string,
+  position: string,
+  phone?: string,
+  address?: string,
+) {
+  const session = await requireAuth();
+
+  const updatedBorrower = await prisma.borrower.update({
+    where: { id },
+    data: {
+      name: name,
+      email: email,
+      phone: phone,
+      address: address,
+      position: position,
+    },
+  });
+
+  revalidatePath("/dashboard/borrowers");
+
+  if (updatedBorrower) {
+    return { success: true, message: "Borrower updated successfully!" };
+  }
+
+  return { success: false, message: "Failed to update borrower!" };
+}
+
 export async function deleteBorrower(id: string) {
   const session = await requireAuth();
   // const data = await prisma.borrower.delete({
   //   where: { id },
   // });
 
-  console.log(id);
+  // console.log(id);
   return null;
 }
 
