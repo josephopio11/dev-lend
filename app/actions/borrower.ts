@@ -57,6 +57,9 @@ export async function getAllBorrowers() {
         },
       },
     },
+    orderBy: {
+      name: "asc",
+    },
   });
 
   return data;
@@ -72,6 +75,7 @@ export async function getBorrower(id: string) {
   });
 
   // console.log(data);
+  revalidatePath("/dashboard/borrowers");
   return data;
 }
 
@@ -80,8 +84,8 @@ export type GetBorrowerType = Awaited<ReturnType<typeof getBorrower>>;
 export async function updateBorrower(
   id: string,
   name: string,
-  email: string,
-  position: string,
+  email?: string,
+  position?: string,
   phone?: string,
   address?: string,
 ) {
@@ -97,6 +101,8 @@ export async function updateBorrower(
       position: position,
     },
   });
+
+  console.log(updatedBorrower);
 
   revalidatePath("/dashboard/borrowers");
 
