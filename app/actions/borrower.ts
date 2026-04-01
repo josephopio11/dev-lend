@@ -84,12 +84,18 @@ export type GetBorrowerType = Awaited<ReturnType<typeof getBorrower>>;
 export async function updateBorrower(
   id: string,
   name: string,
-  email?: string,
-  position?: string,
-  phone?: string,
-  address?: string,
+  email?: string | null,
+  position?: string | null,
+  phone?: string | null,
+  address?: string | null,
 ) {
   const session = await requireAuth();
+
+  if (!id) return { success: false, message: "Borrower not found!" };
+  if (email === "") email = null;
+  if (position === "") position = null;
+  if (phone === "") phone = null;
+  if (address === "") address = null;
 
   const updatedBorrower = await prisma.borrower.update({
     where: { id },
