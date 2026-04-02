@@ -1,6 +1,6 @@
 "use client";
 
-import { AllBorrowersType } from "@/app/actions/borrower";
+import type { AllBorrowersType } from "@/app/actions/borrower";
 import MenuWithBackArrow from "@/components/back-arrow";
 import BorrowerCard from "@/components/borrowers-card";
 import { Button } from "@/components/ui/button";
