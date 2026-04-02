@@ -16,6 +16,14 @@ export async function requireAuth() {
   return session;
 }
 
+export async function requireAdmin() {
+  const session = await requireAuth();
+  if (session.user.role !== "admin") {
+    redirect("/");
+  }
+  return session;
+}
+
 export async function getAllUsers() {
   const users = await auth.api.listUsers({
     query: {

@@ -1,6 +1,7 @@
 "use client";
 
 import EditUserModal from "@/components/admin/edit-user-modal";
+import ImpersonateUserModal from "@/components/admin/impersonate-user-modal";
 import { Badge } from "@/components/ui/badge";
 import {
   CardContent,
@@ -24,7 +25,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { IconBan, IconTrash, IconUserPin } from "@tabler/icons-react";
+import { IconBan, IconTrash } from "@tabler/icons-react";
 import { UserWithRole } from "better-auth/plugins";
 import { ArrowDown, ArrowUp, ArrowUpDown, Search } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -235,10 +236,7 @@ export function UsersTable({ users }: UsersTableProps) {
                         className="w-4 h-4 text-red-600"
                         title="Ban User"
                       />
-                      <IconUserPin
-                        className="w-4 h-4 text-orange-500"
-                        title="Impersonate User"
-                      />
+                      <ImpersonateUserModal id={user.id} name={user.name} />
                     </TableCell>
                   </TableRow>
                 ))}

@@ -1,6 +1,7 @@
 import AdminBackButton from "@/components/admin/admin-back-button";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { requireAdmin } from "@/lib/auth-server";
 import {
   IconUser,
   IconUserDown,
@@ -13,7 +14,10 @@ type LayoutProps = {
   children: React.ReactNode;
 };
 
-export default function AdminLayout({ children }: LayoutProps) {
+export default async function AdminLayout({ children }: LayoutProps) {
+  const user = await requireAdmin();
+
+  console.log(user);
   return (
     <div>
       <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl relative z-10">
@@ -37,7 +41,7 @@ export default function AdminLayout({ children }: LayoutProps) {
           <div className="w-full flex-1 ">
             <Card className="shadow-xl ">
               <CardContent>
-                <div className="md:flex grid grid-cols-5 gap-2 w-full space-y-6 justify-between md:flex-col md:justify-start">
+                <div className="md:flex grid grid-cols-5 gap-2 w-full space-y-2 justify-between md:flex-col md:justify-start">
                   <Button asChild>
                     <Link href="/admin">
                       <IconUser className=" h-4 w-4" />
@@ -62,7 +66,7 @@ export default function AdminLayout({ children }: LayoutProps) {
                       Admins
                     </Link>
                   </Button>
-                  <Button asChild variant={"link"}>
+                  <Button asChild variant={"outline"}>
                     <Link href="/admin/users?role=user">
                       <IconUserDown className=" h-4 w-4" />
                       Users
