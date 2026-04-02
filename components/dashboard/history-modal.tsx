@@ -1,9 +1,10 @@
 "use client";
 
 import {
-  BorrowersHistoryType,
-  getBorrowerHistory,
-} from "@/app/actions/borrower";
+  EquipmentHistoryType,
+  getEquipmentHistory,
+} from "@/app/actions/dashboard";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,21 +13,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { format } from "date-fns";
 import { ArrowRightLeft, CheckCircle2, History, User } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Badge } from "./ui/badge";
-import { ScrollArea } from "./ui/scroll-area";
 
-interface MemberHistoryProps {
-  borrowerId: string;
-  borrowerName: string;
+interface HistoryModalProps {
+  equipmentId: string;
+  equipmentName: string;
 }
 
-const MemberHistory = ({ borrowerId, borrowerName }: MemberHistoryProps) => {
+const HistoryModal = ({ equipmentId, equipmentName }: HistoryModalProps) => {
   const [open, setOpen] = useState(false);
-  const [history, setHistory] = useState<BorrowersHistoryType>(null);
+  const [history, setHistory] = useState<EquipmentHistoryType>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -36,7 +37,7 @@ const MemberHistory = ({ borrowerId, borrowerName }: MemberHistoryProps) => {
         position: "bottom-center",
         duration: 1000,
       });
-      const data = await getBorrowerHistory(borrowerId);
+      const data = await getEquipmentHistory(equipmentId);
       if (!cancelled) {
         setHistory(data);
       }
@@ -47,7 +48,7 @@ const MemberHistory = ({ borrowerId, borrowerName }: MemberHistoryProps) => {
     return () => {
       cancelled = true;
     };
-  }, [borrowerId]);
+  }, [equipmentId]);
 
   if (!history) {
     return null;
@@ -73,19 +74,16 @@ const MemberHistory = ({ borrowerId, borrowerName }: MemberHistoryProps) => {
           </DialogTitle>
           <p className="text-sm text-muted-foreground">
             <span className="text-foreground font-semibold">
-              {borrowerName}
+              {equipmentName}
             </span>{" "}
-            has borrowed {history._count.lendingHistories} times so far. The
-            recent {history.lendingHistories.length} items borrowed can ben seen
-            below <br />
-            {/* <span>
+            has been borrowed {history._count.lendingHistories} times so far.{" "}
+            <br />
+            <span>
               To view the full record{" "}
               <Button asChild variant={"link"} className="px-0 mx-0">
-                <Link href={`/dashboard/history/${borrowerId}`}>
-                  click here
-                </Link>
+                <Link href={`/dashboard/item/${equipmentId}`}>click here</Link>
               </Button>
-            </span> */}
+            </span>
           </p>
         </DialogHeader>
 
@@ -100,7 +98,6 @@ const MemberHistory = ({ borrowerId, borrowerName }: MemberHistoryProps) => {
               </div>
             ) : (
               <div className="relative border-l-2 border-primary/20 ml-3 pl-6 space-y-8 ">
-                {/* <pre>{JSON.stringify(history.lendingHistories, null, 2)}</pre> */}
                 {history.lendingHistories.map((record) => (
                   <div key={record.id} className="relative">
                     <div className="absolute -left-7.75 top-1 h-2.5 w-2.5 rounded-full bg-primary border-4 border-background shadow-[0_0_0_2px_rgba(var(--primary),0.1)]" />
@@ -113,7 +110,7 @@ const MemberHistory = ({ borrowerId, borrowerName }: MemberHistoryProps) => {
                           </div>
                           <div>
                             <p className="font-bold text-sm leading-none">
-                              {record.equipment.name}
+                              {record.borrower.name}
                             </p>
                             <Badge
                               variant="outline"
@@ -167,4 +164,4 @@ const MemberHistory = ({ borrowerId, borrowerName }: MemberHistoryProps) => {
   );
 };
 
-export default MemberHistory;
+export default HistoryModal;

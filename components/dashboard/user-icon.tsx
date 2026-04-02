@@ -1,13 +1,7 @@
 "use client";
 
-import { signOut } from "@/lib/auth-client";
-import { createNameAvatar } from "@/lib/utils";
-import { IconLogout, IconUserCircle } from "@tabler/icons-react";
-import { User } from "better-auth";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,9 +10,30 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
+import { signOut } from "@/lib/auth-client";
+import { createNameAvatar } from "@/lib/utils";
+import { IconLogout, IconUserCircle, IconUsers } from "@tabler/icons-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-function UserIcon({ user }: { user: User }) {
+type UserIconProps = {
+  user: {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    email: string;
+    emailVerified: boolean;
+    name: string;
+    image?: string | null | undefined;
+    banned: boolean | null | undefined;
+    role?: string | null | undefined;
+    banReason?: string | null | undefined;
+    banExpires?: Date | null | undefined;
+  };
+};
+
+function UserIcon({ user }: UserIconProps) {
   const router = useRouter();
   return (
     <DropdownMenu>
@@ -71,13 +86,16 @@ function UserIcon({ user }: { user: User }) {
               Account
             </Link>
           </DropdownMenuItem>
+          {user.role === "admin" && (
+            <DropdownMenuItem asChild>
+              <Link href="/admin">
+                <IconUsers />
+                Manage Users
+              </Link>
+            </DropdownMenuItem>
+          )}
+
           {/* <DropdownMenuItem asChild>
-            <Link href="/dashboard/billing">
-              <IconCreditCard />
-              Billing
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
             <Link href="/dashboard/notifications">
               <IconNotification />
               Notifications

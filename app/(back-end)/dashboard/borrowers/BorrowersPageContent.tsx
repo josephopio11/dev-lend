@@ -1,8 +1,8 @@
 "use client";
 
 import type { AllBorrowersType } from "@/app/actions/borrower";
-import MenuWithBackArrow from "@/components/back-arrow";
-import BorrowerCard from "@/components/borrowers-card";
+import MenuWithBackArrow from "@/components/dashboard/back-arrow";
+import BorrowerCard from "@/components/dashboard/borrowers-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";

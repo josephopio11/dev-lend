@@ -5,7 +5,7 @@ import { useSession } from "@/lib/auth-client";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import UserIcon from "../user-icon";
+import UserIcon from "../dashboard/user-icon";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -22,6 +22,7 @@ export function Header() {
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
+            {/** biome-ignore lint/a11y/noSvgWithoutTitle: <Why reinvent the wheel when you can use what is working> */}
             <svg
               className="h-5 w-5 text-primary-foreground"
               fill="none"
@@ -77,6 +78,7 @@ export function Header() {
           className="md:hidden"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
+          type="button"
         >
           {mobileMenuOpen ? (
             <X className="h-6 w-6" />

@@ -1,8 +1,8 @@
 import { requireAuth } from "@/lib/auth-server";
 import { Package } from "lucide-react";
 import Link from "next/link";
-import RegisterEquipmentModal from "./RegisterEquipmentModal";
-import UserIcon from "./user-icon";
+import RegisterEquipmentModal from "./dashboard/RegisterEquipmentModal";
+import UserIcon from "./dashboard/user-icon";
 
 const Navbar = async () => {
   const { user } = await requireAuth();

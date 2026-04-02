@@ -1,7 +1,8 @@
 "use client";
 
-import MenuWithBackArrow from "@/components/back-arrow";
-import EquipmentCard from "@/components/equipment-card";
+import { AllEquipmentType } from "@/app/actions/dashboard";
+import MenuWithBackArrow from "@/components/dashboard/back-arrow";
+import EquipmentCard from "@/components/dashboard/equipment-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
@@ -9,7 +10,6 @@ import { useSession } from "@/lib/auth-client";
 import { Boxes, PackageSearch } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AllEquipmentType } from "../actions/dashboard";
 
 type Props = {
   equipment: AllEquipmentType;

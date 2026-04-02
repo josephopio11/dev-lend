@@ -1,12 +1,14 @@
 "use server";
 
 import { requireAuth } from "@/lib/auth-server";
+import { revalidatePath } from "next/cache";
 // import { EquipmentStatus } from "@/lib/generated/prisma/enums";
 import prisma from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
 
 export async function getAllEquipments() {
   const session = await requireAuth();
+
+  console.log(session);
 
   const data = await prisma.equipment.findMany({
     where: {

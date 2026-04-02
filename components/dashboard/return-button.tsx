@@ -1,10 +1,10 @@
 "use client";
 
 import { returnItem } from "@/app/actions/dashboard";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ArrowRightLeft } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "./ui/button";
 
 type ReturnButtonProps = {
   id: string;

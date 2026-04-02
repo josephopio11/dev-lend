@@ -1,6 +1,6 @@
-import MenuWithBackArrow from "@/components/back-arrow";
-import BorrowModal from "@/components/borrow-modal";
-import { ReturnButton } from "@/components/return-button";
+import MenuWithBackArrow from "@/components/dashboard/back-arrow";
+import BorrowModal from "@/components/dashboard/borrow-modal";
+import { ReturnButton } from "@/components/dashboard/return-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {

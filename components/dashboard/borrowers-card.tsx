@@ -10,6 +10,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -24,9 +25,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
-import EditBorrowerModal from "./edit-user-modal";
+import EditBorrowerModal from "./edit-borrower-modal";
 import MemberHistory from "./member-history-modal";
-import { Badge } from "./ui/badge";
 
 interface BorrowerCardProps {
   borrower: SingleBorrowerType;

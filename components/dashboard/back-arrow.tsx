@@ -1,11 +1,11 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { IconDashboard } from "@tabler/icons-react";
 import { ArrowLeft, UserCircle2Icon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Button } from "./ui/button";
 
 const MenuWithBackArrow = () => {
   const router = useRouter();
