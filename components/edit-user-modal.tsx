@@ -42,16 +42,11 @@ interface EditBorrowerModalProps {
 }
 
 const positions = [
-  { label: "Executive Principal", value: "Executive Principal" },
+  { label: "Student", value: "Student" },
+  { label: "Teacher", value: "Teacher" },
   { label: "Head of Primary", value: "Head of Primary" },
   { label: "Head Of Secondary", value: "Head Of Secondary" },
   { label: "Finance Manager", value: "Finance Manager" },
-  { label: "Deputy Head of Primary", value: "Deputy Head of Primary" },
-  { label: "Deputy Head of Secondary", value: "Deputy Head of Secondary" },
-  {
-    label: "Whole School Assistant Head",
-    value: "Whole School Assistant Head",
-  },
   { label: "Homeroom Teacher", value: "Homeroom Teacher" },
   { label: "Teaching Assistant", value: "Teaching Assistant" },
   { label: "Foundation Stage Teacher", value: "Foundation Stage Teacher" },
@@ -62,8 +57,14 @@ const positions = [
   { label: "Admin Assistant", value: "Admin Assistant" },
   { label: "Head Of Department", value: "Head Of Department" },
   { label: "Head of Inclusion", value: "Head of Inclusion" },
+  { label: "Deputy Head of Primary", value: "Deputy Head of Primary" },
+  { label: "Deputy Head of Secondary", value: "Deputy Head of Secondary" },
   { label: "Head of Whole School EAL", value: "Head of Whole School EAL" },
-  { label: "Teacher", value: "Teacher" },
+  {
+    label: "Whole School Assistant Head",
+    value: "Whole School Assistant Head",
+  },
+  { label: "Executive Principal", value: "Executive Principal" },
 ] as const;
 
 const formSchema = z.object({
@@ -215,6 +216,8 @@ const EditBorrowerModal = ({ borrowerId, title }: EditBorrowerModalProps) => {
                       <FieldLabel htmlFor="phone">Phone Number</FieldLabel>
                       <Input
                         id="phone"
+                        type="tel"
+                        autoComplete="tel"
                         placeholder="+60 12-345 6789"
                         className="h-11"
                         {...form.register("phone")}

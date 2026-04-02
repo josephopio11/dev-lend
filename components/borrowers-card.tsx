@@ -22,6 +22,7 @@ import {
   Phone,
   Trash2,
 } from "lucide-react";
+import Link from "next/link";
 import { toast } from "sonner";
 import EditBorrowerModal from "./edit-user-modal";
 import MemberHistory from "./member-history-modal";
@@ -179,17 +180,17 @@ const BorrowerCard = ({ borrower, index }: BorrowerCardProps) => {
               {borrower.position}
             </span>
           </div>
-          <div className="flex items-center text-muted-foreground pt-2 border-t border-border/50">
+          <div className="flex items-center justify-start text-muted-foreground pt-2 border-t border-border/50">
             <Mail className="h-4 w-4 mr-2 text-primary/70" />
             <span className="font-mono font-bold text-xs">
-              {borrower.email}
+              <Link href={`mailto:${borrower.email}`}>{borrower.email}</Link>
             </span>
           </div>
 
           <div className="flex items-center text-muted-foreground pt-2 border-t border-border/50">
             <Phone className="h-4 w-4 mr-2 mt-0.5 text-primary/70" />
             <span className="font-mono font-bold text-xs">
-              {borrower.phone}
+              <Link href={`tel:${borrower.phone}`}>{borrower.phone}</Link>
             </span>
           </div>
         </div>
