@@ -1,7 +1,7 @@
-"use client";
+import { getStats } from "@/app/actions/users";
+import { UserDashboard } from "@/components/admin/stats/dashboard";
 
-const AdminPage = () => {
-  return <>{`Content goes here`}</>;
-};
-
-export default AdminPage;
+export default async function AdminPage() {
+  const stats = await getStats();
+  return <UserDashboard data={stats} />;
+}

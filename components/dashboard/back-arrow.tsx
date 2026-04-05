@@ -17,9 +17,10 @@ const MenuWithBackArrow = () => {
           variant="outline"
           className=" rounded-lg shadow-sm"
           onClick={() => router.back()}
+          title="Back"
         >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back
+          <ArrowLeft className="md:mr-2 h-4 w-4" />
+          <span className="hidden md:inline">Back</span>
         </Button>
       )}
       <Button
@@ -29,13 +30,14 @@ const MenuWithBackArrow = () => {
           pathname === "/dashboard" && "bg-primary text-white",
         )}
         asChild
+        title="Dashboard"
       >
         <Link
           href="/dashboard"
           className="text-sm font-medium  transition-colors text-muted-foreground hover:text-primary"
         >
-          <IconDashboard className="mr-2 h-4 w-4" />
-          Dashboard
+          <IconDashboard className="md:mr-2 h-4 w-4" />
+          <span className="hidden md:inline">Dashboard</span>
         </Link>
       </Button>
       <Button
@@ -45,13 +47,14 @@ const MenuWithBackArrow = () => {
           pathname === "/dashboard/borrowers" && "bg-primary text-white",
         )}
         asChild
+        title="Borrowers"
       >
         <Link
           href="/dashboard/borrowers"
           className="text-sm font-medium transition-colors text-muted-foreground hover:text-primary"
         >
-          <UserCircle2Icon className="mr-2 h-4 w-4" />
-          Borrowers
+          <UserCircle2Icon className="md:mr-2 h-4 w-4" />
+          <span className="hidden md:inline">Borrowers</span>
         </Link>
       </Button>{" "}
     </div>

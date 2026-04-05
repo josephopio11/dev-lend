@@ -45,12 +45,12 @@ const BorrowerCard = ({ borrower, index }: BorrowerCardProps) => {
 
   return (
     <Card
-      className="group relative overflow-hidden rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm shadow-sm hover:shadow-xl hover:border-primary/20 transition-all duration-300 flex flex-col animate-in-stagger"
+      className="group relative overflow-hidden rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm shadow-sm hover:shadow-xl hover:border-primary/20 transition-all duration-300 flex flex-col animate-in-stagger "
       style={{ animationDelay: `${index * 50}ms` }}
     >
       {/* Decorative gradient blob */}
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors pointer-events-none" />
-      <CardHeader className="pb-4 relative z-10">
+      <CardHeader className="pb-4 relative z-10 px-3">
         <div className="flex justify-between items-start mb-2">
           <div className="flex gap-2 items-center">
             <Badge
@@ -112,8 +112,8 @@ const BorrowerCard = ({ borrower, index }: BorrowerCardProps) => {
         </Link> */}
         <EditBorrowerModal borrowerId={borrower.id} title={borrower.name} />
       </CardHeader>
-      <CardContent className="pb-4 flex-1 relative z-10">
-        <div className="flex items-start text-foreground p-4 rounded-xl border my-2 min-h-10 border-border/50">
+      <CardContent className="pb-4 flex-1 relative z-10 px-3">
+        <div className="flex items-start text-foreground bg-foreground/5 p-2 rounded-xl border my-2 min-h-10 border-border/50">
           <Box
             className={cn(
               "h-4 w-4 mr-2 mt-0.5 ",
@@ -173,22 +173,22 @@ const BorrowerCard = ({ borrower, index }: BorrowerCardProps) => {
           </div>
         </div>
 
-        <div className="space-y-3 bg-muted/30 p-4 rounded-xl text-sm">
+        <div className="space-y-3 bg-foreground/5 border border-foreground/10 p-2 rounded-xl text-sm">
           <div className="flex items-center text-muted-foreground">
-            <Armchair className="h-4 w-4 mr-2 text-primary/70" />
+            <Armchair className="h-4 w-4 mr-1 text-primary/70" />
             <span className="font-mono font-bold text-xs">
               {borrower.position}
             </span>
           </div>
           <div className="flex items-center justify-start text-muted-foreground pt-2 border-t border-border/50">
-            <Mail className="h-4 w-4 mr-2 text-primary/70" />
+            <Mail className="h-4 w-4 mr-1 text-primary/70" />
             <span className="font-mono font-bold text-xs">
               <Link href={`mailto:${borrower.email}`}>{borrower.email}</Link>
             </span>
           </div>
 
           <div className="flex items-center text-muted-foreground pt-2 border-t border-border/50">
-            <Phone className="h-4 w-4 mr-2 mt-0.5 text-primary/70" />
+            <Phone className="h-4 w-4 mr-1 mt-0.5 text-primary/70" />
             <span className="font-mono font-bold text-xs">
               <Link href={`tel:${borrower.phone}`}>{borrower.phone}</Link>
             </span>

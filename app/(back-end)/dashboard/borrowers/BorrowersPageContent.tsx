@@ -46,14 +46,12 @@ const BorrowersPageContent = ({ borrowers }: Props) => {
     borrowers?.filter((person) => {
       const matchesSearch =
         person.name.toLowerCase().includes(search.toLowerCase()) ||
-        person.id.toLowerCase().includes(search.toLowerCase());
-      //  ||
-      // (person.lendingHistories[0]?.borrower?.name &&
-      //   person.lendingHistories[0].borrower.name
-      //     .toLowerCase()
-      //     .includes(search.toLowerCase()));
-
-      //   const matchesStatus = filter === "ALL" || person.status === filter;
+        person.id.toLowerCase().includes(search.toLowerCase()) ||
+        person.position?.toLowerCase().includes(search.toLowerCase()) ||
+        person.email?.toLowerCase().includes(search.toLowerCase()) ||
+        person.lendingHistories[0]?.equipment?.name
+          ?.toLowerCase()
+          .includes(search.toLowerCase());
 
       return matchesSearch; //&& matchesStatus;
     }) || [];
@@ -117,7 +115,7 @@ const BorrowersPageContent = ({ borrowers }: Props) => {
         <div className="relative flex-1 w-full">
           <PackageSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
-            placeholder="Search by name, serial, or borrower..."
+            placeholder="Search by name, id, position, email or the last item someone borrowed..."
             className="pl-10 h-12 rounded-xl border-none bg-transparent shadow-none focus-visible:ring-1 focus-visible:ring-primary/50 text-base"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -169,7 +167,7 @@ const BorrowersPageContent = ({ borrowers }: Props) => {
       )}
 
       {filteredBorrowers.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filteredBorrowers.map((borrower, index) => (
             <BorrowerCard key={borrower.id} borrower={borrower} index={index} />
           ))}

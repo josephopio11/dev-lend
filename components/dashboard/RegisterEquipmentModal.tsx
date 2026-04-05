@@ -63,7 +63,7 @@ const RegisterEquipmentModal = () => {
         <DialogTrigger asChild>
           <Button className="gap-2 text-white rounded-xl shadow-md hover:shadow-lg transition-all active:scale-95">
             <Plus className="h-4 w-4" />
-            <span>Register Item</span>
+            <span className="hidden md:inline">Register Item</span>
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-106.25 rounded-2xl">
