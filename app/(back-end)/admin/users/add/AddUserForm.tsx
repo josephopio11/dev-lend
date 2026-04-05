@@ -88,14 +88,14 @@ export function AddUserForm() {
       role: formData.role as "user" | "admin",
     });
 
-    const submittedData = {
-      email: formData.email,
-      password: formData.password,
-      name: formData.name,
-      role: formData.role,
-    };
+    // const submittedData = {
+    //   email: formData.email,
+    //   password: formData.password,
+    //   name: formData.name,
+    //   role: formData.role,
+    // };
 
-    console.log("User data submitted:", newUser);
+    // console.log("User data submitted:", newUser);
 
     if (error?.message) {
       toast.error(error.message);
@@ -106,6 +106,10 @@ export function AddUserForm() {
       password: "",
       name: "",
       role: "user",
+    });
+
+    toast.success("User created successfully", {
+      description: `${newUser?.user.name} has been created`,
     });
     setSubmitSuccess(true);
     setIsSubmitting(false);

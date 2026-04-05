@@ -108,7 +108,7 @@ export async function updateBorrower(
     },
   });
 
-  console.log(updatedBorrower);
+  // console.log(updatedBorrower);
 
   revalidatePath("/dashboard/borrowers");
 

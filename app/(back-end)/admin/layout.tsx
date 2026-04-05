@@ -8,9 +8,10 @@ type LayoutProps = {
 };
 
 export default async function AdminLayout({ children }: LayoutProps) {
-  const user = await requireAdmin();
+  // const user =
+  await requireAdmin();
 
-  console.log(user);
+  // console.log(user);
   return (
     <div>
       <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl relative z-10">
