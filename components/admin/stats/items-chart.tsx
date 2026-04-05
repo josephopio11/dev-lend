@@ -1,33 +1,50 @@
-"use client"
+"use client";
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Cell } from "recharts"
+import {
+  Bar,
+  BarChart,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import type {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
 
 interface ItemCount {
-  id: string
-  name: string
-  count: number
+  id: string;
+  name: string;
+  count: number;
 }
 
 interface ItemsChartProps {
-  data: ItemCount[]
+  data: ItemCount[];
 }
 
 const COLORS = [
   "oklch(0.65 0.2 280)",
   "oklch(0.55 0.18 180)",
   "oklch(0.7 0.18 60)",
-]
+];
 
 export function ItemsChart({ data }: ItemsChartProps) {
   const chartData = data.map((item) => ({
-    name: item.name.length > 20 ? item.name.substring(0, 20) + "..." : item.name,
+    name:
+      item.name.length > 20 ? item.name.substring(0, 20) + "..." : item.name,
     fullName: item.name,
     count: item.count,
-  }))
+  }));
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={chartData} layout="vertical" margin={{ left: 0, right: 20 }}>
+      <BarChart
+        data={chartData}
+        layout="vertical"
+        margin={{ left: 0, right: 20 }}
+      >
         <XAxis
           type="number"
           stroke="oklch(0.65 0 0)"
@@ -53,10 +70,14 @@ export function ItemsChart({ data }: ItemsChartProps) {
             color: "oklch(0.95 0 0)",
           }}
           labelStyle={{ color: "oklch(0.95 0 0)" }}
-          formatter={(value: number, _name: string, props: { payload: { fullName: string } }) => [
-            value,
-            props.payload.fullName,
-          ]}
+          formatter={(
+            value: ValueType | undefined,
+            _name: NameType | undefined,
+            props,
+          ) => {
+            const num = typeof value === "number" ? value : 0;
+            return [num, props.payload.fullName];
+          }}
         />
         <Bar dataKey="count" radius={[0, 4, 4, 0]}>
           {chartData.map((_, index) => (
@@ -65,5 +86,5 @@ export function ItemsChart({ data }: ItemsChartProps) {
         </Bar>
       </BarChart>
     </ResponsiveContainer>
-  )
+  );
 }
