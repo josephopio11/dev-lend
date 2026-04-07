@@ -1,8 +1,12 @@
 "use client";
 
+import BanUserModal from "@/components/admin/ban-user-modal";
+import ChangePasswordModal from "@/components/admin/change-password-modal";
+import DeleteUserModal from "@/components/admin/delete-user-modal";
 import EditUserModal from "@/components/admin/edit-user-modal";
 import ImpersonateUserModal from "@/components/admin/impersonate-user-modal";
-import { Badge } from "@/components/ui/badge";
+import RevokeAllOtherSessionsModal from "@/components/admin/revoke-all-sessions-modal";
+import UnbanUserModal from "@/components/admin/unban-user-modal";
 import {
   CardContent,
   CardDescription,
@@ -25,7 +29,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { IconBan, IconTrash } from "@tabler/icons-react";
+import { cn } from "@/lib/utils";
+import { IconBan, IconStar } from "@tabler/icons-react";
 import { UserWithRole } from "better-auth/plugins";
 import { ArrowDown, ArrowUp, ArrowUpDown, Search } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -192,15 +197,7 @@ export function UsersTable({ users }: UsersTableProps) {
                       <SortIcon field="email" />
                     </div>
                   </TableHead>
-                  <TableHead
-                    className="cursor-pointer select-none hover:bg-muted/50"
-                    onClick={() => handleSort("role")}
-                  >
-                    <div className="flex items-center">
-                      Role
-                      <SortIcon field="role" />
-                    </div>
-                  </TableHead>
+
                   <TableHead
                     className="cursor-pointer select-none hover:bg-muted/50"
                     onClick={() => handleSort("createdAt")}
@@ -210,32 +207,49 @@ export function UsersTable({ users }: UsersTableProps) {
                       <SortIcon field="createdAt" />
                     </div>
                   </TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead className="text-end">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredAndSortedUsers.map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell className="font-medium">{user.name}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>
-                      <Badge variant={getRoleBadgeVariant(user.role)}>
-                        {user.role}
-                      </Badge>
+                  <TableRow
+                    key={user.id}
+                    className={cn(
+                      user.banned && "bg-primary/30 text-muted-foreground",
+                    )}
+                  >
+                    <TableCell className="font-medium flex gap-2">
+                      {user.name}
+                      {user.banned && (
+                        <IconBan className="w-4 h-4 text-destructive" />
+                      )}
+                      {user.role === "admin" && (
+                        <IconStar className="w-4 h-4 text-yellow-500" />
+                      )}
                     </TableCell>
+                    <TableCell>{user.email}</TableCell>
+
                     <TableCell className="text-muted-foreground">
                       {formatDate(user.createdAt)}
                     </TableCell>
-                    <TableCell className="max-w-50 truncate font-mono text-xs text-muted-foreground flex gap-1">
+                    <TableCell className="items-center justify-end truncate font-mono text-xs text-muted-foreground flex gap-1">
                       <EditUserModal />
-                      <IconTrash
-                        className="w-4 h-4 text-destructive"
-                        title="Delete User"
+                      <ChangePasswordModal
+                        id={user.id}
+                        name={user.name}
+                        email={user.email}
                       />
-                      <IconBan
-                        className="w-4 h-4 text-red-600"
-                        title="Ban User"
+                      <RevokeAllOtherSessionsModal
+                        id={user.id}
+                        name={user.name}
+                        email={user.email}
                       />
+                      <DeleteUserModal id={user.id} name={user.name} />
+                      {user.banned ? (
+                        <UnbanUserModal id={user.id} name={user.name} />
+                      ) : (
+                        <BanUserModal id={user.id} name={user.name} />
+                      )}
                       <ImpersonateUserModal id={user.id} name={user.name} />
                     </TableCell>
                   </TableRow>

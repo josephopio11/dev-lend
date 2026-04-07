@@ -1,5 +1,20 @@
-"use client";
-
+import {
+  formatIPAddress,
+  formatRelativeTime,
+  isSessionExpired,
+  parseUserAgent,
+} from "@/lib/utils";
+import {
+  AlertTriangle,
+  Clock,
+  Globe,
+  Hash,
+  Monitor,
+  Shield,
+  Smartphone,
+  Trash2,
+} from "lucide-react";
+import { useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,115 +24,37 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  AlertTriangle,
-  Clock,
-  Globe,
-  MapPin,
-  Monitor,
-  Shield,
-  Smartphone,
-  Tablet,
-  Trash2,
-} from "lucide-react";
-import { useState } from "react";
+} from "../ui/alert-dialog";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { Card, CardContent } from "../ui/card";
 
 interface Session {
   id: string;
-  device: string;
-  deviceType: "desktop" | "mobile" | "tablet";
-  browser: string;
-  location: string;
+  token: string;
+  createdAt: string;
+  updatedAt: string;
+  expiresAt: string;
   ipAddress: string;
-  lastActive: string;
-  isCurrent: boolean;
+  userAgent: string;
+  userId: string;
+  impersonatedBy: string | null;
 }
 
-const mockSessions: Session[] = [
-  {
-    id: "1",
-    device: "MacBook Pro",
-    deviceType: "desktop",
-    browser: "Chrome 122",
-    location: "San Francisco, CA",
-    ipAddress: "192.168.1.1",
-    lastActive: "Active now",
-    isCurrent: true,
-  },
-  {
-    id: "2",
-    device: "iPhone 15 Pro",
-    deviceType: "mobile",
-    browser: "Safari 17",
-    location: "San Francisco, CA",
-    ipAddress: "192.168.1.2",
-    lastActive: "2 hours ago",
-    isCurrent: false,
-  },
-  {
-    id: "3",
-    device: "iPad Air",
-    deviceType: "tablet",
-    browser: "Safari 17",
-    location: "New York, NY",
-    ipAddress: "10.0.0.1",
-    lastActive: "Yesterday",
-    isCurrent: false,
-  },
-  {
-    id: "4",
-    device: "Windows PC",
-    deviceType: "desktop",
-    browser: "Firefox 123",
-    location: "Austin, TX",
-    ipAddress: "172.16.0.1",
-    lastActive: "3 days ago",
-    isCurrent: false,
-  },
-  {
-    id: "5",
-    device: "Samsung Galaxy S24",
-    deviceType: "mobile",
-    browser: "Chrome 122",
-    location: "Chicago, IL",
-    ipAddress: "192.168.2.1",
-    lastActive: "1 week ago",
-    isCurrent: false,
-  },
-  {
-    id: "6",
-    device: "Linux Desktop",
-    deviceType: "desktop",
-    browser: "Brave 1.63",
-    location: "Seattle, WA",
-    ipAddress: "10.1.1.1",
-    lastActive: "2 weeks ago",
-    isCurrent: false,
-  },
-];
+type SessionCardsProps = {
+  userSessions: Session[];
+};
 
-function getDeviceIcon(deviceType: Session["deviceType"]) {
-  switch (deviceType) {
-    case "desktop":
-      return Monitor;
-    case "mobile":
-      return Smartphone;
-    case "tablet":
-      return Tablet;
-    default:
-      return Monitor;
-  }
-}
-
-export default function SessionsPage() {
-  const [sessions, setSessions] = useState<Session[]>(mockSessions);
+export function SessionCards({ userSessions }: SessionCardsProps) {
+  const [sessions, setSessions] = useState<Session[]>(userSessions);
   const [sessionToRevoke, setSessionToRevoke] = useState<Session | null>(null);
   const [showRevokeAllDialog, setShowRevokeAllDialog] = useState(false);
   const [isRevoking, setIsRevoking] = useState(false);
+
+  // The most recent session is considered "current"
+  const CURRENT_SESSION_ID = userSessions.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  )[0]?.id;
 
   const handleRevokeSession = async () => {
     if (!sessionToRevoke) return;
@@ -134,12 +71,13 @@ export default function SessionsPage() {
     setIsRevoking(true);
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 800));
-    setSessions((prev) => prev.filter((s) => s.isCurrent));
+    setSessions((prev) => prev.filter((s) => s.id === CURRENT_SESSION_ID));
     setShowRevokeAllDialog(false);
     setIsRevoking(false);
   };
 
-  const otherSessions = sessions.filter((s) => !s.isCurrent);
+  const currentSession = sessions.find((s) => s.id === CURRENT_SESSION_ID);
+  const otherSessions = sessions.filter((s) => s.id !== CURRENT_SESSION_ID);
 
   return (
     <div className="min-h-screen bg-background pb-24">
@@ -165,16 +103,14 @@ export default function SessionsPage() {
       {/* Content */}
       <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Current Session */}
-        <section className="mb-8">
-          <h2 className="mb-4 text-sm font-medium uppercase tracking-wider text-muted-foreground">
-            Current Session
-          </h2>
-          {sessions
-            .filter((s) => s.isCurrent)
-            .map((session) => (
-              <SessionCard key={session.id} session={session} />
-            ))}
-        </section>
+        {currentSession && (
+          <section className="mb-8">
+            <h2 className="mb-4 text-sm font-medium uppercase tracking-wider text-muted-foreground">
+              Current Session
+            </h2>
+            <SessionCard session={currentSession} isCurrent />
+          </section>
+        )}
 
         {/* Other Sessions */}
         {otherSessions.length > 0 && (
@@ -242,7 +178,9 @@ export default function SessionsPage() {
             <AlertDialogDescription>
               Are you sure you want to revoke this session? The device{" "}
               <span className="font-medium text-foreground">
-                {sessionToRevoke?.device}
+                {sessionToRevoke
+                  ? parseUserAgent(sessionToRevoke.userAgent).device
+                  : ""}
               </span>{" "}
               will be logged out immediately.
             </AlertDialogDescription>
@@ -296,20 +234,25 @@ export default function SessionsPage() {
 
 interface SessionCardProps {
   session: Session;
+  isCurrent?: boolean;
   onRevoke?: () => void;
 }
 
-function SessionCard({ session, onRevoke }: SessionCardProps) {
-  const DeviceIcon = getDeviceIcon(session.deviceType);
+function SessionCard({ session, isCurrent, onRevoke }: SessionCardProps) {
+  const { device, browser, os, isMobile } = parseUserAgent(session.userAgent);
+  const expired = isSessionExpired(session.expiresAt);
+  const DeviceIcon = isMobile ? Smartphone : Monitor;
 
   return (
-    <Card className={session.isCurrent ? "border-accent/30 bg-accent/5" : ""}>
+    <Card
+      className={`${isCurrent ? "border-accent/30 bg-accent/5" : ""} ${expired ? "opacity-60" : ""}`}
+    >
       <CardContent className="p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-start gap-4">
             <div
               className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg ${
-                session.isCurrent
+                isCurrent
                   ? "bg-accent/15 text-accent"
                   : "bg-muted text-muted-foreground"
               }`}
@@ -317,11 +260,9 @@ function SessionCard({ session, onRevoke }: SessionCardProps) {
               <DeviceIcon className="h-5 w-5" />
             </div>
             <div className="min-w-0 space-y-1">
-              <div className="flex items-center gap-2">
-                <h3 className="font-medium text-foreground">
-                  {session.device}
-                </h3>
-                {session.isCurrent && (
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="font-medium text-foreground">{device}</h3>
+                {isCurrent && (
                   <Badge
                     variant="secondary"
                     className="bg-accent/15 text-accent text-xs"
@@ -329,22 +270,34 @@ function SessionCard({ session, onRevoke }: SessionCardProps) {
                     Current
                   </Badge>
                 )}
+                {expired && (
+                  <Badge
+                    variant="secondary"
+                    className="bg-destructive/15 text-destructive text-xs"
+                  >
+                    Expired
+                  </Badge>
+                )}
               </div>
               <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <Globe className="h-3.5 w-3.5" />
-                <span>{session.browser}</span>
+                <Globe className="h-3.5 w-3.5 shrink-0" />
+                <span>
+                  {browser} on {os}
+                </span>
               </div>
               <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <MapPin className="h-3.5 w-3.5" />
-                <span>{session.location}</span>
+                <Hash className="h-3.5 w-3.5 shrink-0" />
+                <span className="truncate">
+                  {formatIPAddress(session.ipAddress)}
+                </span>
               </div>
               <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <Clock className="h-3.5 w-3.5" />
-                <span>{session.lastActive}</span>
+                <Clock className="h-3.5 w-3.5 shrink-0" />
+                <span>Last active {formatRelativeTime(session.updatedAt)}</span>
               </div>
             </div>
           </div>
-          {!session.isCurrent && onRevoke && (
+          {!isCurrent && onRevoke && (
             <Button
               variant="ghost"
               size="sm"

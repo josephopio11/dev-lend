@@ -1,7 +1,7 @@
 "use client";
 
 import { clientAdmin } from "@/lib/auth-client";
-import { IconUserPin } from "@tabler/icons-react";
+import { IconShieldCheckFilled, IconUserPin } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "../ui/button";
@@ -13,24 +13,27 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 
-interface ImpersonateUserModalProps {
+interface UnbanUserModalProps {
   id: string;
   name: string;
 }
 
-export default function ImpersonateUserModal({
-  id,
-  name,
-}: ImpersonateUserModalProps) {
+type FormState = {
+  reason?: string;
+  expiresIn?: number;
+  units?: string;
+};
+
+export default function UnbanUserModal({ id, name }: UnbanUserModalProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  const handleImpersonate = async () => {
-    const { data, error } = await clientAdmin.impersonateUser({
+  const handleUnban = async () => {
+    const { data, error } = await clientAdmin.unbanUser({
       userId: id, // required
     });
     console.log(data, error);
-    router.push("/dashboard");
+    router.push("/admin/users");
     setOpen(false);
   };
 
@@ -38,9 +41,9 @@ export default function ImpersonateUserModal({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="icon-xs">
-          <IconUserPin
-            className="w-4 h-4 text-orange-500"
-            title="Impersonate User"
+          <IconShieldCheckFilled
+            className="w-4 h-4 text-emerald-600"
+            title="Ban User"
           />
         </Button>
       </DialogTrigger>
@@ -48,7 +51,7 @@ export default function ImpersonateUserModal({
         <DialogHeader className="p-6 pb-2">
           <DialogTitle className="text-2xl font-display font-bold flex items-center gap-2">
             <IconUserPin className="h-6 w-6 text-primary" />
-            Impersonating {name}
+            Unbanning {name}
           </DialogTitle>
           <p className="text-sm text-muted-foreground">
             {/* <span className="text-foreground font-semibold">
@@ -61,13 +64,13 @@ export default function ImpersonateUserModal({
         </DialogHeader>
 
         <div className="space-y-4 pb-6 px-6">
-          <p className="leading-none">You are about to impersonate {name}</p>
-          <p>Would you like to continue</p>
+          <p className="leading-none">You are about to unban {name}</p>
+
           <div className="flex justify-end gap-4">
             <Button variant="secondary" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={() => handleImpersonate()}>Continue</Button>
+            <Button onClick={() => handleUnban()}>Continue</Button>
           </div>
         </div>
       </DialogContent>

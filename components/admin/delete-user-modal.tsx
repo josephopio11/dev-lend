@@ -1,9 +1,10 @@
 "use client";
 
 import { clientAdmin } from "@/lib/auth-client";
-import { IconUserPin } from "@tabler/icons-react";
+import { IconTrash, IconUserPin } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -12,25 +13,34 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
+import { Input } from "../ui/input";
 
-interface ImpersonateUserModalProps {
+interface DeleteUserModalProps {
   id: string;
   name: string;
 }
 
-export default function ImpersonateUserModal({
-  id,
-  name,
-}: ImpersonateUserModalProps) {
+export default function DeleteUserModal({ id, name }: DeleteUserModalProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [inputName, setInputName] = useState("");
 
-  const handleImpersonate = async () => {
-    const { data, error } = await clientAdmin.impersonateUser({
+  const handleDelete = async () => {
+    if (!inputName) {
+      toast.error("Imagine deleting someone for no reason, eh?");
+      return;
+    }
+
+    if (inputName !== name) {
+      toast.error("Name does not match");
+      return;
+    }
+
+    const { data, error } = await clientAdmin.removeUser({
       userId: id, // required
     });
     console.log(data, error);
-    router.push("/dashboard");
+    router.push("/admin/users");
     setOpen(false);
   };
 
@@ -38,17 +48,14 @@ export default function ImpersonateUserModal({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="icon-xs">
-          <IconUserPin
-            className="w-4 h-4 text-orange-500"
-            title="Impersonate User"
-          />
+          <IconTrash className="w-4 h-4 text-red-600" title="Delete User" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-125 rounded-2xl max-h-[80vh] flex flex-col p-0 overflow-hidden">
         <DialogHeader className="p-6 pb-2">
-          <DialogTitle className="text-2xl font-display font-bold flex items-center gap-2">
+          <DialogTitle className="text-2xl font-display font-bold flex items-center gap-2 text-destructive">
             <IconUserPin className="h-6 w-6 text-primary" />
-            Impersonating {name}
+            This is a very dangerous action
           </DialogTitle>
           <p className="text-sm text-muted-foreground">
             {/* <span className="text-foreground font-semibold">
@@ -61,13 +68,33 @@ export default function ImpersonateUserModal({
         </DialogHeader>
 
         <div className="space-y-4 pb-6 px-6">
-          <p className="leading-none">You are about to impersonate {name}</p>
-          <p>Would you like to continue</p>
+          <p className="leading-none">
+            You are about to{" "}
+            <span className="text-destructive font-bold underline">
+              permanently
+            </span>{" "}
+            delete {name}
+          </p>
+          <div className="">
+            <p>
+              Type <span className="font-bold">{name}</span> below to delete.
+            </p>
+            <Input
+              id="name"
+              type="text"
+              placeholder="name"
+              className="mt-2"
+              defaultValue={inputName}
+              onChange={(e) => setInputName(e.target.value)}
+              autoComplete="off"
+            />
+          </div>
+
           <div className="flex justify-end gap-4">
             <Button variant="secondary" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={() => handleImpersonate()}>Continue</Button>
+            <Button onClick={() => handleDelete()}>Continue</Button>
           </div>
         </div>
       </DialogContent>
