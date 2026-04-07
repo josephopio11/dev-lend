@@ -20,7 +20,7 @@ interface ItemCount {
   count: number;
 }
 
-interface ItemsChartProps {
+interface BorrowersChartProps {
   data: ItemCount[];
 }
 
@@ -30,36 +30,39 @@ const COLORS = [
   "oklch(0.7 0.18 60)",
 ];
 
-export function ItemsChart({ data }: ItemsChartProps) {
+export function BorrowersChart({ data }: BorrowersChartProps) {
   const chartData = data.map((item) => ({
     name:
-      item.name.length > 20 ? item.name.substring(0, 20) + "..." : item.name,
+      item.name.length > 15 ? item.name.substring(0, 15) + "..." : item.name,
     fullName: item.name,
     count: item.count,
   }));
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height={400}>
       <BarChart
         data={chartData}
-        layout="vertical"
-        margin={{ left: 0, right: 20 }}
+        layout="horizontal"
+        margin={{ top: 10, right: 10, left: 0, bottom: 60 }}
       >
         <XAxis
-          type="number"
-          stroke="oklch(0.65 0 0)"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-        />
-        <YAxis
           type="category"
           dataKey="name"
           stroke="oklch(0.65 0 0)"
           fontSize={12}
           tickLine={false}
           axisLine={false}
-          width={150}
+          angle={-35}
+          textAnchor="end"
+          interval={0}
+        />
+        <YAxis
+          type="number"
+          stroke="oklch(0.65 0 0)"
+          fontSize={12}
+          tickLine={false}
+          axisLine={false}
+          width={40}
         />
         <Tooltip
           cursor={{ fill: "rgba(128,128,128,.15)" }}
@@ -86,7 +89,7 @@ export function ItemsChart({ data }: ItemsChartProps) {
             return [num, props.payload.fullName];
           }}
         />
-        <Bar dataKey="count" radius={[0, 4, 4, 0]}>
+        <Bar dataKey="count" radius={[4, 4, 0, 0]}>
           {chartData.map((_, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}

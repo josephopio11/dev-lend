@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ArrowRightLeft, Package, UserCog, Users } from "lucide-react";
+import { BorrowersChart } from "./borrowers-chart";
 import { ItemsChart } from "./items-chart";
 import { ItemsTable } from "./items-table";
 
@@ -70,7 +71,7 @@ export function UserDashboard({ data }: UserDashboardProps) {
       </div>
 
       <div className="mt-6 grid gap-4 md:grid-cols-7">
-        <Card className="md:col-span-4 bg-card border-border hover:shadow-2xl hover:border-primary/20 transition-all duration-300">
+        <Card className="md:col-span-5 bg-card border-border hover:shadow-2xl hover:border-primary/20 transition-all duration-300">
           <CardHeader>
             <CardTitle className="text-foreground">Item Borrowings</CardTitle>
             <CardDescription className="text-muted-foreground">
@@ -82,7 +83,7 @@ export function UserDashboard({ data }: UserDashboardProps) {
           </CardContent>
         </Card>
 
-        <Card className="md:col-span-3 bg-card border-border hover:shadow-2xl hover:border-primary/20 transition-all duration-300">
+        <Card className="md:col-span-2 bg-card border-border hover:shadow-2xl hover:border-primary/20 transition-all duration-300">
           <CardHeader>
             <CardTitle className="text-foreground">Items Overview</CardTitle>
             <CardDescription className="text-muted-foreground">
@@ -91,6 +92,19 @@ export function UserDashboard({ data }: UserDashboardProps) {
           </CardHeader>
           <CardContent>
             <ItemsTable data={data.itemsCount} />
+          </CardContent>
+        </Card>
+      </div>
+      <div className="mt-6 ">
+        <Card className="md:col-span-4 bg-card border-border hover:shadow-2xl hover:border-primary/20 transition-all duration-300">
+          <CardHeader>
+            <CardTitle className="text-foreground">Borrower Activity</CardTitle>
+            <CardDescription className="text-muted-foreground">
+              Item count per borrower
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <BorrowersChart data={data.borrowingsCount} />
           </CardContent>
         </Card>
       </div>

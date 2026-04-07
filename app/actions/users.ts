@@ -14,9 +14,16 @@ export async function getStats() {
   const itemsCount = await prisma.lendingHistory.groupBy({
     by: ["equipmentId"],
     _count: { equipmentId: true },
+    orderBy: { _count: { equipmentId: "desc" } },
+  });
+  const borrowingsCount = await prisma.lendingHistory.groupBy({
+    by: ["borrowerId"],
+    _count: { borrowerId: true },
+    orderBy: { _count: { borrowerId: "desc" } },
   });
 
   const equipments = await prisma.equipment.findMany({});
+  const borrowers = await prisma.borrower.findMany({});
 
   const data = {
     adminUsers: admins,
@@ -31,6 +38,15 @@ export async function getStats() {
           equipments.find((equipment) => equipment.id === item.equipmentId)
             ?.name || "",
         count: item._count.equipmentId,
+      };
+    }),
+    borrowingsCount: borrowingsCount.map((i) => {
+      return {
+        id: i.borrowerId,
+        name:
+          borrowers.find((borrower) => borrower.id === i.borrowerId)?.name ||
+          "",
+        count: i._count.borrowerId,
       };
     }),
   };

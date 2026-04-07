@@ -19,7 +19,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <nav className="mx-auto flex container items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
             {/** biome-ignore lint/a11y/noSvgWithoutTitle: <Why reinvent the wheel when you can use what is working> */}
@@ -44,13 +44,13 @@ export function Header() {
 
         <div className="hidden items-center gap-8 md:flex">
           <Link
-            href="#features"
+            href="/#features"
             className="text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             Features
           </Link>
           <Link
-            href="#how-it-works"
+            href="/#how-it-works"
             className="text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             How It Works
@@ -106,10 +106,15 @@ export function Header() {
               How It Works
             </Link>
             {isLoggedIn ? (
-              <div className="hidden items-center gap-8 md:flex">
+              <div className="">
                 <Button size="sm" asChild>
                   <Link href="/dashboard">Dashboard</Link>
                 </Button>
+                {session.data?.user && (
+                  <div className="fixed top-20 right-4">
+                    <UserIcon user={session.data.user} />
+                  </div>
+                )}
               </div>
             ) : (
               <div className="flex flex-col gap-2 pt-4">

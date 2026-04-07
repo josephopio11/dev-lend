@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export function CTA() {
   return (
@@ -12,12 +13,15 @@ export function CTA() {
           Join teams who have simplified their equipment tracking. Start free,
           no credit card required.
         </p>
-        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <Link
+          href={"/sign-up"}
+          className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+        >
           <Button size="lg" className="w-full sm:w-auto">
             Get Started for Free
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
-        </div>
+        </Link>
         <p className="mt-6 text-sm text-muted-foreground">
           Free for up to 20 devices. No credit card needed.
         </p>

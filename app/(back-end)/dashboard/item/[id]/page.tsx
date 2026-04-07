@@ -147,7 +147,7 @@ export default async function SingleItemPage({ params }: PageProps) {
         </Card>
 
         <Card className="flex-2 shadow-xl">
-          <div className="relative border-l-2 border-primary/20 mx-3 pl-6 space-y-8 overflow-y-scroll ">
+          <div className="relative border-l-2 border-primary/20 mx-3 pl-6 space-y-8 ">
             {item?.lendingHistories.map((record) => (
               <div key={record.id} className="relative">
                 <div className="absolute -left-7.75 top-1 h-2.5 w-2.5 rounded-full bg-primary border-4 border-background shadow-[0_0_0_2px_rgba(var(--primary),0.1)]" />
