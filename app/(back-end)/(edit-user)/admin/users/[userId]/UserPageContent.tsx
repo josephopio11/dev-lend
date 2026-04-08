@@ -1,5 +1,6 @@
 "use client";
 
+import { SessionCards } from "@/components/admin/session-cards";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -163,33 +164,38 @@ export function UserPageContent({ user }: Props) {
       </TabsContent>
 
       <TabsContent value="danger_zone">
-        {/* Danger Zone */}
-        <Card className="border-destructive/50 bg-card p-6">
-          <div>
-            <h2 className="text-destructive text-lg font-semibold">
-              Danger Zone
-            </h2>
-            <p className="text-muted-foreground mt-1 text-sm">
-              Irreversible actions for your account
-            </p>
-          </div>
-
-          <Separator className="my-6" />
-
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-foreground text-sm font-medium">
-                  Delete Account
-                </p>
-                <p className="text-muted-foreground text-sm">
-                  Permanently delete your account and all data
-                </p>
-              </div>
-              <Button variant="destructive">Delete Account</Button>
+        <div className="grid w-full grid-cols-1 flex-col gap-2 space-y-4">
+          <Card className="bg-card">
+            <SessionCards id={user.id} />
+          </Card>
+          {/* Danger Zone */}
+          <Card className="border-destructive/50 bg-card p-6">
+            <div>
+              <h2 className="text-destructive text-lg font-semibold">
+                Danger Zone
+              </h2>
+              <p className="text-muted-foreground mt-1 text-sm">
+                Irreversible actions for your account
+              </p>
             </div>
-          </div>
-        </Card>
+
+            <Separator className="my-6" />
+
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-foreground text-sm font-medium">
+                    Delete Account
+                  </p>
+                  <p className="text-muted-foreground text-sm">
+                    Permanently delete your account and all data
+                  </p>
+                </div>
+                <Button variant="destructive">Delete Account</Button>
+              </div>
+            </div>
+          </Card>
+        </div>
       </TabsContent>
     </Tabs>
   );

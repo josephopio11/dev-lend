@@ -31,7 +31,7 @@ export function HowItWorks() {
         </div> */}
         <div className="bg-background/80 absolute inset-0 backdrop-blur-sm" />
       </div>
-      <div className="max-w-6x relative z-10 mx-auto">
+      <div className="max-w-6x relative z-10 container mx-auto">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-foreground text-3xl font-semibold tracking-tight text-balance md:text-4xl">
             Three steps. That&apos;s it.

@@ -23,6 +23,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import UserLocation from "../location";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -94,9 +95,9 @@ export function SessionCards({ id }: Props) {
   const otherSessions = sessions.filter((s) => s.id !== CURRENT_SESSION_ID);
 
   return (
-    <div className="h-full flex-1 overflow-y-auto pb-24">
+    <div className="relative h-full flex-1 overflow-y-auto pb-24">
       {/* Content */}
-      <div className="mx-auto h-full max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto h-full px-4 py-8 sm:px-6 lg:px-8">
         {/* Current Session */}
         {currentSession && (
           <section className="mb-8">
@@ -141,7 +142,7 @@ export function SessionCards({ id }: Props) {
 
       {/* Sticky Footer */}
       {otherSessions.length > 0 && (
-        <div className="border-border bg-card/95 fixed inset-x-0 bottom-0 border-t backdrop-blur-sm">
+        <div className="border-border bg-card/95 absolute inset-x-0 bottom-0 border-t backdrop-blur-sm">
           <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
             <div className="text-muted-foreground flex items-center gap-2 text-sm">
               <AlertTriangle className="h-4 w-4" />
@@ -242,7 +243,7 @@ function SessionCard({ session, isCurrent, onRevoke }: SessionCardProps) {
 
   return (
     <Card
-      className={`${isCurrent ? "border-accent/30 bg-accent/5" : ""} ${expired ? "opacity-60" : ""}`}
+      className={`${isCurrent ? "border-primary/30 bg-primary/5" : ""} ${expired ? "opacity-60" : ""}`}
     >
       <CardContent className="p-2">
         <div className="flex items-start justify-between gap-4">
@@ -254,15 +255,15 @@ function SessionCard({ session, isCurrent, onRevoke }: SessionCardProps) {
                   : "bg-muted text-muted-foreground"
               }`}
             >
-              <DeviceIcon className="h-5 w-5" />
+              <DeviceIcon className="text-primary h-5 w-5" />
             </div>
             <div className="min-w-0 space-y-1">
               <div className="flex flex-wrap items-center gap-2">
                 <h3 className="text-foreground font-medium">{device}</h3>
                 {isCurrent && (
                   <Badge
-                    variant="secondary"
-                    className="bg-accent/15 text-accent text-xs"
+                    variant="destructive"
+                    // className="bg-accent/15 text-accent text-xs"
                   >
                     Current
                   </Badge>
@@ -286,6 +287,8 @@ function SessionCard({ session, isCurrent, onRevoke }: SessionCardProps) {
                 <Hash className="h-3.5 w-3.5 shrink-0" />
                 <span className="truncate">
                   {formatIPAddress(session.ipAddress || "")}
+                  {" | "}
+                  <UserLocation ip={session.ipAddress || ""} />
                 </span>
               </div>
               <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
