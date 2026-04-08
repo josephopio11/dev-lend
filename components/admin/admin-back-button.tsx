@@ -2,12 +2,16 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { IconDashboard } from "@tabler/icons-react";
+import { IconDashboard, IconUserCog } from "@tabler/icons-react";
 import { ArrowLeft, UserCircle2Icon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-const AdminBackButton = () => {
+type Props = {
+  role: "admin" | "user";
+};
+
+const AdminBackButton = ({ role }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   return (
@@ -53,7 +57,26 @@ const AdminBackButton = () => {
           <UserCircle2Icon className="mr-2 h-4 w-4" />
           Borrowers
         </Link>
-      </Button>{" "}
+      </Button>
+      {role === "admin" && (
+        <Button
+          variant={pathname === "/admin" ? "default" : "outline"}
+          className={cn(
+            "rounded-lg shadow-sm",
+            (pathname.includes("/admin") || pathname === "/admin") &&
+              "bg-primary text-white",
+          )}
+          asChild
+        >
+          <Link
+            href="/admin"
+            className="text-muted-foreground hover:text-primary text-sm font-medium transition-colors"
+          >
+            <IconUserCog className="mr-2 h-4 w-4" />
+            Admin
+          </Link>
+        </Button>
+      )}
     </div>
   );
 };

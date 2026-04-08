@@ -8,13 +8,12 @@ type LayoutProps = {
 };
 
 export default async function AdminLayout({ children }: LayoutProps) {
-  // const user =
-  await requireAdmin();
+  const { user } = await requireAdmin();
 
-  // console.log(user);
+  console.log(user);
   return (
     <main className="relative z-10 container mx-auto max-w-7xl flex-1 px-4 py-8">
-      <AdminBackButton />
+      <AdminBackButton role={user.role as "admin" | "user"} />
 
       {/* Hero / Header Section */}
       <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">

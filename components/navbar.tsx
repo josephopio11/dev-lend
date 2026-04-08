@@ -7,6 +7,7 @@ import UserIcon from "./dashboard/user-icon";
 
 const Navbar = async () => {
   const { user, session } = await requireAuth();
+
   return (
     <header className="glass sticky top-0 z-50 w-full border-b">
       {session.impersonatedBy && (
