@@ -44,13 +44,13 @@ export function HowItWorks() {
           {steps.map((step, index) => (
             <div
               key={step.number}
-              className="border-primary/10 hover:bg-background/50 hover:border-primary/20 relative rounded-2xl border-8 px-4 py-8 transition-all duration-300 hover:shadow-2xl"
+              className="group border-primary/10 hover:bg-background/50 hover:border-primary/20 relative rounded-2xl px-4 py-8 transition-all duration-300 hover:border hover:shadow-2xl"
             >
               {index < steps.length && (
                 <div className="bg-primary/20 absolute top-16 left-1/2 hidden h-px w-full -translate-x-1/2 md:block" />
               )}
               <div className="relative flex flex-col items-center text-center">
-                <div className="border-border bg-background text-muted-foreground shadow-primary/30 mb-6 flex h-16 w-16 items-center justify-center rounded-full border-2 text-xl font-semibold shadow-xl">
+                <div className="border-border bg-background text-muted-foreground shadow-primary/30 mb-6 flex h-16 w-16 items-center justify-center rounded-full border-2 text-xl font-semibold shadow-xl group-hover:shadow-2xl">
                   {step.number}
                 </div>
                 <h3 className="text-foreground mb-2 text-lg font-medium">
