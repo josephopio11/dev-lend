@@ -43,7 +43,7 @@ export function HowItWorks() {
         <div className="mt-16 grid gap-8 md:grid-cols-3">
           {steps.map((step, index) => (
             <div key={step.number} className="relative">
-              {index < steps.length - 1 && (
+              {index < steps.length && (
                 <div className="bg-border absolute top-8 left-1/2 hidden h-px w-full -translate-x-1/2 md:block" />
               )}
               <div className="relative flex flex-col items-center text-center">
@@ -59,6 +59,7 @@ export function HowItWorks() {
               </div>
             </div>
           ))}
+          <div>some content here</div>
         </div>
       </div>
     </section>
