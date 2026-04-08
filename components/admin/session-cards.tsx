@@ -1,3 +1,11 @@
+"use client";
+
+import {
+  AllUserSessionsType,
+  getAllUserSessions,
+  SingleUserSessionType,
+} from "@/app/actions/users";
+import { clientAdmin } from "@/lib/auth-client";
 import {
   formatIPAddress,
   formatRelativeTime,
@@ -14,7 +22,7 @@ import {
   Smartphone,
   Trash2,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -29,39 +37,31 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 
-interface Session {
+type Props = {
   id: string;
-  token: string;
-  createdAt: string;
-  updatedAt: string;
-  expiresAt: string;
-  ipAddress: string;
-  userAgent: string;
-  userId: string;
-  impersonatedBy: string | null;
-}
-
-type SessionCardsProps = {
-  userSessions: Session[];
 };
 
-export function SessionCards({ userSessions }: SessionCardsProps) {
-  const [sessions, setSessions] = useState<Session[]>(userSessions);
-  const [sessionToRevoke, setSessionToRevoke] = useState<Session | null>(null);
+export function SessionCards({ id }: Props) {
+  const [sessions, setSessions] = useState<AllUserSessionsType>([]);
+  const [sessionToRevoke, setSessionToRevoke] =
+    useState<SingleUserSessionType | null>(null);
   const [showRevokeAllDialog, setShowRevokeAllDialog] = useState(false);
   const [isRevoking, setIsRevoking] = useState(false);
 
   // The most recent session is considered "current"
-  const CURRENT_SESSION_ID = userSessions.sort(
+  const CURRENT_SESSION_ID = sessions.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   )[0]?.id;
 
-  const handleRevokeSession = async () => {
+  const handleRevokeSession = async (sessionToken: string) => {
     if (!sessionToRevoke) return;
+    if (!sessionToken) return;
 
     setIsRevoking(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    await clientAdmin.revokeUserSession({
+      sessionToken: "session_token_here", // required
+    });
     setSessions((prev) => prev.filter((s) => s.id !== sessionToRevoke.id));
     setSessionToRevoke(null);
     setIsRevoking(false);
@@ -69,39 +69,34 @@ export function SessionCards({ userSessions }: SessionCardsProps) {
 
   const handleRevokeAllSessions = async () => {
     setIsRevoking(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 800));
+
+    await clientAdmin.revokeUserSessions({
+      userId: id,
+    });
     setSessions((prev) => prev.filter((s) => s.id === CURRENT_SESSION_ID));
     setShowRevokeAllDialog(false);
     setIsRevoking(false);
   };
 
+  useEffect(() => {
+    if (!id || !open) return;
+    const fetchSessions = async () => {
+      const data = await getAllUserSessions(id);
+      setSessions(data);
+    };
+    fetchSessions();
+    return () => {
+      setSessions([]);
+    };
+  }, [id]);
+
   const currentSession = sessions.find((s) => s.id === CURRENT_SESSION_ID);
   const otherSessions = sessions.filter((s) => s.id !== CURRENT_SESSION_ID);
 
   return (
-    <div className="bg-background min-h-screen pb-24">
-      {/* Header */}
-      <header className="border-border bg-card border-b">
-        <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4">
-            <div className="bg-accent/10 flex h-12 w-12 items-center justify-center rounded-full">
-              <Shield className="text-accent h-6 w-6" />
-            </div>
-            <div>
-              <h1 className="text-foreground text-2xl font-semibold">
-                Active Sessions
-              </h1>
-              <p className="text-muted-foreground">
-                Manage devices where you&apos;re currently logged in
-              </p>
-            </div>
-          </div>
-        </div>
-      </header>
-
+    <div className="h-full flex-1 overflow-y-auto pb-24">
       {/* Content */}
-      <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto h-full max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Current Session */}
         {currentSession && (
           <section className="mb-8">
@@ -142,7 +137,7 @@ export function SessionCards({ userSessions }: SessionCardsProps) {
             </p>
           </div>
         )}
-      </main>
+      </div>
 
       {/* Sticky Footer */}
       {otherSessions.length > 0 && (
@@ -179,7 +174,7 @@ export function SessionCards({ userSessions }: SessionCardsProps) {
               Are you sure you want to revoke this session? The device{" "}
               <span className="text-foreground font-medium">
                 {sessionToRevoke
-                  ? parseUserAgent(sessionToRevoke.userAgent).device
+                  ? parseUserAgent(sessionToRevoke.userAgent || "").device
                   : ""}
               </span>{" "}
               will be logged out immediately.
@@ -188,7 +183,7 @@ export function SessionCards({ userSessions }: SessionCardsProps) {
           <AlertDialogFooter>
             <AlertDialogCancel disabled={isRevoking}>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={handleRevokeSession}
+              onClick={() => handleRevokeSession(sessionToRevoke?.token || "")}
               disabled={isRevoking}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
@@ -233,21 +228,23 @@ export function SessionCards({ userSessions }: SessionCardsProps) {
 }
 
 interface SessionCardProps {
-  session: Session;
+  session: SingleUserSessionType;
   isCurrent?: boolean;
   onRevoke?: () => void;
 }
 
 function SessionCard({ session, isCurrent, onRevoke }: SessionCardProps) {
-  const { device, browser, os, isMobile } = parseUserAgent(session.userAgent);
-  const expired = isSessionExpired(session.expiresAt);
+  const { device, browser, os, isMobile } = parseUserAgent(
+    session.userAgent || "",
+  );
+  const expired = isSessionExpired(session.expiresAt.toISOString());
   const DeviceIcon = isMobile ? Smartphone : Monitor;
 
   return (
     <Card
       className={`${isCurrent ? "border-accent/30 bg-accent/5" : ""} ${expired ? "opacity-60" : ""}`}
     >
-      <CardContent className="p-5">
+      <CardContent className="p-2">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-start gap-4">
             <div
@@ -288,12 +285,15 @@ function SessionCard({ session, isCurrent, onRevoke }: SessionCardProps) {
               <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
                 <Hash className="h-3.5 w-3.5 shrink-0" />
                 <span className="truncate">
-                  {formatIPAddress(session.ipAddress)}
+                  {formatIPAddress(session.ipAddress || "")}
                 </span>
               </div>
               <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
                 <Clock className="h-3.5 w-3.5 shrink-0" />
-                <span>Last active {formatRelativeTime(session.updatedAt)}</span>
+                <span>
+                  Last active{" "}
+                  {formatRelativeTime(session.updatedAt.toISOString())}
+                </span>
               </div>
             </div>
           </div>

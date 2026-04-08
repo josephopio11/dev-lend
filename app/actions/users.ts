@@ -1,7 +1,9 @@
 "use server";
 
+import { auth } from "@/lib/auth";
 import { requireAdmin } from "@/lib/auth-server";
 import prisma from "@/lib/prisma";
+import { headers } from "next/headers";
 
 export async function getStats() {
   await requireAdmin();
@@ -55,3 +57,39 @@ export async function getStats() {
 }
 
 export type AdminStats = Awaited<ReturnType<typeof getStats>>;
+
+export async function getAllUserSessions(id: string) {
+  await requireAdmin();
+
+  const data = await auth.api.listUserSessions({
+    body: {
+      userId: id, // required
+    },
+    // This endpoint requires session cookies.
+    headers: await headers(),
+  });
+
+  const sessions = data.sessions;
+
+  return sessions;
+}
+
+export type AllUserSessionsType = Awaited<
+  ReturnType<typeof getAllUserSessions>
+>;
+
+export type SingleUserSessionType = AllUserSessionsType[number];
+
+export async function getUserById(id: string) {
+  await requireAdmin();
+
+  const data = await auth.api.getUser({
+    query: {
+      id,
+    },
+    headers: await headers(),
+  });
+  return data;
+}
+
+export type UserByIdType = Awaited<ReturnType<typeof getUserById>>;

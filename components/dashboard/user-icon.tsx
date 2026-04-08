@@ -90,7 +90,7 @@ function UserIcon({ user }: UserIconProps) {
             <DropdownMenuItem asChild>
               <Link href="/admin">
                 <IconUsers />
-                Manage Users
+                Admin
               </Link>
             </DropdownMenuItem>
           )}

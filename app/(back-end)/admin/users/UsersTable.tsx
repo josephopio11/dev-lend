@@ -3,10 +3,10 @@
 import BanUserModal from "@/components/admin/ban-user-modal";
 import ChangePasswordModal from "@/components/admin/change-password-modal";
 import DeleteUserModal from "@/components/admin/delete-user-modal";
-import EditUserModal from "@/components/admin/edit-user-modal";
 import ImpersonateUserModal from "@/components/admin/impersonate-user-modal";
-import RevokeAllOtherSessionsModal from "@/components/admin/revoke-all-sessions-modal";
+import RevokeSessionsModal from "@/components/admin/revoke-all-sessions-modal";
 import UnbanUserModal from "@/components/admin/unban-user-modal";
+import { Button } from "@/components/ui/button";
 import {
   CardContent,
   CardDescription,
@@ -30,9 +30,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { IconBan, IconStar } from "@tabler/icons-react";
+import { IconBan, IconEdit, IconStar } from "@tabler/icons-react";
 import { UserWithRole } from "better-auth/plugins";
 import { ArrowDown, ArrowUp, ArrowUpDown, Search } from "lucide-react";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 
 interface UsersTableProps {
@@ -232,14 +233,21 @@ export function UsersTable({ users }: UsersTableProps) {
                     <TableCell className="text-muted-foreground">
                       {formatDate(user.createdAt)}
                     </TableCell>
-                    <TableCell className="text-muted-foreground flex items-center justify-end gap-1 truncate font-mono text-xs">
-                      <EditUserModal />
+                    <TableCell className="text-muted-foreground flex items-center justify-end gap-0.5 truncate font-mono text-xs">
+                      <Button variant="ghost" size="icon-xs" asChild>
+                        <Link href={`/admin/users/${user.id}`}>
+                          <IconEdit
+                            className="h-4 w-4"
+                            title="Change Password"
+                          />
+                        </Link>
+                      </Button>
                       <ChangePasswordModal
                         id={user.id}
                         name={user.name}
                         email={user.email}
                       />
-                      <RevokeAllOtherSessionsModal
+                      <RevokeSessionsModal
                         id={user.id}
                         name={user.name}
                         email={user.email}
