@@ -1,19 +1,20 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { IconDashboard, IconUserCog } from "@tabler/icons-react";
 import { ArrowLeft, UserCircle2Icon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-type Props = {
-  role: "admin" | "user";
-};
-
-const AdminBackButton = ({ role }: Props) => {
+const AdminBackButton = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const { data } = useSession();
+
+  const role = data?.user.role;
+
   return (
     <div className="mb-6 flex items-center gap-4">
       {pathname !== "/dashboard" && (
