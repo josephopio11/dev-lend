@@ -39,18 +39,18 @@ export default function ImpersonateUserModal({
       <DialogTrigger asChild>
         <Button variant="ghost" size="icon-xs">
           <IconUserPin
-            className="w-4 h-4 text-orange-500"
+            className="h-4 w-4 text-orange-500"
             title="Impersonate User"
           />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-125 rounded-2xl max-h-[80vh] flex flex-col p-0 overflow-hidden">
+      <DialogContent className="flex max-h-[80vh] flex-col overflow-hidden rounded-2xl p-0 sm:max-w-125">
         <DialogHeader className="p-6 pb-2">
-          <DialogTitle className="text-2xl font-display font-bold flex items-center gap-2">
-            <IconUserPin className="h-6 w-6 text-primary" />
+          <DialogTitle className="font-display flex items-center gap-2 text-2xl font-bold">
+            <IconUserPin className="text-primary h-6 w-6" />
             Impersonating {name}
           </DialogTitle>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             {/* <span className="text-foreground font-semibold">
               {borrowerName}
             </span>{" "}
@@ -60,7 +60,7 @@ export default function ImpersonateUserModal({
           </p>
         </DialogHeader>
 
-        <div className="space-y-4 pb-6 px-6">
+        <div className="space-y-4 px-6 pb-6">
           <p className="leading-none">You are about to impersonate {name}</p>
           <p>Would you like to continue</p>
           <div className="flex justify-end gap-4">

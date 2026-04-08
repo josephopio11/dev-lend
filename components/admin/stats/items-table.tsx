@@ -28,10 +28,10 @@ export function ItemsTable({ data }: ItemsTableProps) {
       <TableHeader>
         <TableRow className="border-border hover:bg-transparent">
           <TableHead className="text-muted-foreground">Item Name</TableHead>
-          <TableHead className="text-right text-muted-foreground">
+          <TableHead className="text-muted-foreground text-right">
             Times
           </TableHead>
-          <TableHead className="text-right text-muted-foreground">%</TableHead>
+          <TableHead className="text-muted-foreground text-right">%</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -39,7 +39,7 @@ export function ItemsTable({ data }: ItemsTableProps) {
           const percentage = ((item.count / totalCount) * 100).toFixed(0);
           return (
             <TableRow key={item.id} className="border-border">
-              <TableCell className="font-medium text-foreground">
+              <TableCell className="text-foreground font-medium">
                 <span className="line-clamp-1" title={item.name}>
                   {item.name.slice(0, 18) +
                     (item.name.length > 18 ? "..." : "")}
@@ -53,7 +53,7 @@ export function ItemsTable({ data }: ItemsTableProps) {
                   {item.count}
                 </Badge>
               </TableCell>
-              <TableCell className="text-right text-muted-foreground">
+              <TableCell className="text-muted-foreground text-right">
                 {percentage}%
               </TableCell>
             </TableRow>

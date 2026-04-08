@@ -2,13 +2,13 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border px-6 py-12">
-      <div className="mx-auto container">
+    <footer className="border-border border-t px-6 py-12">
+      <div className="container mx-auto">
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
+            <div className="bg-primary flex h-8 w-8 items-center justify-center rounded-md">
               <svg
-                className="h-5 w-5 text-primary-foreground"
+                className="text-primary-foreground h-5 w-5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -21,7 +21,7 @@ export function Footer() {
                 />
               </svg>
             </div>
-            <span className="text-lg font-semibold text-foreground">
+            <span className="text-foreground text-lg font-semibold">
               {process.env.APP_NAME || "DevMGMT.msc"}
             </span>
           </div>
@@ -29,27 +29,27 @@ export function Footer() {
           <div className="flex items-center gap-8">
             <Link
               href="#"
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground text-sm transition-colors"
             >
               Privacy
             </Link>
             <Link
               href="#"
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground text-sm transition-colors"
             >
               Terms
             </Link>
             <Link
               href="#"
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground text-sm transition-colors"
             >
               Contact
             </Link>
           </div>
         </div>
 
-        <div className="mt-8 border-t border-border pt-8 text-center">
-          <p className="text-sm text-muted-foreground">
+        <div className="border-border mt-8 border-t pt-8 text-center">
+          <p className="text-muted-foreground text-sm">
             Built because someone needed to remember who took what.
           </p>
         </div>

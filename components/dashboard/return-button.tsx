@@ -17,7 +17,7 @@ export function ReturnButton({ id, borrowedAt, small }: ReturnButtonProps) {
     if (!id || !borrowedAt) return;
     await returnItem(id, borrowedAt);
     toast.message("Returned successfully", {
-      description: "Item has been returned successfully",
+      description: "Item has been returned successfully ",
     });
   };
 
@@ -25,7 +25,7 @@ export function ReturnButton({ id, borrowedAt, small }: ReturnButtonProps) {
     <Button
       variant="outline"
       className={cn(
-        " rounded-xl border-amber-200 text-amber-700 hover:bg-amber-50 hover:text-amber-800 dark:border-amber-900/50 dark:text-amber-400 dark:hover:bg-amber-900/30 group/btn",
+        "group/btn rounded-xl border-amber-200 text-amber-700 hover:bg-amber-50 hover:text-amber-800 dark:border-amber-900/50 dark:text-amber-400 dark:hover:bg-amber-900/30",
         small === true ? "" : "w-full",
       )}
       onClick={handleReturn}

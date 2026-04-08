@@ -18,13 +18,13 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <nav className="mx-auto flex container items-center justify-between px-6 py-4">
+    <header className="border-border bg-background/95 supports-backdrop-filter:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
+      <nav className="container mx-auto flex items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
+          <div className="bg-primary flex h-8 w-8 items-center justify-center rounded-md">
             {/** biome-ignore lint/a11y/noSvgWithoutTitle: <Why reinvent the wheel when you can use what is working> */}
             <svg
-              className="h-5 w-5 text-primary-foreground"
+              className="text-primary-foreground h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -37,7 +37,7 @@ export function Header() {
               />
             </svg>
           </div>
-          <span className="text-lg font-semibold text-foreground">
+          <span className="text-foreground text-lg font-semibold">
             {process.env.APP_NAME || "DevMGMT.msc"}
           </span>
         </Link>
@@ -45,13 +45,13 @@ export function Header() {
         <div className="hidden items-center gap-8 md:flex">
           <Link
             href="/#features"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground text-sm transition-colors"
           >
             Features
           </Link>
           <Link
             href="/#how-it-works"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground text-sm transition-colors"
           >
             How It Works
           </Link>
@@ -89,18 +89,18 @@ export function Header() {
       </nav>
 
       {mobileMenuOpen && (
-        <div className="border-t border-border px-6 py-4 md:hidden">
+        <div className="border-border border-t px-6 py-4 md:hidden">
           <div className="flex flex-col gap-4">
             <Link
               href="#features"
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground text-sm transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               Features
             </Link>
             <Link
               href="#how-it-works"
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground text-sm transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               How It Works

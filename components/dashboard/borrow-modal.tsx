@@ -118,7 +118,7 @@ const BorrowModal = ({ equipment, trigger, small }: BorrowModalProps) => {
           <Button
             variant="default"
             className={cn(
-              ` rounded-lg shadow-sm text-white`,
+              `rounded-lg text-white shadow-sm`,
               small === true ? "" : "w-full",
             )}
           >
@@ -127,20 +127,20 @@ const BorrowModal = ({ equipment, trigger, small }: BorrowModalProps) => {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-100 rounded-2xl">
+      <DialogContent className="rounded-2xl sm:max-w-100">
         <DialogHeader>
           <DialogTitle className="font-display text-2xl">
             Check Out Equipment
           </DialogTitle>
           <DialogDescription>
             You are about to check out{" "}
-            <span className="font-medium text-foreground">
+            <span className="text-foreground font-medium">
               {equipment.name}
             </span>
             .
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleBorrow} className="space-y-4 mt-4">
+        <form onSubmit={handleBorrow} className="mt-4 space-y-4">
           <div className="space-y-2">
             <Label htmlFor="borrowerName">Borrower&apos;s Full Name</Label>
             <div ref={wrapperRef} className="relative">
@@ -160,13 +160,13 @@ const BorrowModal = ({ equipment, trigger, small }: BorrowModalProps) => {
                 autoCapitalize="on"
               />
               {showSuggestions && (
-                <ul className="absolute z-50 mt-1 w-full rounded-xl border border-border bg-popover shadow-md overflow-hidden">
+                <ul className="border-border bg-popover absolute z-50 mt-1 w-full overflow-hidden rounded-xl border shadow-md">
                   {suggestions.map((suggestion, i) => (
                     <li
                       key={suggestion.id}
                       onMouseDown={() => handleSelect(suggestion.name)}
                       className={cn(
-                        "px-3 py-2 text-sm cursor-pointer transition-colors",
+                        "cursor-pointer px-3 py-2 text-sm transition-colors",
                         i === activeSuggestion // compare index, not id
                           ? "bg-accent text-accent-foreground"
                           : "hover:bg-accent hover:text-accent-foreground",
@@ -179,7 +179,7 @@ const BorrowModal = ({ equipment, trigger, small }: BorrowModalProps) => {
               )}
             </div>
           </div>
-          <div className="pt-4 flex justify-end gap-3">
+          <div className="flex justify-end gap-3 pt-4">
             <Button
               type="button"
               variant="ghost"
@@ -191,7 +191,7 @@ const BorrowModal = ({ equipment, trigger, small }: BorrowModalProps) => {
             <Button
               type="submit"
               disabled={!borrowerName.trim() || loading}
-              className="rounded-xl text-white bg-indigo-600 hover:bg-indigo-700"
+              className="rounded-xl bg-indigo-600 text-white hover:bg-indigo-700"
             >
               Confirm Checkout
             </Button>

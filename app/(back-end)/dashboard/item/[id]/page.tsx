@@ -57,34 +57,34 @@ export default async function SingleItemPage({ params }: PageProps) {
   const isAvailable = item.lendingHistories[0]?.returnedAt !== null;
 
   return (
-    <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl relative z-10 space-y-4">
+    <main className="relative z-10 container mx-auto max-w-7xl flex-1 space-y-4 px-4 py-8">
       {/* Hero / Header Section */}
       <MenuWithBackArrow />
-      <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
-          <h1 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-foreground text-balance">
+          <h1 className="font-display text-foreground text-4xl font-bold tracking-tight text-balance md:text-5xl">
             {item.name} details
           </h1>
-          <p className="text-muted-foreground mt-2 text-lg max-w-2xl">
+          <p className="text-muted-foreground mt-2 max-w-2xl text-lg">
             Manage checkouts, track availability, and maintain your hardware
             catalog seamlessly.
           </p>
         </div>
 
         {/* Stats quick view */}
-        <div className="flex gap-4 p-4 bg-card rounded-2xl border shadow-xl">
-          <div className="text-center px-4">
-            <div className="text-3xl font-display font-bold text-primary">
+        <div className="bg-card flex gap-4 rounded-2xl border p-4 shadow-xl">
+          <div className="px-4 text-center">
+            <div className="font-display text-primary text-3xl font-bold">
               {item._count.lendingHistories}
             </div>
-            <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
+            <div className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
               Borrowings
             </div>
           </div>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row gap-4">
-        <Card className="w-full  flex-1 shadow-xl">
+      <div className="flex flex-col gap-4 md:flex-row">
+        <Card className="w-full flex-1 shadow-xl">
           <CardHeader>
             <CardTitle className="flex gap-2">
               Serial: <pre>{item.serialNumber}</pre>
@@ -147,24 +147,24 @@ export default async function SingleItemPage({ params }: PageProps) {
         </Card>
 
         <Card className="flex-2 shadow-xl">
-          <div className="relative border-l-2 border-primary/20 mx-3 pl-6 space-y-8 ">
+          <div className="border-primary/20 relative mx-3 space-y-8 border-l-2 pl-6">
             {item?.lendingHistories.map((record) => (
               <div key={record.id} className="relative">
-                <div className="absolute -left-7.75 top-1 h-2.5 w-2.5 rounded-full bg-primary border-4 border-background shadow-[0_0_0_2px_rgba(var(--primary),0.1)]" />
+                <div className="bg-primary border-background absolute top-1 -left-7.75 h-2.5 w-2.5 rounded-full border-4 shadow-[0_0_0_2px_rgba(var(--primary),0.1)]" />
 
-                <div className="bg-card border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="flex justify-between items-start mb-3">
+                <div className="bg-card rounded-xl border p-4 shadow-sm transition-shadow hover:shadow-md">
+                  <div className="mb-3 flex items-start justify-between">
                     <div className="flex items-center gap-2">
-                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                        <User className="h-4 w-4 text-primary" />
+                      <div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-full">
+                        <User className="text-primary h-4 w-4" />
                       </div>
                       <div>
-                        <p className="font-bold text-sm leading-none">
+                        <p className="text-sm leading-none font-bold">
                           {record.borrower.name}
                         </p>
                         <Badge
                           variant="outline"
-                          className={`mt-1 text-[10px] h-4 rounded-full ${record.returnedAt ? "bg-emerald-50 text-emerald-700 border-emerald-100" : "bg-amber-50 text-amber-700 border-amber-100 animate-pulse"}`}
+                          className={`mt-1 h-4 rounded-full text-[10px] ${record.returnedAt ? "border-emerald-100 bg-emerald-50 text-emerald-700" : "animate-pulse border-amber-100 bg-amber-50 text-amber-700"}`}
                         >
                           {record.returnedAt ? "Completed" : "Current"}
                         </Badge>

@@ -11,15 +11,15 @@ const MenuWithBackArrow = () => {
   const router = useRouter();
   const pathname = usePathname();
   return (
-    <div className="flex items-center gap-4 mb-6">
+    <div className="mb-6 flex items-center gap-4">
       {pathname !== "/dashboard" && (
         <Button
           variant="outline"
-          className=" rounded-lg shadow-sm"
+          className="rounded-lg shadow-sm"
           onClick={() => router.back()}
           title="Back"
         >
-          <ArrowLeft className="md:mr-2 h-4 w-4" />
+          <ArrowLeft className="h-4 w-4 md:mr-2" />
           <span className="hidden md:inline">Back</span>
         </Button>
       )}
@@ -34,9 +34,9 @@ const MenuWithBackArrow = () => {
       >
         <Link
           href="/dashboard"
-          className="text-sm font-medium  transition-colors text-muted-foreground hover:text-primary"
+          className="text-muted-foreground hover:text-primary text-sm font-medium transition-colors"
         >
-          <IconDashboard className="md:mr-2 h-4 w-4" />
+          <IconDashboard className="h-4 w-4 md:mr-2" />
           <span className="hidden md:inline">Dashboard</span>
         </Link>
       </Button>
@@ -51,9 +51,9 @@ const MenuWithBackArrow = () => {
       >
         <Link
           href="/dashboard/borrowers"
-          className="text-sm font-medium transition-colors text-muted-foreground hover:text-primary"
+          className="text-muted-foreground hover:text-primary text-sm font-medium transition-colors"
         >
-          <UserCircle2Icon className="md:mr-2 h-4 w-4" />
+          <UserCircle2Icon className="h-4 w-4 md:mr-2" />
           <span className="hidden md:inline">Borrowers</span>
         </Link>
       </Button>{" "}

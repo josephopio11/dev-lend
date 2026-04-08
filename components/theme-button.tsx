@@ -15,7 +15,7 @@ export function ThemeButton() {
   const { setTheme } = useTheme();
 
   return (
-    <div className="fixed bottom-5 right-5 z-50">
+    <div className="fixed right-5 bottom-5 z-50">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="icon">

@@ -4,12 +4,12 @@ import Link from "next/link";
 
 export function CTA() {
   return (
-    <section className="border-t border-border bg-card px-6 py-20 md:py-28">
+    <section className="border-border bg-card border-t px-6 py-20 md:py-28">
       <div className="mx-auto max-w-3xl text-center">
-        <h2 className="text-balance text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+        <h2 className="text-foreground text-3xl font-semibold tracking-tight text-balance md:text-4xl">
           Stop wondering who has what
         </h2>
-        <p className="mx-auto mt-4 max-w-xl text-pretty text-muted-foreground">
+        <p className="text-muted-foreground mx-auto mt-4 max-w-xl text-pretty">
           Join teams who have simplified their equipment tracking. Start free,
           no credit card required.
         </p>
@@ -22,7 +22,7 @@ export function CTA() {
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </Link>
-        <p className="mt-6 text-sm text-muted-foreground">
+        <p className="text-muted-foreground mt-6 text-sm">
           Free for up to 20 devices. No credit card needed.
         </p>
       </div>

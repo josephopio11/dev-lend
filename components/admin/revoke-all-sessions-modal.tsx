@@ -72,18 +72,18 @@ export default function RevokeAllOtherSessionsModal({
       <DialogTrigger asChild>
         <Button variant="ghost" size="icon-xs">
           <IconServerOff
-            className="w-4 h-4 text-purple-600"
+            className="h-4 w-4 text-purple-600"
             title="Revoke All Other Sessions"
           />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-125 rounded-2xl max-h-[80vh] flex flex-col p-0 overflow-scroll">
-        <DialogHeader className="p-6 pb-2 h-fit">
-          <DialogTitle className="text-2xl font-display font-bold flex items-center gap-2 ">
-            <IconUserPin className="h-6 w-6 text-primary" />
+      <DialogContent className="flex max-h-[80vh] flex-col overflow-scroll rounded-2xl p-0 sm:max-w-125">
+        <DialogHeader className="h-fit p-6 pb-2">
+          <DialogTitle className="font-display flex items-center gap-2 text-2xl font-bold">
+            <IconUserPin className="text-primary h-6 w-6" />
             Revoke {name}'s Other Sessions
           </DialogTitle>
-          <p className="text-sm text-muted-foreground h-fit">
+          <p className="text-muted-foreground h-fit text-sm">
             {/* <span className="text-foreground font-semibold">
               {borrowerName}
             </span>{" "}
@@ -96,7 +96,7 @@ export default function RevokeAllOtherSessionsModal({
           </p>
         </DialogHeader>
 
-        <div className="space-y-4 pb-6 px-6">
+        <div className="space-y-4 px-6 pb-6">
           <SessionCards sessionsData={allSessions} />
           <div className="flex justify-end gap-4">
             <Button variant="secondary" onClick={() => setOpen(false)}>

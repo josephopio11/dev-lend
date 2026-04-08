@@ -61,12 +61,12 @@ const RegisterEquipmentModal = () => {
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="gap-2 text-white rounded-xl shadow-md hover:shadow-lg transition-all active:scale-95">
+          <Button className="gap-2 rounded-xl text-white shadow-md transition-all hover:shadow-lg active:scale-95">
             <Plus className="h-4 w-4" />
             <span className="hidden md:inline">Register Item</span>
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-106.25 rounded-2xl">
+        <DialogContent className="rounded-2xl sm:max-w-106.25">
           <DialogHeader>
             <DialogTitle className="font-display text-2xl">
               Register Equipment
@@ -78,7 +78,7 @@ const RegisterEquipmentModal = () => {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 mt-4"
+              className="mt-4 space-y-4"
             >
               <FormField
                 control={form.control}
@@ -123,7 +123,7 @@ const RegisterEquipmentModal = () => {
                     <FormControl>
                       <Textarea
                         placeholder="Specifications, accessories included..."
-                        className="rounded-xl resize-none min-h-25"
+                        className="min-h-25 resize-none rounded-xl"
                         {...field}
                       />
                     </FormControl>
@@ -131,7 +131,7 @@ const RegisterEquipmentModal = () => {
                   </FormItem>
                 )}
               />
-              <div className="pt-4 flex justify-end gap-3">
+              <div className="flex justify-end gap-3 pt-4">
                 <Button
                   type="button"
                   variant="outline"

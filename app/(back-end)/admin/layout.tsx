@@ -14,16 +14,16 @@ export default async function AdminLayout({ children }: LayoutProps) {
   // console.log(user);
   return (
     <div>
-      <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl relative z-10">
+      <main className="relative z-10 container mx-auto max-w-7xl flex-1 px-4 py-8">
         <AdminBackButton />
 
         {/* Hero / Header Section */}
-        <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
-            <h1 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-foreground text-balance">
+            <h1 className="font-display text-foreground text-4xl font-bold tracking-tight text-balance md:text-5xl">
               User Admin Page
             </h1>
-            <p className="text-muted-foreground mt-2 text-lg max-w-2xl">
+            <p className="text-muted-foreground mt-2 max-w-2xl text-lg">
               Manage users on this system.
             </p>
           </div>
@@ -32,8 +32,8 @@ export default async function AdminLayout({ children }: LayoutProps) {
         <div className="w-full space-y-4">
           <AdminLinks />
 
-          <Card className=" shadow-xl">
-            <div className="relative  mx-3  space-y-8">{children}</div>
+          <Card className="shadow-xl">
+            <div className="relative mx-3 space-y-8">{children}</div>
           </Card>
         </div>
       </main>

@@ -142,16 +142,16 @@ export default function SessionsPage() {
   const otherSessions = sessions.filter((s) => !s.isCurrent);
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="bg-background min-h-screen pb-24">
       {/* Header */}
-      <header className="border-b border-border bg-card">
+      <header className="border-border bg-card border-b">
         <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
           <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent/10">
-              <Shield className="h-6 w-6 text-accent" />
+            <div className="bg-accent/10 flex h-12 w-12 items-center justify-center rounded-full">
+              <Shield className="text-accent h-6 w-6" />
             </div>
             <div>
-              <h1 className="text-2xl font-semibold text-foreground">
+              <h1 className="text-foreground text-2xl font-semibold">
                 Active Sessions
               </h1>
               <p className="text-muted-foreground">
@@ -166,7 +166,7 @@ export default function SessionsPage() {
       <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Current Session */}
         <section className="mb-8">
-          <h2 className="mb-4 text-sm font-medium uppercase tracking-wider text-muted-foreground">
+          <h2 className="text-muted-foreground mb-4 text-sm font-medium tracking-wider uppercase">
             Current Session
           </h2>
           {sessions
@@ -179,7 +179,7 @@ export default function SessionsPage() {
         {/* Other Sessions */}
         {otherSessions.length > 0 && (
           <section>
-            <h2 className="mb-4 text-sm font-medium uppercase tracking-wider text-muted-foreground">
+            <h2 className="text-muted-foreground mb-4 text-sm font-medium tracking-wider uppercase">
               Other Sessions ({otherSessions.length})
             </h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -196,12 +196,12 @@ export default function SessionsPage() {
 
         {/* Empty State */}
         {otherSessions.length === 0 && (
-          <div className="rounded-lg border border-dashed border-border bg-card/50 p-12 text-center">
-            <Shield className="mx-auto h-12 w-12 text-muted-foreground/50" />
-            <h3 className="mt-4 text-lg font-medium text-foreground">
+          <div className="border-border bg-card/50 rounded-lg border border-dashed p-12 text-center">
+            <Shield className="text-muted-foreground/50 mx-auto h-12 w-12" />
+            <h3 className="text-foreground mt-4 text-lg font-medium">
               No other sessions
             </h3>
-            <p className="mt-2 text-sm text-muted-foreground">
+            <p className="text-muted-foreground mt-2 text-sm">
               You&apos;re only logged in on this device
             </p>
           </div>
@@ -210,9 +210,9 @@ export default function SessionsPage() {
 
       {/* Sticky Footer */}
       {otherSessions.length > 0 && (
-        <div className="fixed inset-x-0 bottom-0 border-t border-border bg-card/95 backdrop-blur-sm">
+        <div className="border-border bg-card/95 fixed inset-x-0 bottom-0 border-t backdrop-blur-sm">
           <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="text-muted-foreground flex items-center gap-2 text-sm">
               <AlertTriangle className="h-4 w-4" />
               <span>
                 {otherSessions.length} other active session
@@ -241,7 +241,7 @@ export default function SessionsPage() {
             <AlertDialogTitle>Revoke Session</AlertDialogTitle>
             <AlertDialogDescription>
               Are you sure you want to revoke this session? The device{" "}
-              <span className="font-medium text-foreground">
+              <span className="text-foreground font-medium">
                 {sessionToRevoke?.device}
               </span>{" "}
               will be logged out immediately.
@@ -271,7 +271,7 @@ export default function SessionsPage() {
             <AlertDialogDescription>
               Are you sure you want to revoke all other sessions? This will log
               you out from{" "}
-              <span className="font-medium text-foreground">
+              <span className="text-foreground font-medium">
                 {otherSessions.length} device
                 {otherSessions.length !== 1 ? "s" : ""}
               </span>
@@ -318,7 +318,7 @@ function SessionCard({ session, onRevoke }: SessionCardProps) {
             </div>
             <div className="min-w-0 space-y-1">
               <div className="flex items-center gap-2">
-                <h3 className="font-medium text-foreground">
+                <h3 className="text-foreground font-medium">
                   {session.device}
                 </h3>
                 {session.isCurrent && (
@@ -330,15 +330,15 @@ function SessionCard({ session, onRevoke }: SessionCardProps) {
                   </Badge>
                 )}
               </div>
-              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+              <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
                 <Globe className="h-3.5 w-3.5" />
                 <span>{session.browser}</span>
               </div>
-              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+              <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
                 <MapPin className="h-3.5 w-3.5" />
                 <span>{session.location}</span>
               </div>
-              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+              <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
                 <Clock className="h-3.5 w-3.5" />
                 <span>{session.lastActive}</span>
               </div>
@@ -349,7 +349,7 @@ function SessionCard({ session, onRevoke }: SessionCardProps) {
               variant="ghost"
               size="sm"
               onClick={onRevoke}
-              className="shrink-0 text-destructive hover:bg-destructive/10 hover:text-destructive"
+              className="text-destructive hover:bg-destructive/10 hover:text-destructive shrink-0"
             >
               <Trash2 className="h-4 w-4" />
               <span className="sr-only">Revoke session</span>

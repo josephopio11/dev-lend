@@ -98,16 +98,16 @@ export default function BanUserModal({ id, name }: BanUserModalProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="icon-xs">
-          <IconShieldOff className="w-4 h-4 text-red-600" title="Ban User" />
+          <IconShieldOff className="h-4 w-4 text-red-600" title="Ban User" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-125 rounded-2xl max-h-[80vh] flex flex-col p-0 overflow-hidden">
+      <DialogContent className="flex max-h-[80vh] flex-col overflow-hidden rounded-2xl p-0 sm:max-w-125">
         <DialogHeader className="p-6 pb-2">
-          <DialogTitle className="text-2xl font-display font-bold flex items-center gap-2">
-            <IconUserPin className="h-6 w-6 text-primary" />
+          <DialogTitle className="font-display flex items-center gap-2 text-2xl font-bold">
+            <IconUserPin className="text-primary h-6 w-6" />
             Banning {name}
           </DialogTitle>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             {/* <span className="text-foreground font-semibold">
               {borrowerName}
             </span>{" "}
@@ -117,7 +117,7 @@ export default function BanUserModal({ id, name }: BanUserModalProps) {
           </p>
         </DialogHeader>
 
-        <div className="space-y-4 pb-6 px-6">
+        <div className="space-y-4 px-6 pb-6">
           <p className="leading-none">You are about to ban {name}</p>
           <div className="">
             <Label htmlFor="reason">Reason</Label>
@@ -137,7 +137,7 @@ export default function BanUserModal({ id, name }: BanUserModalProps) {
           </div>
           <div className="">
             <Label htmlFor="expiresIn">Ban expires in</Label>
-            <div className="flex flex-row gap-2 justify-between items-end">
+            <div className="flex flex-row items-end justify-between gap-2">
               <Input
                 id="expiresIn"
                 type="number"

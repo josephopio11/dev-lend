@@ -122,7 +122,7 @@ export function UsersTable({ users }: UsersTableProps) {
 
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) {
-      return <ArrowUpDown className="ml-1 h-4 w-4 text-muted-foreground/50" />;
+      return <ArrowUpDown className="text-muted-foreground/50 ml-1 h-4 w-4" />;
     }
     return sortDirection === "asc" ? (
       <ArrowUp className="ml-1 h-4 w-4" />
@@ -145,7 +145,7 @@ export function UsersTable({ users }: UsersTableProps) {
       <CardContent className="space-y-4">
         <div className="flex flex-col gap-4 sm:flex-row">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
             <Input
               placeholder="Search by name or email..."
               value={search}
@@ -169,7 +169,7 @@ export function UsersTable({ users }: UsersTableProps) {
         </div>
 
         {filteredAndSortedUsers.length === 0 ? (
-          <div className="flex items-center justify-center py-12 text-muted-foreground">
+          <div className="text-muted-foreground flex items-center justify-center py-12">
             {users.length === 0
               ? "No users found. Add a user to get started."
               : "No users match your search criteria."}
@@ -180,7 +180,7 @@ export function UsersTable({ users }: UsersTableProps) {
               <TableHeader>
                 <TableRow>
                   <TableHead
-                    className="cursor-pointer select-none hover:bg-muted/50"
+                    className="hover:bg-muted/50 cursor-pointer select-none"
                     onClick={() => handleSort("name")}
                   >
                     <div className="flex items-center">
@@ -189,7 +189,7 @@ export function UsersTable({ users }: UsersTableProps) {
                     </div>
                   </TableHead>
                   <TableHead
-                    className="cursor-pointer select-none hover:bg-muted/50"
+                    className="hover:bg-muted/50 cursor-pointer select-none"
                     onClick={() => handleSort("email")}
                   >
                     <div className="flex items-center">
@@ -199,7 +199,7 @@ export function UsersTable({ users }: UsersTableProps) {
                   </TableHead>
 
                   <TableHead
-                    className="cursor-pointer select-none hover:bg-muted/50"
+                    className="hover:bg-muted/50 cursor-pointer select-none"
                     onClick={() => handleSort("createdAt")}
                   >
                     <div className="flex items-center">
@@ -218,13 +218,13 @@ export function UsersTable({ users }: UsersTableProps) {
                       user.banned && "bg-primary/30 text-muted-foreground",
                     )}
                   >
-                    <TableCell className="font-medium flex gap-2">
+                    <TableCell className="flex gap-2 font-medium">
                       {user.name}
                       {user.banned && (
-                        <IconBan className="w-4 h-4 text-destructive" />
+                        <IconBan className="text-destructive h-4 w-4" />
                       )}
                       {user.role === "admin" && (
-                        <IconStar className="w-4 h-4 text-yellow-500" />
+                        <IconStar className="h-4 w-4 text-yellow-500" />
                       )}
                     </TableCell>
                     <TableCell>{user.email}</TableCell>
@@ -232,7 +232,7 @@ export function UsersTable({ users }: UsersTableProps) {
                     <TableCell className="text-muted-foreground">
                       {formatDate(user.createdAt)}
                     </TableCell>
-                    <TableCell className="items-center justify-end truncate font-mono text-xs text-muted-foreground flex gap-1">
+                    <TableCell className="text-muted-foreground flex items-center justify-end gap-1 truncate font-mono text-xs">
                       <EditUserModal />
                       <ChangePasswordModal
                         id={user.id}
@@ -260,7 +260,7 @@ export function UsersTable({ users }: UsersTableProps) {
         )}
 
         {users.length > 0 && (
-          <div className="text-sm text-muted-foreground">
+          <div className="text-muted-foreground text-sm">
             Showing {filteredAndSortedUsers.length} of {users.length} users
           </div>
         )}

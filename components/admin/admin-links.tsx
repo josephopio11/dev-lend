@@ -27,9 +27,9 @@ export const AdminLinks = () => {
   ];
   return (
     <div className="w-full">
-      <Card className="shadow-xl ">
+      <Card className="shadow-xl">
         <CardContent>
-          <div className="grid grid-cols-3 gap-2 ">
+          <div className="grid grid-cols-3 gap-2">
             {links.map((link) => (
               <Button
                 asChild
@@ -37,7 +37,7 @@ export const AdminLinks = () => {
                 key={link.name}
               >
                 <Link href={link.href}>
-                  <link.icon className=" h-4 w-4" />
+                  <link.icon className="h-4 w-4" />
                   {link.name}
                 </Link>
               </Button>

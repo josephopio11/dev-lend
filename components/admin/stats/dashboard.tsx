@@ -46,23 +46,23 @@ export function UserDashboard({ data }: UserDashboardProps) {
   ];
   return (
     <div className="">
-      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {stats.map((stat) => (
           <Card
             key={stat.title}
-            className="bg-card border-border hover:shadow-2xl hover:border-primary/20 transition-all duration-300"
+            className="bg-card border-border hover:border-primary/20 transition-all duration-300 hover:shadow-2xl"
           >
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+              <CardTitle className="text-muted-foreground text-sm font-medium">
                 {stat.title}
               </CardTitle>
-              <stat.icon className="h-4 w-4 text-muted-foreground" />
+              <stat.icon className="text-muted-foreground h-4 w-4" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-foreground">
+              <div className="text-foreground text-3xl font-bold">
                 {stat.value}
               </div>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-muted-foreground mt-1 text-xs">
                 {stat.description}
               </p>
             </CardContent>
@@ -71,7 +71,7 @@ export function UserDashboard({ data }: UserDashboardProps) {
       </div>
 
       <div className="mt-6 grid gap-4 md:grid-cols-7">
-        <Card className="md:col-span-5 bg-card border-border hover:shadow-2xl hover:border-primary/20 transition-all duration-300">
+        <Card className="bg-card border-border hover:border-primary/20 transition-all duration-300 hover:shadow-2xl md:col-span-5">
           <CardHeader>
             <CardTitle className="text-foreground">Item Borrowings</CardTitle>
             <CardDescription className="text-muted-foreground">
@@ -83,7 +83,7 @@ export function UserDashboard({ data }: UserDashboardProps) {
           </CardContent>
         </Card>
 
-        <Card className="md:col-span-2 bg-card border-border hover:shadow-2xl hover:border-primary/20 transition-all duration-300">
+        <Card className="bg-card border-border hover:border-primary/20 transition-all duration-300 hover:shadow-2xl md:col-span-2">
           <CardHeader>
             <CardTitle className="text-foreground">Items Overview</CardTitle>
             <CardDescription className="text-muted-foreground">
@@ -95,8 +95,8 @@ export function UserDashboard({ data }: UserDashboardProps) {
           </CardContent>
         </Card>
       </div>
-      <div className="mt-6 ">
-        <Card className="md:col-span-4 bg-card border-border hover:shadow-2xl hover:border-primary/20 transition-all duration-300">
+      <div className="mt-6">
+        <Card className="bg-card border-border hover:border-primary/20 transition-all duration-300 hover:shadow-2xl md:col-span-4">
           <CardHeader>
             <CardTitle className="text-foreground">Borrower Activity</CardTitle>
             <CardDescription className="text-muted-foreground">

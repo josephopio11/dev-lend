@@ -7,7 +7,7 @@ import { HowItWorks } from "@/components/landing/how-it-works";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background min-h-screen">
       <Header />
       <main>
         <Hero />

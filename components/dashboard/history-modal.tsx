@@ -60,19 +60,19 @@ const HistoryModal = ({ equipmentId, equipmentName }: HistoryModalProps) => {
         <Button
           variant="ghost"
           size="sm"
-          className="h-8 text-xs font-medium rounded-lg text-muted-foreground hover:text-primary transition-colors"
+          className="text-muted-foreground hover:text-primary h-8 rounded-lg text-xs font-medium transition-colors"
         >
-          <History className="h-3.5 w-3.5 mr-1.5" />
+          <History className="mr-1.5 h-3.5 w-3.5" />
           View History
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-125 rounded-2xl max-h-[80vh] flex flex-col p-0 overflow-hidden">
+      <DialogContent className="flex max-h-[80vh] flex-col overflow-hidden rounded-2xl p-0 sm:max-w-125">
         <DialogHeader className="p-6 pb-2">
-          <DialogTitle className="text-2xl font-display font-bold flex items-center gap-2">
-            <History className="h-6 w-6 text-primary" />
+          <DialogTitle className="font-display flex items-center gap-2 text-2xl font-bold">
+            <History className="text-primary h-6 w-6" />
             Lending History
           </DialogTitle>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             <span className="text-foreground font-semibold">
               {equipmentName}
             </span>{" "}
@@ -80,7 +80,7 @@ const HistoryModal = ({ equipmentId, equipmentName }: HistoryModalProps) => {
             <br />
             <span>
               To view the full record{" "}
-              <Button asChild variant={"link"} className="px-0 mx-0">
+              <Button asChild variant={"link"} className="mx-0 px-0">
                 <Link href={`/dashboard/item/${equipmentId}`}>click here</Link>
               </Button>
             </span>
@@ -90,31 +90,31 @@ const HistoryModal = ({ equipmentId, equipmentName }: HistoryModalProps) => {
         <ScrollArea className="flex-1 px-6 pb-6">
           <div className="space-y-4 py-4">
             {!history || history.lendingHistories.length === 0 ? (
-              <div className="text-center py-12 bg-muted/30 rounded-2xl border border-dashed">
-                <History className="h-10 w-10 mx-auto text-muted-foreground/30 mb-3" />
-                <p className="text-sm text-muted-foreground">
+              <div className="bg-muted/30 rounded-2xl border border-dashed py-12 text-center">
+                <History className="text-muted-foreground/30 mx-auto mb-3 h-10 w-10" />
+                <p className="text-muted-foreground text-sm">
                   No lending history yet.
                 </p>
               </div>
             ) : (
-              <div className="relative border-l-2 border-primary/20 ml-3 pl-6 space-y-8 ">
+              <div className="border-primary/20 relative ml-3 space-y-8 border-l-2 pl-6">
                 {history.lendingHistories.map((record) => (
                   <div key={record.id} className="relative">
-                    <div className="absolute -left-7.75 top-1 h-2.5 w-2.5 rounded-full bg-primary border-4 border-background shadow-[0_0_0_2px_rgba(var(--primary),0.1)]" />
+                    <div className="bg-primary border-background absolute top-1 -left-7.75 h-2.5 w-2.5 rounded-full border-4 shadow-[0_0_0_2px_rgba(var(--primary),0.1)]" />
 
-                    <div className="bg-card border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-                      <div className="flex justify-between items-start mb-3">
+                    <div className="bg-card rounded-xl border p-4 shadow-sm transition-shadow hover:shadow-md">
+                      <div className="mb-3 flex items-start justify-between">
                         <div className="flex items-center gap-2">
-                          <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                            <User className="h-4 w-4 text-primary" />
+                          <div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-full">
+                            <User className="text-primary h-4 w-4" />
                           </div>
                           <div>
-                            <p className="font-bold text-sm leading-none">
+                            <p className="text-sm leading-none font-bold">
                               {record.borrower.name}
                             </p>
                             <Badge
                               variant="outline"
-                              className={`mt-1 text-[10px] h-4 rounded-full ${record.returnedAt ? "bg-emerald-50 text-emerald-700 border-emerald-100" : "bg-amber-50 text-amber-700 border-amber-100 animate-pulse"}`}
+                              className={`mt-1 h-4 rounded-full text-[10px] ${record.returnedAt ? "border-emerald-100 bg-emerald-50 text-emerald-700" : "animate-pulse border-amber-100 bg-amber-50 text-amber-700"}`}
                             >
                               {record.returnedAt ? "Completed" : "Current"}
                             </Badge>

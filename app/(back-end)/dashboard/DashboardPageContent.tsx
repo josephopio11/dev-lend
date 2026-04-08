@@ -30,17 +30,17 @@ const DashboardPageContent = ({ equipment }: Props) => {
 
   if (isPending)
     return (
-      <div className="relative ">
-        <div className="absolute w-screen h-screen flex items-center justify-center  z-50">
-          <div className="flex items-center gap-2 flex-col -my-1 ">
-            <Spinner className="w-12 h-12" />
+      <div className="relative">
+        <div className="absolute z-50 flex h-screen w-screen items-center justify-center">
+          <div className="-my-1 flex flex-col items-center gap-2">
+            <Spinner className="h-12 w-12" />
             Loading...
           </div>
         </div>
       </div>
     );
   if (!session?.user)
-    return <p className="text-center mt-8 text-white">Redirecting...</p>;
+    return <p className="mt-8 text-center text-white">Redirecting...</p>;
 
   const filteredEquipment =
     equipment?.filter((item) => {
@@ -75,44 +75,44 @@ const DashboardPageContent = ({ equipment }: Props) => {
   };
 
   return (
-    <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl relative z-10">
+    <main className="relative z-10 container mx-auto max-w-7xl flex-1 px-4 py-8">
       <MenuWithBackArrow />
 
       {/* Hero / Header Section */}
-      <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
-          <h1 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-foreground text-balance">
+          <h1 className="font-display text-foreground text-4xl font-bold tracking-tight text-balance md:text-5xl">
             Equipment Inventory
           </h1>
-          <p className="text-muted-foreground mt-2 text-lg max-w-2xl">
+          <p className="text-muted-foreground mt-2 max-w-2xl text-lg">
             Manage checkouts, track availability, and maintain your hardware
             catalog seamlessly.
           </p>
         </div>
 
         {/* Stats quick view */}
-        <div className="flex gap-4 p-4 bg-card rounded-2xl border shadow-sm">
-          <div className="text-center px-4 border-r border-border">
-            <div className="text-3xl font-display font-bold text-primary">
+        <div className="bg-card flex gap-4 rounded-2xl border p-4 shadow-sm">
+          <div className="border-border border-r px-4 text-center">
+            <div className="font-display text-primary text-3xl font-bold">
               {stats.total}
             </div>
-            <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
+            <div className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
               Total
             </div>
           </div>
-          <div className="text-center px-4 border-r border-border">
-            <div className="text-3xl font-display font-bold text-emerald-500">
+          <div className="border-border border-r px-4 text-center">
+            <div className="font-display text-3xl font-bold text-emerald-500">
               {stats.available}
             </div>
-            <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
+            <div className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
               Ready
             </div>
           </div>
-          <div className="text-center px-4">
-            <div className="text-3xl font-display font-bold text-amber-500">
+          <div className="px-4 text-center">
+            <div className="font-display text-3xl font-bold text-amber-500">
               {stats.borrowed}
             </div>
-            <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
+            <div className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
               Out
             </div>
           </div>
@@ -120,25 +120,25 @@ const DashboardPageContent = ({ equipment }: Props) => {
       </div>
 
       {/* Controls */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-8 items-center bg-card p-2 rounded-2xl border shadow-sm">
-        <div className="relative flex-1 w-full">
-          <PackageSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+      <div className="bg-card mb-8 flex flex-col items-center gap-4 rounded-2xl border p-2 shadow-sm sm:flex-row">
+        <div className="relative w-full flex-1">
+          <PackageSearch className="text-muted-foreground absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2" />
           <Input
             placeholder="Search by name, serial, or borrower..."
-            className="pl-10 h-12 rounded-xl border-none bg-transparent shadow-none focus-visible:ring-1 focus-visible:ring-primary/50 text-base"
+            className="focus-visible:ring-primary/50 h-12 rounded-xl border-none bg-transparent pl-10 text-base shadow-none focus-visible:ring-1"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="h-8 w-px bg-border hidden sm:block" />
-        <div className="flex gap-2 w-full sm:w-auto p-2 sm:p-0">
+        <div className="bg-border hidden h-8 w-px sm:block" />
+        <div className="flex w-full gap-2 p-2 sm:w-auto sm:p-0">
           {(["ALL", "AVAILABLE", "BORROWED"] as const).map((f) => (
             <Button
               key={f}
               variant={filter === f ? "secondary" : "ghost"}
               size="sm"
               onClick={() => setFilter(f)}
-              className={`rounded-lg capitalize flex-1 sm:flex-none ${filter === f ? "bg-primary/10 text-primary hover:bg-primary/20" : ""}`}
+              className={`flex-1 rounded-lg capitalize sm:flex-none ${filter === f ? "bg-primary/10 text-primary hover:bg-primary/20" : ""}`}
             >
               {f}
             </Button>
@@ -148,11 +148,11 @@ const DashboardPageContent = ({ equipment }: Props) => {
 
       {/* Content Area */}
       {filteredEquipment.length === 0 && (
-        <div className="py-24 flex flex-col items-center justify-center text-center max-w-md mx-auto">
-          <div className="h-24 w-24 bg-muted rounded-full flex items-center justify-center mb-6">
-            <Boxes className="h-12 w-12 text-muted-foreground/50" />
+        <div className="mx-auto flex max-w-md flex-col items-center justify-center py-24 text-center">
+          <div className="bg-muted mb-6 flex h-24 w-24 items-center justify-center rounded-full">
+            <Boxes className="text-muted-foreground/50 h-12 w-12" />
           </div>
-          <h3 className="font-display text-2xl font-bold mb-2">
+          <h3 className="font-display mb-2 text-2xl font-bold">
             No items found
           </h3>
           <p className="text-muted-foreground">
@@ -176,7 +176,7 @@ const DashboardPageContent = ({ equipment }: Props) => {
       )}
 
       {filteredEquipment.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredEquipment.map((item, index) => (
             <EquipmentCard key={item.id} equipment={item} index={index} />
           ))}

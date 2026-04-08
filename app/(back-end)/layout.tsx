@@ -7,8 +7,8 @@ type DashboardLayoutProps = {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <div className="min-h-screen bg-background flex flex-col relative overflow-hidden">
-      <div className="absolute top-0 inset-x-0 h-125 bg-linear-to-b from-primary/5 to-transparent pointer-events-none" />
+    <div className="bg-background relative flex min-h-screen flex-col overflow-hidden">
+      <div className="from-primary/5 pointer-events-none absolute inset-x-0 top-0 h-125 bg-linear-to-b to-transparent" />
       <Navbar />
       {children}
     </div>

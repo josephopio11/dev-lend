@@ -154,23 +154,23 @@ const EditBorrowerModal = ({ borrowerId, title }: EditBorrowerModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="text-start hover:underline underline-offset-2 transition-colors">
-        <span className="font-semibold text-lg text-foreground leading-tight">
+      <DialogTrigger className="text-start underline-offset-2 transition-colors hover:underline">
+        <span className="text-foreground text-lg leading-tight font-semibold">
           {title}
         </span>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-lg md:max-w-2xl rounded-xl max-h-[85vh] flex flex-col gap-0 p-0 overflow-hidden">
-        <DialogHeader className="px-6 pt-6 pb-4 border-b bg-muted/30">
+      <DialogContent className="flex max-h-[85vh] flex-col gap-0 overflow-hidden rounded-xl p-0 sm:max-w-lg md:max-w-2xl">
+        <DialogHeader className="bg-muted/30 border-b px-6 pt-6 pb-4">
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center size-10 rounded-full bg-primary/10">
-              <User className="size-5 text-primary" />
+            <div className="bg-primary/10 flex size-10 items-center justify-center rounded-full">
+              <User className="text-primary size-5" />
             </div>
             <div>
               <DialogTitle className="text-xl font-semibold">
                 Edit Borrower
               </DialogTitle>
               {borrower && (
-                <p className="text-sm text-muted-foreground mt-0.5">
+                <p className="text-muted-foreground mt-0.5 text-sm">
                   Updating details for{" "}
                   <span className="text-foreground font-medium">
                     {borrower.name}
@@ -184,7 +184,7 @@ const EditBorrowerModal = ({ borrowerId, title }: EditBorrowerModalProps) => {
         <ScrollArea className="flex-1 overflow-y-auto">
           {isLoading ? (
             <div className="flex items-center justify-center py-16">
-              <Spinner className="size-6 text-primary" />
+              <Spinner className="text-primary size-6" />
             </div>
           ) : (
             <div className="p-6">
@@ -245,7 +245,7 @@ const EditBorrowerModal = ({ borrowerId, title }: EditBorrowerModalProps) => {
                           variant="outline"
                           role="combobox"
                           aria-expanded={positionOpen}
-                          className="w-full h-11 justify-between font-normal"
+                          className="h-11 w-full justify-between font-normal"
                         >
                           {selectedPosition
                             ? positions.find(
@@ -312,7 +312,7 @@ const EditBorrowerModal = ({ borrowerId, title }: EditBorrowerModalProps) => {
                     </FieldError>
                   </Field>
 
-                  <div className="flex items-center justify-end gap-3 pt-4 border-t">
+                  <div className="flex items-center justify-end gap-3 border-t pt-4">
                     <Button
                       type="button"
                       variant="outline"

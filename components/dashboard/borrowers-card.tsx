@@ -45,24 +45,21 @@ const BorrowerCard = ({ borrower, index }: BorrowerCardProps) => {
 
   return (
     <Card
-      className="group relative overflow-hidden rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm shadow-sm hover:shadow-xl hover:border-primary/20 transition-all duration-300 flex flex-col animate-in-stagger "
+      className="group border-border/50 bg-card/50 hover:border-primary/20 animate-in-stagger relative flex flex-col overflow-hidden rounded-2xl border shadow-sm backdrop-blur-sm transition-all duration-300 hover:shadow-xl"
       style={{ animationDelay: `${index * 50}ms` }}
     >
       {/* Decorative gradient blob */}
-      <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors pointer-events-none" />
-      <CardHeader className="pb-4 relative z-10 px-3">
-        <div className="flex justify-between items-start mb-2">
-          <div className="flex gap-2 items-center">
+      <div className="bg-primary/5 group-hover:bg-primary/10 pointer-events-none absolute -top-24 -right-24 h-48 w-48 rounded-full blur-3xl transition-colors" />
+      <CardHeader className="relative z-10 px-3 pb-4">
+        <div className="mb-2 flex items-start justify-between">
+          <div className="flex items-center gap-2">
             <Badge
               variant="outline"
-              className={`
-                font-medium rounded-full px-3 py-1 border-0
-                ${
-                  hasItem
-                    ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300"
-                    : "bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300"
-                }
-              `}
+              className={`rounded-full border-0 px-3 py-1 font-medium ${
+                hasItem
+                  ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300"
+                  : "bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300"
+              } `}
             >
               {hasItem ? "Returned" : "Borrowed"}
             </Badge>
@@ -77,7 +74,7 @@ const BorrowerCard = ({ borrower, index }: BorrowerCardProps) => {
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                className="text-muted-foreground hover:text-destructive h-8 w-8 opacity-0 transition-opacity group-hover:opacity-100"
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
@@ -96,7 +93,7 @@ const BorrowerCard = ({ borrower, index }: BorrowerCardProps) => {
                 </AlertDialogCancel>
                 <AlertDialogAction
                   onClick={handleDelete}
-                  className="rounded-xl bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-xl"
                 >
                   Delete
                 </AlertDialogAction>
@@ -112,11 +109,11 @@ const BorrowerCard = ({ borrower, index }: BorrowerCardProps) => {
         </Link> */}
         <EditBorrowerModal borrowerId={borrower.id} title={borrower.name} />
       </CardHeader>
-      <CardContent className="pb-4 flex-1 relative z-10 px-3">
-        <div className="flex items-start text-foreground bg-foreground/5 p-2 rounded-xl border my-2 min-h-10 border-border/50">
+      <CardContent className="relative z-10 flex-1 px-3 pb-4">
+        <div className="text-foreground bg-foreground/5 border-border/50 my-2 flex min-h-10 items-start rounded-xl border p-2">
           <Box
             className={cn(
-              "h-4 w-4 mr-2 mt-0.5 ",
+              "mt-0.5 mr-2 h-4 w-4",
               borrower.lendingHistories.length > 0 &&
                 borrower.lendingHistories[0].returnedAt === null
                 ? "text-amber-500"
@@ -129,15 +126,15 @@ const BorrowerCard = ({ borrower, index }: BorrowerCardProps) => {
               className={cn(
                 borrower.lendingHistories[0]?.equipment.name
                   ? "font-medium"
-                  : "italic text-xs font-light text-yellow-500",
+                  : "text-xs font-light text-yellow-500 italic",
               )}
             >
               {borrower.lendingHistories[0]?.equipment.name ??
                 "Nothing borrowed yet"}
             </p>
             {borrower.lendingHistories.length > 0 && (
-              <div className="flex items-center text-xs text-muted-foreground mt-1">
-                <CalendarClock className="h-3 w-3 mr-1" />
+              <div className="text-muted-foreground mt-1 flex items-center text-xs">
+                <CalendarClock className="mr-1 h-3 w-3" />
                 {borrower.lendingHistories[0].returnedAt === null ? (
                   <span>
                     Borrowed{" "}
@@ -173,23 +170,23 @@ const BorrowerCard = ({ borrower, index }: BorrowerCardProps) => {
           </div>
         </div>
 
-        <div className="space-y-3 bg-foreground/5 border border-foreground/10 p-2 rounded-xl text-sm">
-          <div className="flex items-center text-muted-foreground">
-            <Armchair className="h-4 w-4 mr-1 text-primary/70" />
-            <span className="font-mono font-bold text-xs">
+        <div className="bg-foreground/5 border-foreground/10 space-y-3 rounded-xl border p-2 text-sm">
+          <div className="text-muted-foreground flex items-center">
+            <Armchair className="text-primary/70 mr-1 h-4 w-4" />
+            <span className="font-mono text-xs font-bold">
               {borrower.position}
             </span>
           </div>
-          <div className="flex items-center justify-start text-muted-foreground pt-2 border-t border-border/50">
-            <Mail className="h-4 w-4 mr-1 text-primary/70" />
-            <span className="font-mono font-bold text-xs">
+          <div className="text-muted-foreground border-border/50 flex items-center justify-start border-t pt-2">
+            <Mail className="text-primary/70 mr-1 h-4 w-4" />
+            <span className="font-mono text-xs font-bold">
               <Link href={`mailto:${borrower.email}`}>{borrower.email}</Link>
             </span>
           </div>
 
-          <div className="flex items-center text-muted-foreground pt-2 border-t border-border/50">
-            <Phone className="h-4 w-4 mr-1 mt-0.5 text-primary/70" />
-            <span className="font-mono font-bold text-xs">
+          <div className="text-muted-foreground border-border/50 flex items-center border-t pt-2">
+            <Phone className="text-primary/70 mt-0.5 mr-1 h-4 w-4" />
+            <span className="font-mono text-xs font-bold">
               <Link href={`tel:${borrower.phone}`}>{borrower.phone}</Link>
             </span>
           </div>

@@ -11,11 +11,11 @@ const AdminBackButton = () => {
   const router = useRouter();
   const pathname = usePathname();
   return (
-    <div className="flex items-center gap-4 mb-6">
+    <div className="mb-6 flex items-center gap-4">
       {pathname !== "/dashboard" && (
         <Button
           variant="outline"
-          className=" rounded-lg shadow-sm"
+          className="rounded-lg shadow-sm"
           onClick={() => router.back()}
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
@@ -32,7 +32,7 @@ const AdminBackButton = () => {
       >
         <Link
           href="/dashboard"
-          className="text-sm font-medium  transition-colors text-muted-foreground hover:text-primary"
+          className="text-muted-foreground hover:text-primary text-sm font-medium transition-colors"
         >
           <IconDashboard className="mr-2 h-4 w-4" />
           Dashboard
@@ -48,7 +48,7 @@ const AdminBackButton = () => {
       >
         <Link
           href="/dashboard/borrowers"
-          className="text-sm font-medium transition-colors text-muted-foreground hover:text-primary"
+          className="text-muted-foreground hover:text-primary text-sm font-medium transition-colors"
         >
           <UserCircle2Icon className="mr-2 h-4 w-4" />
           Borrowers

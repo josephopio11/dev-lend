@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const steps = [
   {
     number: "01",
@@ -21,37 +23,42 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="px-6 py-20 md:py-28">
-      <div className="mx-auto max-w-6xl">
+    <section id="how-it-works" className="relative px-6 py-20 md:py-28">
+      <div className="max-w-6x z-11 mx-auto">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-balance text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+          <h2 className="text-foreground text-3xl font-semibold tracking-tight text-balance md:text-4xl">
             Three steps. That&apos;s it.
           </h2>
-          <p className="mt-4 text-pretty text-muted-foreground">
+          <p className="text-muted-foreground mt-4 text-pretty">
             No training required. No learning curve. Start tracking in minutes.
           </p>
         </div>
-
         <div className="mt-16 grid gap-8 md:grid-cols-3">
           {steps.map((step, index) => (
             <div key={step.number} className="relative">
               {index < steps.length - 1 && (
-                <div className="absolute left-1/2 top-8 hidden h-px w-full -translate-x-1/2 bg-border md:block" />
+                <div className="bg-border absolute top-8 left-1/2 hidden h-px w-full -translate-x-1/2 md:block" />
               )}
               <div className="relative flex flex-col items-center text-center">
-                <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full border-2 border-border bg-background text-xl font-semibold text-muted-foreground">
+                <div className="border-border bg-background text-muted-foreground mb-6 flex h-16 w-16 items-center justify-center rounded-full border-2 text-xl font-semibold">
                   {step.number}
                 </div>
-                <h3 className="mb-2 text-lg font-medium text-foreground">
+                <h3 className="text-foreground mb-2 text-lg font-medium">
                   {step.title}
                 </h3>
-                <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
+                <p className="text-muted-foreground max-w-xs text-sm leading-relaxed">
                   {step.description}
                 </p>
               </div>
             </div>
           ))}
         </div>
+      </div>
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 transition-opacity duration-1000 ease-in-out">
+          <Image src={"/images/bg.jpg"} alt="" fill className="object-cover" />
+        </div>
+        <div className="bg-background/60 absolute inset-0 backdrop-blur-sm" />
       </div>
     </section>
   );

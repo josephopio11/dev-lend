@@ -17,7 +17,7 @@ export default function StopImpersonating() {
     <Button
       size={"xs"}
       variant={"destructive"}
-      className="  my-1"
+      className="my-1"
       onClick={handleStopImpersonating}
     >
       <IconCancel className="mr-1 h-4 w-4" />
