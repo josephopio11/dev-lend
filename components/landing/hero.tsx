@@ -43,7 +43,7 @@ export function Hero() {
           </div>
         ))}
         {/* Overlay for readability */}
-        <div className="bg-background/70 absolute inset-0 backdrop-blur-sm" />
+        <div className="bg-background/80 absolute inset-0 backdrop-blur-sm" />
       </div>
 
       {/* Slider Indicators */}

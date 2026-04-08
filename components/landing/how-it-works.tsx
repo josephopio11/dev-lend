@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const steps = [
   {
     number: "01",
@@ -24,7 +22,16 @@ const steps = [
 export function HowItWorks() {
   return (
     <section id="how-it-works" className="relative px-6 py-20 md:py-28">
-      <div className="max-w-6x z-11 mx-auto">
+      <div
+        className="absolute top-0 left-0 z-0 h-full w-full bg-cover bg-fixed bg-center"
+        style={{ backgroundImage: "url('/images/bg.jpg')" }}
+      >
+        {/* <div className="absolute inset-0 transition-opacity duration-1000 ease-in-out">
+          <Image src={"/images/bg.jpg"} alt="" fill className="object-cover" />
+        </div> */}
+        <div className="bg-background/80 absolute inset-0 backdrop-blur-sm" />
+      </div>
+      <div className="max-w-6x relative z-10 mx-auto">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-foreground text-3xl font-semibold tracking-tight text-balance md:text-4xl">
             Three steps. That&apos;s it.
@@ -53,12 +60,6 @@ export function HowItWorks() {
             </div>
           ))}
         </div>
-      </div>
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 transition-opacity duration-1000 ease-in-out">
-          <Image src={"/images/bg.jpg"} alt="" fill className="object-cover" />
-        </div>
-        <div className="bg-background/60 absolute inset-0 backdrop-blur-sm" />
       </div>
     </section>
   );
