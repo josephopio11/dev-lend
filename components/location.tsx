@@ -58,7 +58,7 @@ interface Location2 {
 }
 
 const UserLocation = ({ ip }: { ip: string }) => {
-  const [location, setLocation] = useState<Location2 | null>(null);
+  const [location, setLocation] = useState<Location | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -72,8 +72,8 @@ const UserLocation = ({ ip }: { ip: string }) => {
 
     const fetchLocation = async () => {
       try {
-        const response = await fetch(`https://ipapi.co/${ip}/json/`); // 👈 use the actual ip variable
-        // const response = await fetch(`/api/location?ip=${ip}`);
+        // const response = await fetch(`https://ipapi.co/${ip}/json/`); // 👈 use the actual ip variable
+        const response = await fetch(`/api/location?ip=${ip}`);
         const data = await response.json();
         setLocation(data);
         console.log(data);
@@ -106,12 +106,12 @@ const UserLocation = ({ ip }: { ip: string }) => {
         <IconExclamationMark className="h-3.5 w-3.5 shrink-0" />
         <span className="truncate">
           Error: {error} <br />
-          {location?.reason}
+          {location?.message}
         </span>
       </div>
     );
-  if (!location || location.error)
-    if (location?.reason === "reserved range") {
+  if (!location || location?.status === "fail")
+    if (location?.message === "reserved range") {
       return (
         <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
           <IconExclamationMark className="h-3.5 w-3.5 shrink-0" />
@@ -140,7 +140,9 @@ const UserLocation = ({ ip }: { ip: string }) => {
       </div>
       <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
         <Wifi className="h-3.5 w-3.5 shrink-0" />
-        <span className="font-bold">{location.network}</span>
+        <span className="font-bold capitalize">
+          {location.isp?.toLowerCase()}
+        </span>
       </div>
     </>
   );
