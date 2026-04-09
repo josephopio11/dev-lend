@@ -7,7 +7,6 @@ import {
 } from "@/app/actions/users";
 import { clientAdmin } from "@/lib/auth-client";
 import {
-  formatIPAddress,
   formatRelativeTime,
   isSessionExpired,
   parseUserAgent,
@@ -16,7 +15,6 @@ import {
   AlertTriangle,
   Clock,
   Globe,
-  Hash,
   Monitor,
   Shield,
   Smartphone,
@@ -283,14 +281,7 @@ function SessionCard({ session, isCurrent, onRevoke }: SessionCardProps) {
                   {browser} on {os}
                 </span>
               </div>
-              <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
-                <Hash className="h-3.5 w-3.5 shrink-0" />
-                <span className="truncate">
-                  {formatIPAddress(session.ipAddress || "")}
-                  {" | "}
-                  <UserLocation ip={session.ipAddress || ""} />
-                </span>
-              </div>
+              <UserLocation ip={session.ipAddress || ""} />
               <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
                 <Clock className="h-3.5 w-3.5 shrink-0" />
                 <span>

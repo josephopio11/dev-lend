@@ -36,9 +36,18 @@ export async function getAllBorrowers() {
   const data = await prisma.borrower.findMany({
     include: {
       _count: {
-        select: { lendingHistories: true },
+        select: {
+          lendingHistories: {
+            where: {
+              lentById: session.user.id,
+            },
+          },
+        },
       },
       lendingHistories: {
+        where: {
+          lentById: session.user.id,
+        },
         select: {
           id: true,
           borrowedAt: true,

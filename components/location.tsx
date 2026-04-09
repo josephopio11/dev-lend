@@ -1,61 +1,110 @@
 "use client";
 
+import { formatIPAddress } from "@/lib/utils";
+import { IconExclamationMark, IconLocationPin } from "@tabler/icons-react";
+import { Hash, Wifi } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Spinner } from "./ui/spinner";
 
 interface Location {
-  ip: string;
-  city: string;
-  region: string;
-  country: string;
-  lat: number;
-  lon: number;
-  isp: string;
+  status: "success" | "fail";
+  query: string;
+  message?: string;
+  country?: string;
+  countryCode?: string;
+  region?: string;
+  regionName?: string;
+  city?: string;
+  zip?: string;
+  lat?: number;
+  lon?: number;
+  timezone?: string;
+  isp?: string;
+  org?: string;
+  as?: string;
 }
 
 const UserLocation = ({ ip }: { ip: string }) => {
   const [location, setLocation] = useState<Location | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!ip) {
-      setError("No IP address provided");
-      setLoading(false);
-      return;
+      setError("No IP provided");
+      return; // 👈 early return to prevent fetch
     }
 
-    fetch("/api/location?ip=" + ip)
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
-        return res.json();
-      })
-      .then((data) => {
+    setLoading(true);
+
+    const fetchLocation = async () => {
+      try {
+        const response = await fetch(`http://ip-api.com/json/${ip}`); // 👈 use the actual ip variable
+        const data = await response.json();
         setLocation(data);
-      })
-      .catch((err) => {
-        setError(err.message ?? "Failed to fetch location");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      } catch (error) {
+        setError("Failed to fetch location"); // 👈 update error state
+        console.error("Error:", error);
+      } finally {
+        setLoading(false); // 👈 always stop loading
+      }
+    };
+
+    fetchLocation();
+
+    return () => {
+      setLoading(false);
+      setError(null);
+    };
   }, [ip]);
 
-  if (loading) return <span>Detecting location...</span>;
-  if (error) return <span>Error: {error}</span>;
-  if (!location) return <span>Unable to detect location</span>;
+  if (loading)
+    return (
+      <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
+        <Spinner className="h-3.5 w-3.5 shrink-0" />
+        <span className="truncate">Detecting location...</span>
+      </div>
+    );
+  if (error)
+    return (
+      <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
+        <IconExclamationMark className="h-3.5 w-3.5 shrink-0" />
+        <span className="truncate">Error: {error}</span>
+      </div>
+    );
+  if (!location || location.status === "fail")
+    if (location?.message === "reserved range") {
+      return (
+        <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
+          <IconExclamationMark className="h-3.5 w-3.5 shrink-0" />
+          <span className="truncate">Reserved Address</span>
+        </div>
+      );
+    } else
+      return (
+        <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
+          <IconExclamationMark className="h-3.5 w-3.5 shrink-0" />
+          <span className="truncate">Unable to detect location</span>
+        </div>
+      );
   return (
-    <div>
-      <pre>{JSON.stringify(location, null, 2)}</pre>
-      <h1>Your Approximate Location</h1>
-      <p>IP: {location.ip}</p>
-      <p>City: {location.city}</p>
-      <p>Region: {location.region}</p>
-      <p>Country: {location.country}</p>
-      <p>
-        Coordinates: {location.lat}, {location.lon}
-      </p>
-      <p>ISP: {location.isp}</p>
-    </div>
+    <>
+      {/* <pre>{JSON.stringify(location, null, 2)}</pre> */}
+      <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
+        <Hash className="h-3.5 w-3.5 shrink-0" />
+        <span className="truncate">{formatIPAddress(ip)}</span>
+      </div>
+      <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
+        <IconLocationPin className="h-3.5 w-3.5 shrink-0" />
+        <span className="font-bold">
+          {location.city}, {location.countryCode}
+        </span>
+      </div>
+      <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
+        <Wifi className="h-3.5 w-3.5 shrink-0" />
+        <span className="font-bold">{location.isp}</span>
+      </div>
+    </>
   );
 };
 
