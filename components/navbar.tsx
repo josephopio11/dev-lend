@@ -38,7 +38,8 @@ const Navbar = async () => {
 
         <nav className="flex items-center gap-4">
           <RegisterEquipmentModal />
-          <UserIcon user={user} />
+
+          <UserIcon user={user} impersonator={session.impersonatedBy} />
         </nav>
       </div>
     </header>

@@ -16,6 +16,7 @@ import { createNameAvatar } from "@/lib/utils";
 import { IconLogout, IconUserCircle, IconUsers } from "@tabler/icons-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import StopImpersonating from "../admin/stop-impersonating";
 
 type UserIconProps = {
   user: {
@@ -31,9 +32,10 @@ type UserIconProps = {
     banReason?: string | null | undefined;
     banExpires?: Date | null | undefined;
   };
+  impersonator?: string | null;
 };
 
-function UserIcon({ user }: UserIconProps) {
+function UserIcon({ user, impersonator }: UserIconProps) {
   const router = useRouter();
   return (
     <DropdownMenu>
@@ -102,6 +104,12 @@ function UserIcon({ user }: UserIconProps) {
             </Link>
           </DropdownMenuItem> */}
         </DropdownMenuGroup>
+        {impersonator && (
+          <div className="flex flex-col items-center">
+            <DropdownMenuSeparator />
+            <StopImpersonating />
+          </div>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
