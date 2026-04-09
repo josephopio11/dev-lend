@@ -11,7 +11,7 @@ const Navbar = async () => {
   return (
     <header className="glass sticky top-0 z-50 w-full border-b">
       {session.impersonatedBy && (
-        <div className="bg-yellow-400 opacity-85">
+        <div className="bg-yellow-400 opacity-85 dark:bg-yellow-400/50">
           <div className="container mx-auto flex max-w-7xl items-center justify-center gap-2 px-4">
             <p>
               This account is currently being impersonated by user with id:{" "}
