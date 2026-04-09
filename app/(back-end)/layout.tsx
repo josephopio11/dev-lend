@@ -1,5 +1,5 @@
 import Navbar from "@/components/navbar";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 type DashboardLayoutProps = {
   children: ReactNode;
