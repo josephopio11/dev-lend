@@ -31,7 +31,7 @@ export function UserPageContent({ user }: Props) {
 
   const handleUserInfo = async () => {
     setIsLoading(true);
-    console.log(userInfo);
+    // console.log(userInfo);
     await new Promise((resolve) => setTimeout(resolve, 10000));
     setIsLoading(false);
   };

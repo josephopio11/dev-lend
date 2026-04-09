@@ -61,9 +61,9 @@ export default function PasswordChange() {
       //     revokeOtherSessions: passwords.revokeOtherSessions,
       //   });
 
-      console.table(passwords);
-      console.log(data);
-      console.table(error);
+      // console.table(passwords);
+      // console.log(data);
+      // console.table(error);
 
       //   if (error) {
       //     toast.error(error.message || "Failed to change password", {

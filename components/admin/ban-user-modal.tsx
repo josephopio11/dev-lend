@@ -80,10 +80,6 @@ export default function BanUserModal({ id, name }: BanUserModalProps) {
       form.expiresIn = 0;
     }
 
-    console.log("=========================================");
-    console.log(form);
-    console.log("=========================================");
-
     const { data, error } = await clientAdmin.banUser({
       userId: id, // required
       banReason: form.reason,
