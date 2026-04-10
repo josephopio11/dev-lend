@@ -85,7 +85,7 @@ export type AllBorrowersType = Awaited<ReturnType<typeof getAllBorrowers>>;
 export type SingleBorrowerType = AllBorrowersType[number];
 
 export async function getBorrower(id: string) {
-  const session = await requireAuth();
+  await requireAuth();
   const data = await prisma.borrower.findUnique({
     where: { id },
   });
