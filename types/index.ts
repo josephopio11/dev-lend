@@ -7,3 +7,9 @@ export const formSchema = z.object({
 });
 
 export type FormValues = z.infer<typeof formSchema>;
+
+export interface BanUserModalProps {
+  id: string;
+  name: string;
+  isInPage?: boolean;
+}

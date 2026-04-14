@@ -1,6 +1,8 @@
 "use client";
 
 import { clientAdmin } from "@/lib/auth-client";
+import { cn } from "@/lib/utils";
+import { BanUserModalProps } from "@/types";
 import { IconShieldCheckFilled, IconUserPin } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -13,18 +15,11 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 
-interface UnbanUserModalProps {
-  id: string;
-  name: string;
-}
-
-type FormState = {
-  reason?: string;
-  expiresIn?: number;
-  units?: string;
-};
-
-export default function UnbanUserModal({ id, name }: UnbanUserModalProps) {
+export default function UnbanUserModal({
+  id,
+  name,
+  isInPage,
+}: BanUserModalProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
@@ -33,18 +28,22 @@ export default function UnbanUserModal({ id, name }: UnbanUserModalProps) {
       userId: id, // required
     });
     console.log(data, error);
-    router.push("/admin/users");
+    router.refresh();
     setOpen(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon-xs">
+        <Button
+          className={cn("w-19 bg-emerald-500 text-xs", isInPage && "min-w-1/3")}
+          size={isInPage ? "default" : "sm"}
+        >
           <IconShieldCheckFilled
-            className="h-4 w-4 text-emerald-600"
+            className="text-white-600 h-4 w-4"
             title="Ban User"
-          />
+          />{" "}
+          Unban
         </Button>
       </DialogTrigger>
       <DialogContent className="flex max-h-[80vh] flex-col overflow-hidden rounded-2xl p-0 sm:max-w-125">
@@ -53,14 +52,6 @@ export default function UnbanUserModal({ id, name }: UnbanUserModalProps) {
             <IconUserPin className="text-primary h-6 w-6" />
             Unbanning {name}
           </DialogTitle>
-          <p className="text-muted-foreground text-sm">
-            {/* <span className="text-foreground font-semibold">
-              {borrowerName}
-            </span>{" "}
-            has borrowed {history._count.lendingHistories} times so far. The
-            recent {history.lendingHistories.length} items borrowed can ben seen
-            below <br /> */}
-          </p>
         </DialogHeader>
 
         <div className="space-y-4 px-6 pb-6">

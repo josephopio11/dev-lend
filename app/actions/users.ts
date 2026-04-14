@@ -93,3 +93,18 @@ export async function getUserById(id: string) {
 }
 
 export type UserByIdType = Awaited<ReturnType<typeof getUserById>>;
+
+export async function getUniqueRoles() {
+  await requireAdmin();
+
+  const data = await prisma.user.groupBy({
+    by: ["role"],
+    _count: { role: true },
+    orderBy: { _count: { role: "desc" } },
+  });
+
+  const res = data.map((item) => item.role);
+
+  console.log(res);
+  return res;
+}

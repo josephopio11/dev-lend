@@ -1,10 +1,7 @@
 "use client";
 
 import BanUserModal from "@/components/admin/ban-user-modal";
-import ChangePasswordModal from "@/components/admin/change-password-modal";
-import DeleteUserModal from "@/components/admin/delete-user-modal";
 import ImpersonateUserModal from "@/components/admin/impersonate-user-modal";
-import RevokeSessionsModal from "@/components/admin/revoke-all-sessions-modal";
 import UnbanUserModal from "@/components/admin/unban-user-modal";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,7 +28,7 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { IconBan, IconEdit, IconStar } from "@tabler/icons-react";
-import { UserWithRole } from "better-auth/plugins";
+import type { UserWithRole } from "better-auth/plugins";
 import { ArrowDown, ArrowUp, ArrowUpDown, Search } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
@@ -233,26 +230,27 @@ export function UsersTable({ users }: UsersTableProps) {
                     <TableCell className="text-muted-foreground">
                       {formatDate(user.createdAt)}
                     </TableCell>
-                    <TableCell className="text-muted-foreground flex items-center justify-end gap-0.5 truncate font-mono text-xs">
-                      <Button variant="ghost" size="icon-xs" asChild>
+                    <TableCell className="text-muted-foreground flex items-center justify-end gap-0.5 truncate text-xs">
+                      <Button variant="outline" size="sm" asChild>
                         <Link href={`/admin/users/${user.id}`}>
                           <IconEdit
                             className="h-4 w-4"
                             title="Change Password"
                           />
+                          Details
                         </Link>
                       </Button>
-                      <ChangePasswordModal
+                      {/* <ChangePasswordModal
                         id={user.id}
                         name={user.name}
                         email={user.email}
-                      />
-                      <RevokeSessionsModal
+                      /> */}
+                      {/* <RevokeSessionsModal
                         id={user.id}
                         name={user.name}
                         email={user.email}
-                      />
-                      <DeleteUserModal id={user.id} name={user.name} />
+                      /> */}
+                      {/* <DeleteUserModal id={user.id} name={user.name} /> */}
                       {user.banned ? (
                         <UnbanUserModal id={user.id} name={user.name} />
                       ) : (

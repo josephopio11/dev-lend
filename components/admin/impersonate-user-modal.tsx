@@ -37,11 +37,12 @@ export default function ImpersonateUserModal({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon-xs">
+        <Button className="bg-orange-500" size="sm">
           <IconUserPin
-            className="h-4 w-4 text-orange-500"
+            className="text-white-500 h-4 w-4"
             title="Impersonate User"
           />
+          <span className="hidden md:inline">Impersonate</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex max-h-[80vh] flex-col overflow-hidden rounded-2xl p-0 sm:max-w-125">

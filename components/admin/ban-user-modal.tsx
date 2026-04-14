@@ -1,20 +1,15 @@
 "use client";
 
-import { clientAdmin } from "@/lib/auth-client";
-import { IconShieldOff, IconUserPin } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "sonner";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -23,12 +18,14 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-
-interface BanUserModalProps {
-  id: string;
-  name: string;
-}
+} from "@/components/ui/select";
+import { clientAdmin } from "@/lib/auth-client";
+import { cn } from "@/lib/utils";
+import { BanUserModalProps } from "@/types";
+import { IconShieldOff, IconUserPin } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
 type FormState = {
   reason?: string;
@@ -36,7 +33,11 @@ type FormState = {
   units?: string;
 };
 
-export default function BanUserModal({ id, name }: BanUserModalProps) {
+export default function BanUserModal({
+  id,
+  name,
+  isInPage,
+}: BanUserModalProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<FormState>({
@@ -86,15 +87,20 @@ export default function BanUserModal({ id, name }: BanUserModalProps) {
       banExpiresIn: form.expiresIn,
     });
     console.log(data, error);
-    router.push("/admin/users");
+    router.refresh();
     setOpen(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon-xs">
-          <IconShieldOff className="h-4 w-4 text-red-600" title="Ban User" />
+        <Button
+          variant="destructive"
+          className={cn("w-19", isInPage && "min-w-1/3")}
+          size={isInPage ? "default" : "sm"}
+        >
+          <IconShieldOff className="text-white-600 h-4 w-4" title="Ban User" />{" "}
+          Ban
         </Button>
       </DialogTrigger>
       <DialogContent className="flex max-h-[80vh] flex-col overflow-hidden rounded-2xl p-0 sm:max-w-125">
