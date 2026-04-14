@@ -12,7 +12,7 @@ type Props = {
 
 export function BanForm({ user }: Props) {
   return (
-    <Card className="border-border bg-card w-full p-6">
+    <Card className="border-border bg-card w-full p-6 shadow-xl transition-all hover:shadow-md">
       <div className="flex items-center gap-3">
         <div className="bg-destructive/10 flex size-10 items-center justify-center rounded-lg">
           <FcCancel className="text-primary size-5" />

@@ -14,10 +14,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { clientAdmin } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import type { UserWithRole } from "better-auth/plugins";
 import { CogIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 type Props = {
   user: UserWithRole;
@@ -35,19 +38,34 @@ const getRoleBadgeVariant = (role: string | undefined) => {
 };
 
 export default function ChangeUserRole({ user }: Props) {
+  const router = useRouter();
   const [inputRole, setInputRole] = useState<string | undefined>(user.role);
   const [roles, setRoles] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRoleChange = async () => {
+    setIsLoading(true);
     console.log("Role changed to:", inputRole);
+    const { data, error } = await clientAdmin.setRole({
+      userId: user.id,
+      role: inputRole as "admin" | "user", // required
+    });
+
+    router.refresh();
+    if (error?.message) {
+      toast.error(error.message);
+    }
+
+    console.log(data);
+    toast.success(`Role changed to ${inputRole} successfully!`);
+    setIsLoading(false);
   };
 
   useEffect(() => {
     setIsLoading(true);
     const fetchRoles = async () => {
       // delay by 10 seconds
-      await new Promise((resolve) => setTimeout(resolve, 10000));
+      // await new Promise((resolve) => setTimeout(resolve, 10000));
       const res = await getUniqueRoles();
       setRoles(res);
       setIsLoading(false);
@@ -59,8 +77,8 @@ export default function ChangeUserRole({ user }: Props) {
     <div>
       <Card
         className={cn(
-          "border-border bg-card w-full p-6 transition-all duration-300",
-          isLoading && "animate-pulse shadow-2xl shadow-black",
+          "border-border bg-card w-full p-6 shadow-lg transition-all duration-300",
+          isLoading && "animate-pulse shadow",
         )}
       >
         <div className="flex items-center gap-3">
@@ -93,7 +111,7 @@ export default function ChangeUserRole({ user }: Props) {
               value={inputRole}
               onValueChange={(value) => setInputRole(value)}
             >
-              <SelectTrigger className="w-full flex-2">
+              <SelectTrigger className="w-full flex-2 capitalize">
                 <SelectValue placeholder="Select Role" />
               </SelectTrigger>
               <SelectContent>
@@ -109,7 +127,7 @@ export default function ChangeUserRole({ user }: Props) {
             </Select>
             <Button
               onClick={() => handleRoleChange()}
-              disabled={inputRole === user.role}
+              disabled={inputRole === user.role || isLoading}
             >
               Change Role
             </Button>

@@ -86,6 +86,11 @@ export default function BanUserModal({
       banReason: form.reason,
       banExpiresIn: form.expiresIn,
     });
+
+    await clientAdmin.setRole({
+      userId: id,
+      role: "user",
+    });
     console.log(data, error);
     router.refresh();
     setOpen(false);

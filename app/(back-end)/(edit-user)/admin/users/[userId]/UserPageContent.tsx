@@ -51,7 +51,7 @@ export function UserPageContent({ user }: Props) {
           <div className="space-y-4">
             <Card
               className={cn(
-                "border-border bg-card w-full p-6",
+                "border-border bg-card w-full p-6 shadow-xl transition-all hover:shadow-md",
                 user.banned && "border-t-4 border-t-red-500",
               )}
             >
