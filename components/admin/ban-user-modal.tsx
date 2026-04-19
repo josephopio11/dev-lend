@@ -81,7 +81,7 @@ export default function BanUserModal({
       form.expiresIn = 0;
     }
 
-    const { data, error } = await clientAdmin.banUser({
+    await clientAdmin.banUser({
       userId: id, // required
       banReason: form.reason,
       banExpiresIn: form.expiresIn,
@@ -91,7 +91,7 @@ export default function BanUserModal({
       userId: id,
       role: "user",
     });
-    console.log(data, error);
+    // console.log(data, error);
     router.refresh();
     setOpen(false);
   };

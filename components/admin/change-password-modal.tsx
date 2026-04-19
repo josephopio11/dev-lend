@@ -37,11 +37,11 @@ export default function ChangePasswordModal({
       return;
     }
 
-    const { data, error } = await clientAdmin.setUserPassword({
+    await clientAdmin.setUserPassword({
       newPassword: inputPassword, // required
       userId: id, // required
     });
-    console.log(data, error);
+    // console.log(data, error);
     router.push("/admin/users");
     setInputPassword("");
     setOpen(false);

@@ -26,9 +26,9 @@ export async function GET(request: Request) {
     //   },
     // });
     const data = await response.json();
-    console.log("===========================================================");
-    console.log(data);
-    console.log("===========================================================");
+    // console.log("===========================================================");
+    // console.log(data);
+    // console.log("===========================================================");
 
     return NextResponse.json(data);
   } catch (error) {

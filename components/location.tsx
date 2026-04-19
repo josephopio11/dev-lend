@@ -76,7 +76,7 @@ const UserLocation = ({ ip }: { ip: string }) => {
         const response = await fetch(`/api/location?ip=${ip}`);
         const data = await response.json();
         setLocation(data);
-        console.log(data);
+        // console.log(data);
       } catch (error) {
         setError("Failed to fetch location"); // 👈 update error state
         console.error("Error:", error);
@@ -92,6 +92,9 @@ const UserLocation = ({ ip }: { ip: string }) => {
       setError(null);
     };
   }, [ip]);
+
+  const formattedIP = formatIPAddress(ip);
+  const ellipsis = formattedIP.length > 20 ? "..." : "";
 
   if (loading)
     return (
@@ -113,10 +116,19 @@ const UserLocation = ({ ip }: { ip: string }) => {
   if (!location || location?.status === "fail")
     if (location?.message === "reserved range") {
       return (
-        <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
-          <IconExclamationMark className="h-3.5 w-3.5 shrink-0" />
-          <span className="truncate">Reserved Address</span>
-        </div>
+        <>
+          <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
+            <Hash className="h-3.5 w-3.5 shrink-0" />
+            <span className="truncate">
+              {formattedIP.slice(0, 20)}
+              {ellipsis}
+            </span>
+          </div>
+          <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
+            <IconExclamationMark className="h-3.5 w-3.5 shrink-0" />
+            <span className="truncate">Reserved Address</span>
+          </div>
+        </>
       );
     } else
       return (
@@ -125,12 +137,16 @@ const UserLocation = ({ ip }: { ip: string }) => {
           <span className="truncate">Unable to detect location</span>
         </div>
       );
+
   return (
     <>
       {/* <pre>{JSON.stringify(location, null, 2)}</pre> */}
       <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
         <Hash className="h-3.5 w-3.5 shrink-0" />
-        <span className="truncate">{formatIPAddress(ip)}</span>
+        <span className="truncate">
+          {formattedIP.slice(0, 20)}
+          {ellipsis}
+        </span>
       </div>
       <div className="text-muted-foreground flex items-center gap-1.5 text-sm">
         <IconLocationPin className="h-3.5 w-3.5 shrink-0" />

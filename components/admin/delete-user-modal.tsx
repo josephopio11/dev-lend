@@ -36,10 +36,10 @@ export default function DeleteUserModal({ id, name }: DeleteUserModalProps) {
       return;
     }
 
-    const { data, error } = await clientAdmin.removeUser({
+    await clientAdmin.removeUser({
       userId: id, // required
     });
-    console.log(data, error);
+    // console.log(data, error);
     router.push("/admin/users");
     setOpen(false);
   };

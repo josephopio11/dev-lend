@@ -42,7 +42,7 @@ export async function getAllUsers() {
     headers: await headers(),
   });
 
-  console.log(users);
+  // console.log(users);
 
   return users;
 }

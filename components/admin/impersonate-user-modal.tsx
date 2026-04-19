@@ -26,10 +26,10 @@ export default function ImpersonateUserModal({
   const [open, setOpen] = useState(false);
 
   const handleImpersonate = async () => {
-    const { data, error } = await clientAdmin.impersonateUser({
+    await clientAdmin.impersonateUser({
       userId: id, // required
     });
-    console.log(data, error);
+    // console.log(data, error);
     router.push("/dashboard");
     setOpen(false);
   };

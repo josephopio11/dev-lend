@@ -45,7 +45,7 @@ export default function ChangeUserRole({ user }: Props) {
 
   const handleRoleChange = async () => {
     setIsLoading(true);
-    console.log("Role changed to:", inputRole);
+    // console.log("Role changed to:", inputRole);
     const { data, error } = await clientAdmin.setRole({
       userId: user.id,
       role: inputRole as "admin" | "user", // required
@@ -56,7 +56,7 @@ export default function ChangeUserRole({ user }: Props) {
       toast.error(error.message);
     }
 
-    console.log(data);
+    // console.log(data);
     toast.success(`Role changed to ${inputRole} successfully!`);
     setIsLoading(false);
   };

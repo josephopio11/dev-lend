@@ -24,10 +24,10 @@ export default function UnbanUserModal({
   const [open, setOpen] = useState(false);
 
   const handleUnban = async () => {
-    const { data, error } = await clientAdmin.unbanUser({
+    await clientAdmin.unbanUser({
       userId: id, // required
     });
-    console.log(data, error);
+    // console.log(data, error);
     router.refresh();
     setOpen(false);
   };
