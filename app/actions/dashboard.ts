@@ -8,7 +8,7 @@ import prisma from "@/lib/prisma";
 export async function getAllEquipments() {
   const session = await requireAuth();
 
-  console.log(session);
+  // console.log(session);
 
   const data = await prisma.equipment.findMany({
     where: {

@@ -7,6 +7,9 @@ export const {
   signOut,
   useSession,
   admin: clientAdmin,
+  listSessions,
+  revokeOtherSessions,
+  revokeSession,
 } = createAuthClient({
   plugins: [adminClient()],
 });

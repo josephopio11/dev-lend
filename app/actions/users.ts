@@ -1,9 +1,10 @@
 "use server";
 
 import { auth } from "@/lib/auth";
-import { requireAdmin } from "@/lib/auth-server";
+import { requireAdmin, requireAuth } from "@/lib/auth-server";
 import prisma from "@/lib/prisma";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function getStats() {
   await requireAdmin();
@@ -58,8 +59,17 @@ export async function getStats() {
 
 export type AdminStats = Awaited<ReturnType<typeof getStats>>;
 
-export async function getAllUserSessions(id: string) {
-  await requireAdmin();
+export async function getAllUserSessions(id?: string) {
+  const authData = await requireAuth();
+
+  const isOwner = authData.user.id === id;
+  const isAdmin = authData.user.role === "admin";
+
+  if (!(isOwner || isAdmin)) {
+    redirect("/dashboard");
+  }
+
+  console.log(authData);
 
   const data = await auth.api.listUserSessions({
     body: {
