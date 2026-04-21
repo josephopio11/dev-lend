@@ -39,8 +39,8 @@ export default function SignUpPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-      <div></div>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-6 bg-red-500">
+      {/* <div></div> */}
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
           <h1 className="text-2xl font-bold">Create an account</h1>
