@@ -95,8 +95,6 @@ export function AddUserForm() {
     //   role: formData.role,
     // };
 
-    // console.log("User data submitted:", newUser);
-
     if (error?.message) {
       toast.error(error.message);
     }

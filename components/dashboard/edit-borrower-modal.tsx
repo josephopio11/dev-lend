@@ -105,7 +105,6 @@ const EditBorrowerModal = ({ borrowerId, title }: EditBorrowerModalProps) => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      // console.log(values);
       const res = updateBorrower(
         borrower?.id || "",
         values.name,
@@ -115,11 +114,9 @@ const EditBorrowerModal = ({ borrowerId, title }: EditBorrowerModalProps) => {
         values.address,
       );
 
-      // console.log(res);
       toast.success("Borrower updated successfully!");
       setOpen(false);
-    } catch (error) {
-      console.error("Form submission error", error);
+    } catch {
       toast.error("Failed to update borrower. Please try again.");
     }
   }

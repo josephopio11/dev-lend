@@ -105,6 +105,5 @@ export async function getUniqueRoles() {
 
   const res = data.map((item) => item.role);
 
-  console.log(res);
   return res;
 }

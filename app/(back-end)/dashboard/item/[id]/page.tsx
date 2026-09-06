@@ -50,8 +50,6 @@ export default async function SingleItemPage({ params }: PageProps) {
     },
   });
 
-  // console.log(item);
-
   if (!item) return null;
 
   const isAvailable = item.lendingHistories[0]?.returnedAt !== null;

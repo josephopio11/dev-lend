@@ -61,10 +61,6 @@ export default function PasswordChange() {
       //     revokeOtherSessions: passwords.revokeOtherSessions,
       //   });
 
-      // console.table(passwords);
-      // console.log(data);
-      // console.table(error);
-
       //   if (error) {
       //     toast.error(error.message || "Failed to change password", {
       //       id: "password-toast",
@@ -85,8 +81,7 @@ export default function PasswordChange() {
           position: "bottom-right",
         });
       }
-    } catch (error) {
-      console.error("Password change error:", error);
+    } catch {
     } finally {
       setIsLoading(false);
     }

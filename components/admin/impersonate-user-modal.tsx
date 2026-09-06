@@ -24,16 +24,15 @@ export default function ImpersonateUserModal({
 }: ImpersonateUserModalProps) {
   const router = useRouter();
 
-  const {refetch}= useSession()
-  
+  const { refetch } = useSession();
+
   const [open, setOpen] = useState(false);
 
   const handleImpersonate = async () => {
     const { data, error } = await clientAdmin.impersonateUser({
       userId: id, // required
     });
-    console.log(data, error);
-    refetch()
+    refetch();
     router.push("/dashboard");
     setOpen(false);
   };

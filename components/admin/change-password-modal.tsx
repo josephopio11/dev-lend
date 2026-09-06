@@ -41,7 +41,6 @@ export default function ChangePasswordModal({
       newPassword: inputPassword, // required
       userId: id, // required
     });
-    console.log(data, error);
     router.push("/admin/users");
     setInputPassword("");
     setOpen(false);
