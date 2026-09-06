@@ -61,7 +61,13 @@ export function Header() {
             <Button size="sm" asChild>
               <Link href="/dashboard">Dashboard</Link>
             </Button>
-            {session.data?.user && <UserIcon user={session.data.user} />}
+            {session.data?.user && (
+              <UserIcon
+                email={session.data.user.email}
+                name={session.data.user.name}
+                image={session.data.user.image}
+              />
+            )}
           </div>
         ) : (
           <div className="hidden items-center gap-4 md:flex">
@@ -112,7 +118,11 @@ export function Header() {
                 </Button>
                 {session.data?.user && (
                   <div className="fixed top-20 right-4">
-                    <UserIcon user={session.data.user} />
+                    <UserIcon
+                      email={session.data.user.email}
+                      name={session.data.user.name}
+                      image={session.data.user.image}
+                    />
                   </div>
                 )}
               </div>

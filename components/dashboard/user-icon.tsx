@@ -14,28 +14,17 @@ import {
 import { signOut } from "@/lib/auth-client";
 import { createNameAvatar } from "@/lib/utils";
 import { IconLogout, IconUserCircle, IconUsers } from "@tabler/icons-react";
-import { UserWithRole } from "better-auth/plugins";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 type UserIconProps = {
-  user: UserWithRole;
-  //  {
-  //   id: string;
-  //   createdAt: Date;
-  //   updatedAt: Date;
-  //   email: string;
-  //   emailVerified: boolean;
-  //   name: string;
-  //   image?: string | null | undefined;
-  //   banned: boolean | null | undefined;
-  //   role?: string | null | undefined;
-  //   banReason?: string | null | undefined;
-  //   banExpires?: Date | null | undefined;
-  // };
+  email: string;
+  name: string;
+  image?: string | null | undefined;
+  role?: string | null | undefined;
 };
 
-function UserIcon({ user }: UserIconProps) {
+function UserIcon({ email, name, image, role }: UserIconProps) {
   const router = useRouter();
   return (
     <DropdownMenu>
@@ -46,15 +35,15 @@ function UserIcon({ user }: UserIconProps) {
           className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground rounded-full outline-none focus:outline-none"
         >
           <Avatar className="h-8 w-8 rounded-full grayscale">
-            <AvatarImage src={user.image || ""} alt={user.name} />
+            <AvatarImage src={image || ""} alt={name} />
             <AvatarFallback className="rounded-full">
-              {createNameAvatar(user.name)}
+              {createNameAvatar(name)}
             </AvatarFallback>
           </Avatar>
           {/* <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="truncate font-medium">{user.name}</span>
+            <span className="truncate font-medium">{name}</span>
             <span className="text-muted-foreground truncate text-xs">
-              {user.email}
+              {email}
             </span>
           </div> */}
           {/* <IconDotsVertical className="ml-auto size-4" /> */}
@@ -69,13 +58,13 @@ function UserIcon({ user }: UserIconProps) {
         <DropdownMenuLabel className="p-0 font-normal">
           <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
             <Avatar className="h-8 w-8 rounded-lg">
-              <AvatarImage src={user.image || ""} alt={user.name} />
+              <AvatarImage src={image || ""} alt={name} />
               <AvatarFallback className="rounded-lg">CN</AvatarFallback>
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-medium">{user.name}</span>
+              <span className="truncate font-medium">{name}</span>
               <span className="text-muted-foreground truncate text-xs">
-                {user.email}
+                {email}
               </span>
             </div>
           </div>
@@ -88,7 +77,7 @@ function UserIcon({ user }: UserIconProps) {
               Account
             </Link>
           </DropdownMenuItem>
-          {user.role === "admin" && (
+          {role === "admin" && (
             <DropdownMenuItem asChild>
               <Link href="/admin">
                 <IconUsers />

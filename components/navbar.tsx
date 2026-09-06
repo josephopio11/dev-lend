@@ -5,9 +5,18 @@ import { Package } from "lucide-react";
 import Link from "next/link";
 import RegisterEquipmentModal from "./dashboard/RegisterEquipmentModal";
 import UserIcon from "./dashboard/user-icon";
+import { Spinner } from "./ui/spinner";
 
 export function Navbar() {
-  const { data } = useSession();
+  const { data, isPending, isRefetching } = useSession();
+
+  if (isPending || isRefetching) {
+    return <Spinner />;
+  }
+
+  if (!data) {
+    return null;
+  }
 
   const impersonator = data?.session.impersonatedBy;
   const user = data?.user;
@@ -36,7 +45,12 @@ export function Navbar() {
 
         <nav className="flex items-center gap-4">
           <RegisterEquipmentModal />
-          <UserIcon user={user} />
+          <UserIcon
+            email={user.email}
+            name={user.name}
+            image={user.image}
+            role={user.role}
+          />
         </nav>
       </div>
     </header>
