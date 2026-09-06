@@ -1,6 +1,6 @@
 "use client";
 
-import { clientAdmin } from "@/lib/auth-client";
+import { clientAdmin, useSession } from "@/lib/auth-client";
 import { IconUserPin } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,6 +23,9 @@ export default function ImpersonateUserModal({
   name,
 }: ImpersonateUserModalProps) {
   const router = useRouter();
+
+  const {refetch}= useSession()
+  
   const [open, setOpen] = useState(false);
 
   const handleImpersonate = async () => {
@@ -30,6 +33,7 @@ export default function ImpersonateUserModal({
       userId: id, // required
     });
     console.log(data, error);
+    refetch()
     router.push("/dashboard");
     setOpen(false);
   };
