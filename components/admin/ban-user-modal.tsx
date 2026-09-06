@@ -20,7 +20,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { clientAdmin } from "@/lib/auth-client";
-import { cn } from "@/lib/utils";
 import { BanUserModalProps } from "@/types";
 import { IconShieldOff, IconUserPin } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
@@ -91,7 +90,6 @@ export default function BanUserModal({
       userId: id,
       role: "user",
     });
-    // console.log(data, error);
     router.refresh();
     setOpen(false);
   };
@@ -99,13 +97,9 @@ export default function BanUserModal({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="destructive"
-          className={cn("w-19", isInPage && "min-w-1/3")}
-          size={isInPage ? "default" : "sm"}
-        >
-          <IconShieldOff className="text-white-600 h-4 w-4" title="Ban User" />{" "}
-          Ban
+        <Button variant="destructive" size={"sm"}>
+          <IconShieldOff className="text-white-600 h-4 w-4" title="Ban User" />
+          <span className="hidden md:inline">Ban</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex max-h-[80vh] flex-col overflow-hidden rounded-2xl p-0 sm:max-w-125">

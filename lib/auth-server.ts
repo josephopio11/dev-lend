@@ -42,7 +42,10 @@ export async function getAllUsers() {
     headers: await headers(),
   });
 
+<<<<<<< HEAD
   // console.log(users);
 
+=======
+>>>>>>> auth_pages
   return users;
 }

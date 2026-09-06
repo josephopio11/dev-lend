@@ -1,27 +1,30 @@
 "use client";
 
-import { clientAdmin } from "@/lib/auth-client";
-import { IconCancel } from "@tabler/icons-react";
+import { clientAdmin, useSession } from "@/lib/auth-client";
+import { UserRoundX } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 
 export default function StopImpersonating() {
   const router = useRouter();
+  const { refetch } = useSession();
 
   const handleStopImpersonating = async () => {
     await clientAdmin.stopImpersonating();
+    refetch();
+    router.refresh();
+    new Promise((resolve) => setTimeout(resolve, 1000));
     router.push("/admin/users");
   };
 
   return (
     <Button
-      size={"xs"}
+      size={"icon"}
       variant={"destructive"}
-      className="my-1"
+      className="shadow-foreground/30 shadow-md"
       onClick={handleStopImpersonating}
     >
-      <IconCancel className="mr-1 h-4 w-4" />
-      Stop Impersonating
+      <UserRoundX className="h-4 w-4" />
     </Button>
   );
 }

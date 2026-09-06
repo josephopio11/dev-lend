@@ -8,8 +8,11 @@ import prisma from "@/lib/prisma";
 export async function getAllEquipments() {
   const session = await requireAuth();
 
+<<<<<<< HEAD
   // console.log(session);
 
+=======
+>>>>>>> auth_pages
   const data = await prisma.equipment.findMany({
     where: {
       userId: session.user.id,
@@ -109,8 +112,6 @@ export async function borrowItem(equipmentId: string, borrowerName: string) {
     },
   });
 
-  // console.log({ data, newBorrower });
-
   revalidatePath("/dashboard");
 
   return { data, newBorrower };
@@ -145,10 +146,6 @@ export async function returnItem(equipmentId: string, borrowedAt: Date) {
       returnedToId: session.user.id,
     },
   });
-
-  // console.log("-------------------------------------------------");
-  // console.log(data);
-  // console.log("-------------------------------------------------");
 
   revalidatePath("/dashboard");
   return { data };

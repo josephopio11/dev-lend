@@ -1,7 +1,6 @@
 "use client";
 
 import { clientAdmin } from "@/lib/auth-client";
-import { cn } from "@/lib/utils";
 import { BanUserModalProps } from "@/types";
 import { IconShieldCheckFilled, IconUserPin } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
@@ -27,7 +26,6 @@ export default function UnbanUserModal({
     await clientAdmin.unbanUser({
       userId: id, // required
     });
-    // console.log(data, error);
     router.refresh();
     setOpen(false);
   };
@@ -35,15 +33,12 @@ export default function UnbanUserModal({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          className={cn("w-19 bg-emerald-500 text-xs", isInPage && "min-w-1/3")}
-          size={isInPage ? "default" : "sm"}
-        >
+        <Button className="bg-emerald-500" size={"sm"}>
           <IconShieldCheckFilled
             className="text-white-600 h-4 w-4"
             title="Ban User"
-          />{" "}
-          Unban
+          />
+          <span className="hidden md:inline">Unban</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex max-h-[80vh] flex-col overflow-hidden rounded-2xl p-0 sm:max-w-125">

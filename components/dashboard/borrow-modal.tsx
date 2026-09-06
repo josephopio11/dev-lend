@@ -100,9 +100,6 @@ const BorrowModal = ({ equipment, trigger, small }: BorrowModalProps) => {
     setLoading(true);
     const res = await borrowItem(equipment.id, borrowerName.trim());
 
-    // console.log("=====================================");
-    // console.log(res);
-    // console.log("=====================================");
     toast.success("Borrowed successfully", {
       description: `Item has been borrowed by ${res.newBorrower.name}`,
     });

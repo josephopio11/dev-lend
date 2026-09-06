@@ -237,7 +237,7 @@ export function UsersTable({ users }: UsersTableProps) {
                             className="h-4 w-4"
                             title="Change Password"
                           />
-                          Details
+                          <span className="hidden md:inline">Details</span>
                         </Link>
                       </Button>
                       {/* <ChangePasswordModal
@@ -252,9 +252,17 @@ export function UsersTable({ users }: UsersTableProps) {
                       /> */}
                       {/* <DeleteUserModal id={user.id} name={user.name} /> */}
                       {user.banned ? (
-                        <UnbanUserModal id={user.id} name={user.name} />
+                        <UnbanUserModal
+                          id={user.id}
+                          name={user.name}
+                          isInPage={true}
+                        />
                       ) : (
-                        <BanUserModal id={user.id} name={user.name} />
+                        <BanUserModal
+                          id={user.id}
+                          name={user.name}
+                          isInPage={true}
+                        />
                       )}
                       <ImpersonateUserModal id={user.id} name={user.name} />
                     </TableCell>

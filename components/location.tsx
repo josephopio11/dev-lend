@@ -76,10 +76,13 @@ const UserLocation = ({ ip }: { ip: string }) => {
         const response = await fetch(`/api/location?ip=${ip}`);
         const data = await response.json();
         setLocation(data);
+<<<<<<< HEAD
         // console.log(data);
       } catch (error) {
+=======
+      } catch {
+>>>>>>> auth_pages
         setError("Failed to fetch location"); // 👈 update error state
-        console.error("Error:", error);
       } finally {
         setLoading(false); // 👈 always stop loading
       }

@@ -26,9 +26,12 @@ export async function GET(request: Request) {
     //   },
     // });
     const data = await response.json();
+<<<<<<< HEAD
     // console.log("===========================================================");
     // console.log(data);
     // console.log("===========================================================");
+=======
+>>>>>>> auth_pages
 
     return NextResponse.json(data);
   } catch (error) {

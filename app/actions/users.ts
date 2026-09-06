@@ -115,6 +115,9 @@ export async function getUniqueRoles() {
 
   const res = data.map((item) => item.role);
 
+<<<<<<< HEAD
   // console.log(res);
+=======
+>>>>>>> auth_pages
   return res;
 }

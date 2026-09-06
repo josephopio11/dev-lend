@@ -90,7 +90,6 @@ export async function getBorrower(id: string) {
     where: { id },
   });
 
-  // console.log(data);
   revalidatePath("/dashboard/borrowers");
   return data;
 }
@@ -124,8 +123,6 @@ export async function updateBorrower(
     },
   });
 
-  // console.log(updatedBorrower);
-
   revalidatePath("/dashboard/borrowers");
 
   if (updatedBorrower) {
@@ -141,7 +138,6 @@ export async function deleteBorrower(id: string) {
   //   where: { id },
   // });
 
-  // console.log(id);
   return null;
 }
 
