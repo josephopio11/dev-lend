@@ -39,10 +39,6 @@ export default function DeleteUserModal({ id, name }: DeleteUserModalProps) {
     await clientAdmin.removeUser({
       userId: id, // required
     });
-<<<<<<< HEAD
-    // console.log(data, error);
-=======
->>>>>>> auth_pages
     router.push("/admin/users");
     setOpen(false);
   };

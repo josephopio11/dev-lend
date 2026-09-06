@@ -8,11 +8,6 @@ import prisma from "@/lib/prisma";
 export async function getAllEquipments() {
   const session = await requireAuth();
 
-<<<<<<< HEAD
-  // console.log(session);
-
-=======
->>>>>>> auth_pages
   const data = await prisma.equipment.findMany({
     where: {
       userId: session.user.id,

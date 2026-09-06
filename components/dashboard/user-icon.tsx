@@ -14,28 +14,28 @@ import {
 import { signOut } from "@/lib/auth-client";
 import { createNameAvatar } from "@/lib/utils";
 import { IconLogout, IconUserCircle, IconUsers } from "@tabler/icons-react";
+import { UserWithRole } from "better-auth/plugins";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import StopImpersonating from "../admin/stop-impersonating";
 
 type UserIconProps = {
-  user: {
-    id: string;
-    createdAt: Date;
-    updatedAt: Date;
-    email: string;
-    emailVerified: boolean;
-    name: string;
-    image?: string | null | undefined;
-    banned: boolean | null | undefined;
-    role?: string | null | undefined;
-    banReason?: string | null | undefined;
-    banExpires?: Date | null | undefined;
-  };
-  impersonator?: string | null;
+  user: UserWithRole;
+  //  {
+  //   id: string;
+  //   createdAt: Date;
+  //   updatedAt: Date;
+  //   email: string;
+  //   emailVerified: boolean;
+  //   name: string;
+  //   image?: string | null | undefined;
+  //   banned: boolean | null | undefined;
+  //   role?: string | null | undefined;
+  //   banReason?: string | null | undefined;
+  //   banExpires?: Date | null | undefined;
+  // };
 };
 
-function UserIcon({ user, impersonator }: UserIconProps) {
+function UserIcon({ user }: UserIconProps) {
   const router = useRouter();
   return (
     <DropdownMenu>
@@ -43,11 +43,11 @@ function UserIcon({ user, impersonator }: UserIconProps) {
         <Button
           size="icon"
           variant={"ghost"}
-          className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground outline-none focus:outline-none"
+          className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground rounded-full outline-none focus:outline-none"
         >
-          <Avatar className="h-8 w-8 rounded-lg grayscale">
+          <Avatar className="h-8 w-8 rounded-full grayscale">
             <AvatarImage src={user.image || ""} alt={user.name} />
-            <AvatarFallback className="rounded-lg">
+            <AvatarFallback className="rounded-full">
               {createNameAvatar(user.name)}
             </AvatarFallback>
           </Avatar>
@@ -96,20 +96,8 @@ function UserIcon({ user, impersonator }: UserIconProps) {
               </Link>
             </DropdownMenuItem>
           )}
-
-          {/* <DropdownMenuItem asChild>
-            <Link href="/dashboard/notifications">
-              <IconNotification />
-              Notifications
-            </Link>
-          </DropdownMenuItem> */}
         </DropdownMenuGroup>
-        {impersonator && (
-          <div className="flex flex-col items-center">
-            <DropdownMenuSeparator />
-            <StopImpersonating />
-          </div>
-        )}
+
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {

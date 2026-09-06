@@ -1,24 +1,26 @@
-import { requireAuth } from "@/lib/auth-server";
+"use client";
+
+import { useSession } from "@/lib/auth-client";
 import { Package } from "lucide-react";
 import Link from "next/link";
 import RegisterEquipmentModal from "./dashboard/RegisterEquipmentModal";
 import UserIcon from "./dashboard/user-icon";
 
-const Navbar = async () => {
-  const { user, session } = await requireAuth();
+export function Navbar() {
+  const { data } = useSession();
+
+  const impersonator = data?.session.impersonatedBy;
+  const user = data?.user;
 
   return (
     <header className="glass sticky top-0 z-50 w-full border-b">
-      {/* {session.impersonatedBy && (
+      {impersonator && (
         <div className="bg-yellow-400 opacity-85 dark:bg-yellow-400/50">
           <div className="container mx-auto flex max-w-7xl items-center justify-center gap-2 px-4">
-            <p>
-              This account is currently being impersonated by:{" "}
-              <span className="font-bold italic underline">{user.name}</span>
-            </p>
+            <p>&nbsp;</p>
           </div>
         </div>
-      )} */}
+      )}
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
         <Link
           href="/dashboard"
@@ -34,12 +36,11 @@ const Navbar = async () => {
 
         <nav className="flex items-center gap-4">
           <RegisterEquipmentModal />
-
-          <UserIcon user={user} impersonator={session.impersonatedBy} />
+          <UserIcon user={user} />
         </nav>
       </div>
     </header>
   );
-};
+}
 
 export default Navbar;

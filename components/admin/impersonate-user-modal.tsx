@@ -32,11 +32,7 @@ export default function ImpersonateUserModal({
     await clientAdmin.impersonateUser({
       userId: id, // required
     });
-<<<<<<< HEAD
-    // console.log(data, error);
-=======
     refetch();
->>>>>>> auth_pages
     router.push("/dashboard");
     setOpen(false);
   };

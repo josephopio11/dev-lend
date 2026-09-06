@@ -39,7 +39,7 @@ export default function SignUpPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6 bg-red-500">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       {/* <div></div> */}
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
